@@ -1,0 +1,2 @@
+"""Magic Burger kiosk API."""
+
