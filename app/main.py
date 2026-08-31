@@ -144,6 +144,8 @@ def selected_price_delta(product: dict[str, Any], selection: OrderSelection | No
 
 
 def validate_required_steps(product: dict[str, Any], selection: OrderSelection | None):
+    if not product.get("customizable", False):
+        return
     choices = selection.choices if selection else {}
     for step_id, step in product.get("customization", {}).items():
         if not step.get("enabled") or not step.get("required"):
@@ -183,6 +185,7 @@ def get_catalog():
 def create_order(payload: OrderCreate):
     calculated_total = 0.0
     order_lines = []
+    requested_quantities: dict[str, int] = {}
     for line in payload.lines:
         product = find_product(line.productId)
         available, reason = product_available(product)
@@ -191,6 +194,7 @@ def create_order(payload: OrderCreate):
         validate_required_steps(product, line.selection)
         unit_price = float(product["price"]) + selected_price_delta(product, line.selection)
         calculated_total += unit_price * line.quantity
+        requested_quantities[product["id"]] = requested_quantities.get(product["id"], 0) + line.quantity
         order_lines.append({
             "productId": product["id"],
             "name": product["name"],
@@ -198,6 +202,10 @@ def create_order(payload: OrderCreate):
             "unitPrice": unit_price,
             "selection": line.selection.model_dump() if line.selection else None,
         })
+    for product_id, quantity in requested_quantities.items():
+        product = find_product(product_id)
+        if product.get("stockTrackingEnabled") and quantity > int(product.get("stockQuantity") or 0):
+            raise HTTPException(status_code=409, detail=f"{product['name']} için yeterli stok yok")
     for line in order_lines:
         product = find_product(line["productId"])
         if product.get("stockTrackingEnabled"):
