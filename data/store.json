@@ -1,0 +1,7072 @@
+{
+  "categories": [
+    {
+      "id": "espresso",
+      "name": "Espresso Bazlı Kahveler",
+      "eyebrow": "Barista klasikleri",
+      "position": 0,
+      "active": true
+    },
+    {
+      "id": "filter",
+      "name": "Filtre Kahveler",
+      "eyebrow": "Yavaş demlenmiş",
+      "position": 1,
+      "active": true
+    },
+    {
+      "id": "cold",
+      "name": "Soğuk Kahveler",
+      "eyebrow": "Serin kahve molası",
+      "position": 2,
+      "active": true
+    },
+    {
+      "id": "frappe",
+      "name": "Frappeler",
+      "eyebrow": "Tatlı ve buzlu",
+      "position": 3,
+      "active": true
+    },
+    {
+      "id": "tea",
+      "name": "Çaylar",
+      "eyebrow": "Sade, sıcak, ferah",
+      "position": 4,
+      "active": true
+    },
+    {
+      "id": "other-drinks",
+      "name": "Diğer İçecekler",
+      "eyebrow": "Kahvesiz seçenekler",
+      "position": 5,
+      "active": true
+    },
+    {
+      "id": "desserts",
+      "name": "Tatlılar",
+      "eyebrow": "Yan lezzetler",
+      "position": 6,
+      "active": true
+    },
+    {
+      "id": "snacks",
+      "name": "Atıştırmalıklar",
+      "eyebrow": "Hızlı eşlikçiler",
+      "position": 7,
+      "active": true
+    },
+    {
+      "id": "deneme",
+      "name": "Deneme Kategori",
+      "eyebrow": "Test ürünleri",
+      "position": 8,
+      "active": true
+    },
+    {
+      "id": "soguk-i-cecekler",
+      "name": "Soğuk İçecekler",
+      "eyebrow": "Buz Gibi",
+      "position": 9,
+      "active": true
+    },
+    {
+      "id": "traditional",
+      "name": "Geleneksel Kahveler",
+      "eyebrow": "Klasik fincanlar",
+      "position": 4,
+      "active": true
+    }
+  ],
+  "products": [
+    {
+      "id": "latte",
+      "categoryId": "espresso",
+      "name": "Caffe Latte",
+      "description": "Espresso, kadifemsi süt ve ince köpük.",
+      "price": 92,
+      "kind": "coffee",
+      "image": "/images/products/latte.png",
+      "emoji": "☕",
+      "customizable": true,
+      "popular": true,
+      "active": true,
+      "position": 0,
+      "stockQuantity": 77,
+      "criticalStock": 10,
+      "stockTrackingEnabled": true,
+      "stockSellable": true,
+      "customization": {
+        "size": {
+          "enabled": true,
+          "title": "Boyut Seçimi",
+          "required": true,
+          "minSelect": 1,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "small",
+              "name": "Küçük",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "medium",
+              "name": "Orta",
+              "priceDelta": 10,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "large",
+              "name": "Büyük",
+              "priceDelta": 20,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "temperature": {
+          "enabled": true,
+          "title": "Sıcaklık",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "hot",
+              "name": "Sıcak",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "warm",
+              "name": "Ilık",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-hot",
+              "name": "Ekstra sıcak",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "ice": {
+          "enabled": false,
+          "title": "Buz Miktarı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "no-ice",
+              "name": "Buzsuz",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "light-ice",
+              "name": "Az buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "normal-ice",
+              "name": "Normal",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-ice",
+              "name": "Ekstra buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "milk": {
+          "enabled": true,
+          "title": "Süt Seçimi",
+          "required": true,
+          "minSelect": 1,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "whole-milk",
+              "name": "Tam yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "semi-skimmed",
+              "name": "Yarım yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "lactose-free",
+              "name": "Laktozsuz süt",
+              "priceDelta": 8,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "almond",
+              "name": "Badem sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "oat",
+              "name": "Yulaf sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "coconut",
+              "name": "Hindistan cevizi sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "syrup": {
+          "enabled": true,
+          "title": "Şurup Seçimi",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "vanilla",
+              "name": "Vanilya",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "caramel",
+              "name": "Karamel",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "hazelnut",
+              "name": "Fındık",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "chocolate",
+              "name": "Çikolata",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "white-chocolate",
+              "name": "Beyaz çikolata",
+              "priceDelta": 14,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "sugar": {
+          "enabled": true,
+          "title": "Şeker",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "none",
+              "name": "Şekersiz",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "one",
+              "name": "1 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "two",
+              "name": "2 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "sweetener",
+              "name": "Tatlandırıcı",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "shot": {
+          "enabled": true,
+          "title": "Ekstra Shot",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "single-shot",
+              "name": "1 ekstra shot",
+              "priceDelta": 22,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "double-shot",
+              "name": "2 ekstra shot",
+              "priceDelta": 40,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "cream": {
+          "enabled": false,
+          "title": "Krema",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "cream",
+              "name": "Krema ekle",
+              "priceDelta": 15,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "pairing": {
+          "enabled": true,
+          "title": "Yanına Tatlı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "brownie-bite",
+              "name": "Mini brownie",
+              "priceDelta": 55,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "cookie",
+              "name": "Çikolatalı cookie",
+              "priceDelta": 45,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "croissant",
+              "name": "Tereyağlı kruvasan",
+              "priceDelta": 65,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "americano",
+      "categoryId": "espresso",
+      "name": "Americano",
+      "description": "Espresso ve sıcak suyla dengeli klasik.",
+      "price": 76,
+      "kind": "coffee",
+      "image": "/images/products/americano.png",
+      "emoji": "☕",
+      "customizable": true,
+      "popular": false,
+      "active": true,
+      "position": 1,
+      "stockQuantity": null,
+      "criticalStock": null,
+      "stockTrackingEnabled": false,
+      "stockSellable": true,
+      "customization": {
+        "size": {
+          "enabled": true,
+          "title": "Boyut Seçimi",
+          "required": true,
+          "minSelect": 1,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "small",
+              "name": "Küçük",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "medium",
+              "name": "Orta",
+              "priceDelta": 10,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "large",
+              "name": "Büyük",
+              "priceDelta": 20,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "temperature": {
+          "enabled": true,
+          "title": "Sıcaklık",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "hot",
+              "name": "Sıcak",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "warm",
+              "name": "Ilık",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-hot",
+              "name": "Ekstra sıcak",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "ice": {
+          "enabled": false,
+          "title": "Buz Miktarı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "no-ice",
+              "name": "Buzsuz",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "light-ice",
+              "name": "Az buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "normal-ice",
+              "name": "Normal",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-ice",
+              "name": "Ekstra buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "milk": {
+          "enabled": true,
+          "title": "Süt Seçimi",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "whole-milk",
+              "name": "Tam yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "semi-skimmed",
+              "name": "Yarım yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "lactose-free",
+              "name": "Laktozsuz süt",
+              "priceDelta": 8,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "almond",
+              "name": "Badem sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "oat",
+              "name": "Yulaf sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "coconut",
+              "name": "Hindistan cevizi sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "syrup": {
+          "enabled": true,
+          "title": "Şurup Seçimi",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "vanilla",
+              "name": "Vanilya",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "caramel",
+              "name": "Karamel",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "hazelnut",
+              "name": "Fındık",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "chocolate",
+              "name": "Çikolata",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "white-chocolate",
+              "name": "Beyaz çikolata",
+              "priceDelta": 14,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "sugar": {
+          "enabled": true,
+          "title": "Şeker",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "none",
+              "name": "Şekersiz",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "one",
+              "name": "1 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "two",
+              "name": "2 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "sweetener",
+              "name": "Tatlandırıcı",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "shot": {
+          "enabled": true,
+          "title": "Ekstra Shot",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "single-shot",
+              "name": "1 ekstra shot",
+              "priceDelta": 22,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "double-shot",
+              "name": "2 ekstra shot",
+              "priceDelta": 40,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "cream": {
+          "enabled": false,
+          "title": "Krema",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "cream",
+              "name": "Krema ekle",
+              "priceDelta": 15,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "pairing": {
+          "enabled": true,
+          "title": "Yanına Tatlı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "brownie-bite",
+              "name": "Mini brownie",
+              "priceDelta": 55,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "cookie",
+              "name": "Çikolatalı cookie",
+              "priceDelta": 45,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "croissant",
+              "name": "Tereyağlı kruvasan",
+              "priceDelta": 65,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "flat-white",
+      "categoryId": "espresso",
+      "name": "Flat White",
+      "description": "Yoğun espresso ve mikro köpüklü süt.",
+      "price": 98,
+      "kind": "coffee",
+      "image": "/images/products/flat-white.png",
+      "emoji": "☕",
+      "customizable": true,
+      "popular": true,
+      "active": true,
+      "position": 2,
+      "stockQuantity": 45,
+      "criticalStock": 8,
+      "stockTrackingEnabled": true,
+      "stockSellable": true,
+      "customization": {
+        "size": {
+          "enabled": true,
+          "title": "Boyut Seçimi",
+          "required": true,
+          "minSelect": 1,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "small",
+              "name": "Küçük",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "medium",
+              "name": "Orta",
+              "priceDelta": 10,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "large",
+              "name": "Büyük",
+              "priceDelta": 20,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "temperature": {
+          "enabled": true,
+          "title": "Sıcaklık",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "hot",
+              "name": "Sıcak",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "warm",
+              "name": "Ilık",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-hot",
+              "name": "Ekstra sıcak",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "ice": {
+          "enabled": false,
+          "title": "Buz Miktarı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "no-ice",
+              "name": "Buzsuz",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "light-ice",
+              "name": "Az buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "normal-ice",
+              "name": "Normal",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-ice",
+              "name": "Ekstra buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "milk": {
+          "enabled": true,
+          "title": "Süt Seçimi",
+          "required": true,
+          "minSelect": 1,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "whole-milk",
+              "name": "Tam yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "semi-skimmed",
+              "name": "Yarım yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "lactose-free",
+              "name": "Laktozsuz süt",
+              "priceDelta": 8,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "almond",
+              "name": "Badem sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "oat",
+              "name": "Yulaf sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "coconut",
+              "name": "Hindistan cevizi sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "syrup": {
+          "enabled": true,
+          "title": "Şurup Seçimi",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "vanilla",
+              "name": "Vanilya",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "caramel",
+              "name": "Karamel",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "hazelnut",
+              "name": "Fındık",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "chocolate",
+              "name": "Çikolata",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "white-chocolate",
+              "name": "Beyaz çikolata",
+              "priceDelta": 14,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "sugar": {
+          "enabled": true,
+          "title": "Şeker",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "none",
+              "name": "Şekersiz",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "one",
+              "name": "1 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "two",
+              "name": "2 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "sweetener",
+              "name": "Tatlandırıcı",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "shot": {
+          "enabled": true,
+          "title": "Ekstra Shot",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "single-shot",
+              "name": "1 ekstra shot",
+              "priceDelta": 22,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "double-shot",
+              "name": "2 ekstra shot",
+              "priceDelta": 40,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "cream": {
+          "enabled": false,
+          "title": "Krema",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "cream",
+              "name": "Krema ekle",
+              "priceDelta": 15,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "pairing": {
+          "enabled": true,
+          "title": "Yanına Tatlı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "brownie-bite",
+              "name": "Mini brownie",
+              "priceDelta": 55,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "cookie",
+              "name": "Çikolatalı cookie",
+              "priceDelta": 45,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "croissant",
+              "name": "Tereyağlı kruvasan",
+              "priceDelta": 65,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "batch-brew",
+      "categoryId": "filter",
+      "name": "Günlük Filtre Kahve",
+      "description": "Taze çekilmiş çekirdeklerle günlük demleme.",
+      "price": 68,
+      "kind": "coffee",
+      "image": "/images/products/filter-coffee.png",
+      "emoji": "☕",
+      "customizable": true,
+      "popular": false,
+      "active": true,
+      "position": 3,
+      "stockQuantity": null,
+      "criticalStock": null,
+      "stockTrackingEnabled": false,
+      "stockSellable": true,
+      "customization": {
+        "size": {
+          "enabled": true,
+          "title": "Boyut Seçimi",
+          "required": true,
+          "minSelect": 1,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "small",
+              "name": "Küçük",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "medium",
+              "name": "Orta",
+              "priceDelta": 10,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "large",
+              "name": "Büyük",
+              "priceDelta": 20,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "temperature": {
+          "enabled": true,
+          "title": "Sıcaklık",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "hot",
+              "name": "Sıcak",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "warm",
+              "name": "Ilık",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-hot",
+              "name": "Ekstra sıcak",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "ice": {
+          "enabled": false,
+          "title": "Buz Miktarı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "no-ice",
+              "name": "Buzsuz",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "light-ice",
+              "name": "Az buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "normal-ice",
+              "name": "Normal",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-ice",
+              "name": "Ekstra buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "milk": {
+          "enabled": true,
+          "title": "Süt Seçimi",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "whole-milk",
+              "name": "Tam yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "semi-skimmed",
+              "name": "Yarım yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "lactose-free",
+              "name": "Laktozsuz süt",
+              "priceDelta": 8,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "almond",
+              "name": "Badem sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "oat",
+              "name": "Yulaf sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "coconut",
+              "name": "Hindistan cevizi sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "syrup": {
+          "enabled": true,
+          "title": "Şurup Seçimi",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "vanilla",
+              "name": "Vanilya",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "caramel",
+              "name": "Karamel",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "hazelnut",
+              "name": "Fındık",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "chocolate",
+              "name": "Çikolata",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "white-chocolate",
+              "name": "Beyaz çikolata",
+              "priceDelta": 14,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "sugar": {
+          "enabled": true,
+          "title": "Şeker",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "none",
+              "name": "Şekersiz",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "one",
+              "name": "1 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "two",
+              "name": "2 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "sweetener",
+              "name": "Tatlandırıcı",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "shot": {
+          "enabled": true,
+          "title": "Ekstra Shot",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "single-shot",
+              "name": "1 ekstra shot",
+              "priceDelta": 22,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "double-shot",
+              "name": "2 ekstra shot",
+              "priceDelta": 40,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "cream": {
+          "enabled": false,
+          "title": "Krema",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "cream",
+              "name": "Krema ekle",
+              "priceDelta": 15,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "pairing": {
+          "enabled": true,
+          "title": "Yanına Tatlı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "brownie-bite",
+              "name": "Mini brownie",
+              "priceDelta": 55,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "cookie",
+              "name": "Çikolatalı cookie",
+              "priceDelta": 45,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "croissant",
+              "name": "Tereyağlı kruvasan",
+              "priceDelta": 65,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "cold-brew",
+      "categoryId": "cold",
+      "name": "Cold Brew",
+      "description": "Uzun demlenmiş, yumuşak içimli soğuk kahve.",
+      "price": 95,
+      "kind": "cold-coffee",
+      "image": "/images/products/cold-brew.png",
+      "emoji": "CB",
+      "customizable": true,
+      "popular": true,
+      "active": true,
+      "position": 4,
+      "stockQuantity": 34,
+      "criticalStock": 6,
+      "stockTrackingEnabled": true,
+      "stockSellable": true,
+      "customization": {
+        "size": {
+          "enabled": true,
+          "title": "Boyut Seçimi",
+          "required": true,
+          "minSelect": 1,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "small",
+              "name": "Küçük",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "medium",
+              "name": "Orta",
+              "priceDelta": 10,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "large",
+              "name": "Büyük",
+              "priceDelta": 20,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "temperature": {
+          "enabled": false,
+          "title": "Sıcaklık",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "hot",
+              "name": "Sıcak",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "warm",
+              "name": "Ilık",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-hot",
+              "name": "Ekstra sıcak",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "ice": {
+          "enabled": true,
+          "title": "Buz Miktarı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "no-ice",
+              "name": "Buzsuz",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "light-ice",
+              "name": "Az buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "normal-ice",
+              "name": "Normal",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-ice",
+              "name": "Ekstra buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "milk": {
+          "enabled": true,
+          "title": "Süt Seçimi",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "whole-milk",
+              "name": "Tam yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "semi-skimmed",
+              "name": "Yarım yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "lactose-free",
+              "name": "Laktozsuz süt",
+              "priceDelta": 8,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "almond",
+              "name": "Badem sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "oat",
+              "name": "Yulaf sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "coconut",
+              "name": "Hindistan cevizi sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "syrup": {
+          "enabled": true,
+          "title": "Şurup Seçimi",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "vanilla",
+              "name": "Vanilya",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "caramel",
+              "name": "Karamel",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "hazelnut",
+              "name": "Fındık",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "chocolate",
+              "name": "Çikolata",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "white-chocolate",
+              "name": "Beyaz çikolata",
+              "priceDelta": 14,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "sugar": {
+          "enabled": true,
+          "title": "Şeker",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "none",
+              "name": "Şekersiz",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "one",
+              "name": "1 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "two",
+              "name": "2 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "sweetener",
+              "name": "Tatlandırıcı",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "shot": {
+          "enabled": true,
+          "title": "Ekstra Shot",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "single-shot",
+              "name": "1 ekstra shot",
+              "priceDelta": 22,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "double-shot",
+              "name": "2 ekstra shot",
+              "priceDelta": 40,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "cream": {
+          "enabled": true,
+          "title": "Krema",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "cream",
+              "name": "Krema ekle",
+              "priceDelta": 15,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "pairing": {
+          "enabled": true,
+          "title": "Yanına Tatlı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "brownie-bite",
+              "name": "Mini brownie",
+              "priceDelta": 55,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "cookie",
+              "name": "Çikolatalı cookie",
+              "priceDelta": 45,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "croissant",
+              "name": "Tereyağlı kruvasan",
+              "priceDelta": 65,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "caramel-frappe",
+      "categoryId": "frappe",
+      "name": "Karamel Frappe",
+      "description": "Süt, karamel ve buzla hazırlanan tatlı içim.",
+      "price": 118,
+      "kind": "cold-coffee",
+      "image": "/images/products/caramel-frappe.png",
+      "emoji": "FR",
+      "customizable": true,
+      "popular": true,
+      "active": true,
+      "position": 5,
+      "stockQuantity": 23,
+      "criticalStock": 5,
+      "stockTrackingEnabled": true,
+      "stockSellable": true,
+      "customization": {
+        "size": {
+          "enabled": true,
+          "title": "Boyut Seçimi",
+          "required": true,
+          "minSelect": 1,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "small",
+              "name": "Küçük",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "medium",
+              "name": "Orta",
+              "priceDelta": 10,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "large",
+              "name": "Büyük",
+              "priceDelta": 20,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "temperature": {
+          "enabled": false,
+          "title": "Sıcaklık",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "hot",
+              "name": "Sıcak",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "warm",
+              "name": "Ilık",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-hot",
+              "name": "Ekstra sıcak",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "ice": {
+          "enabled": true,
+          "title": "Buz Miktarı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "no-ice",
+              "name": "Buzsuz",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "light-ice",
+              "name": "Az buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "normal-ice",
+              "name": "Normal",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-ice",
+              "name": "Ekstra buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "milk": {
+          "enabled": true,
+          "title": "Süt Seçimi",
+          "required": true,
+          "minSelect": 1,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "whole-milk",
+              "name": "Tam yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "semi-skimmed",
+              "name": "Yarım yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "lactose-free",
+              "name": "Laktozsuz süt",
+              "priceDelta": 8,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "almond",
+              "name": "Badem sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "oat",
+              "name": "Yulaf sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "coconut",
+              "name": "Hindistan cevizi sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "syrup": {
+          "enabled": true,
+          "title": "Şurup Seçimi",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "vanilla",
+              "name": "Vanilya",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "caramel",
+              "name": "Karamel",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "hazelnut",
+              "name": "Fındık",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "chocolate",
+              "name": "Çikolata",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "white-chocolate",
+              "name": "Beyaz çikolata",
+              "priceDelta": 14,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "sugar": {
+          "enabled": true,
+          "title": "Şeker",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "none",
+              "name": "Şekersiz",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "one",
+              "name": "1 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "two",
+              "name": "2 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "sweetener",
+              "name": "Tatlandırıcı",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "shot": {
+          "enabled": true,
+          "title": "Ekstra Shot",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "single-shot",
+              "name": "1 ekstra shot",
+              "priceDelta": 22,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "double-shot",
+              "name": "2 ekstra shot",
+              "priceDelta": 40,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "cream": {
+          "enabled": true,
+          "title": "Krema",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "cream",
+              "name": "Krema ekle",
+              "priceDelta": 15,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "pairing": {
+          "enabled": true,
+          "title": "Yanına Tatlı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "brownie-bite",
+              "name": "Mini brownie",
+              "priceDelta": 55,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "cookie",
+              "name": "Çikolatalı cookie",
+              "priceDelta": 45,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "croissant",
+              "name": "Tereyağlı kruvasan",
+              "priceDelta": 65,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "earl-grey",
+      "categoryId": "tea",
+      "name": "Earl Grey",
+      "description": "Bergamot aromalı siyah çay.",
+      "price": 52,
+      "kind": "simple",
+      "image": "/images/products/earl-grey.png",
+      "emoji": "TEA",
+      "customizable": false,
+      "popular": false,
+      "active": true,
+      "position": 6,
+      "stockQuantity": null,
+      "criticalStock": null,
+      "stockTrackingEnabled": false,
+      "stockSellable": true,
+      "customization": {}
+    },
+    {
+      "id": "lemonade",
+      "categoryId": "other-drinks",
+      "name": "Ev Yapımı Limonata",
+      "description": "Taze limon, nane ve buz.",
+      "price": 72,
+      "kind": "simple",
+      "image": "/images/products/lemonade.png",
+      "emoji": "LIM",
+      "customizable": false,
+      "popular": false,
+      "active": true,
+      "position": 7,
+      "stockQuantity": 17,
+      "criticalStock": 4,
+      "stockTrackingEnabled": true,
+      "stockSellable": true,
+      "customization": {}
+    },
+    {
+      "id": "san-sebastian",
+      "categoryId": "desserts",
+      "name": "San Sebastian Cheesecake",
+      "description": "Kremamsı dokulu cheesecake.",
+      "price": 135,
+      "kind": "simple",
+      "image": "/images/products/san-sebastian.png",
+      "emoji": "CAKE",
+      "customizable": false,
+      "popular": true,
+      "active": true,
+      "position": 8,
+      "stockQuantity": 9,
+      "criticalStock": 3,
+      "stockTrackingEnabled": true,
+      "stockSellable": true,
+      "customization": {}
+    },
+    {
+      "id": "croissant",
+      "categoryId": "snacks",
+      "name": "Tereyağlı Kruvasan",
+      "description": "Kat kat hamur, sade ve sıcak servis.",
+      "price": 84,
+      "kind": "simple",
+      "image": "/images/products/croissant.png",
+      "emoji": "CR",
+      "customizable": false,
+      "popular": false,
+      "active": true,
+      "position": 9,
+      "stockQuantity": 16,
+      "criticalStock": 4,
+      "stockTrackingEnabled": true,
+      "stockSellable": true,
+      "customization": {}
+    },
+    {
+      "id": "deneme-urun",
+      "categoryId": "deneme",
+      "name": "deneme ürün",
+      "description": "örnek açıklama",
+      "price": 100,
+      "kind": "cold-coffee",
+      "image": "/uploads/products/ekran-goruntusu-2026-08-31-130403-1788170665.png",
+      "emoji": "",
+      "customizable": true,
+      "popular": false,
+      "active": true,
+      "position": 10,
+      "stockQuantity": 25,
+      "criticalStock": 20,
+      "stockTrackingEnabled": false,
+      "stockSellable": true,
+      "customization": {
+        "content": {
+          "enabled": true,
+          "title": "Kahve Notları",
+          "options": [
+            {
+              "id": "no-foam",
+              "name": "Köpüksüz",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true
+            },
+            {
+              "id": "extra-foam",
+              "name": "Ekstra köpük",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true
+            },
+            {
+              "id": "less-sweet",
+              "name": "Az tatlı",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true
+            },
+            {
+              "id": "decaf",
+              "name": "Kafeinsiz espresso",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true
+            },
+            {
+              "id": "custom-1788169891170",
+              "name": "deneme seçenek",
+              "priceDelta": 15,
+              "defaultSelected": true,
+              "enabled": true
+            }
+          ]
+        },
+        "sides": {
+          "enabled": true,
+          "title": "Boyut Seçimi",
+          "options": [
+            {
+              "id": "small",
+              "name": "Küçük",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true
+            },
+            {
+              "id": "medium",
+              "name": "Orta",
+              "priceDelta": 20,
+              "defaultSelected": false,
+              "enabled": true
+            },
+            {
+              "id": "large",
+              "name": "Büyük",
+              "priceDelta": 35,
+              "defaultSelected": false,
+              "enabled": true
+            }
+          ]
+        },
+        "drinks": {
+          "enabled": false,
+          "title": "deneme Yan Ürün Seçimi",
+          "options": []
+        }
+      },
+      "protein": "örnek etiket",
+      "patties": 2
+    },
+    {
+      "categoryId": "soguk-i-cecekler",
+      "name": "Coca Cola",
+      "description": "",
+      "price": 50,
+      "image": "/uploads/products/images-2-1788174196.jpg",
+      "emoji": "",
+      "kind": "simple",
+      "customizable": false,
+      "popular": false,
+      "active": true,
+      "stockQuantity": null,
+      "criticalStock": null,
+      "stockTrackingEnabled": false,
+      "stockSellable": true,
+      "customization": {
+        "content": {
+          "enabled": false,
+          "title": "Ürün Notları",
+          "options": []
+        },
+        "sides": {
+          "enabled": false,
+          "title": "Boyut Seçimi",
+          "options": []
+        },
+        "drinks": {
+          "enabled": false,
+          "title": "Yan Ürün Seçimi",
+          "options": []
+        }
+      },
+      "id": "coca-cola",
+      "position": 11
+    },
+    {
+      "categoryId": "soguk-i-cecekler",
+      "name": "Sprite",
+      "description": "Buz Gibi",
+      "price": 75,
+      "image": "/uploads/products/images-1788174069.jpg",
+      "emoji": "",
+      "kind": "simple",
+      "customizable": false,
+      "popular": false,
+      "active": true,
+      "stockQuantity": null,
+      "criticalStock": null,
+      "stockTrackingEnabled": false,
+      "stockSellable": true,
+      "customization": {
+        "content": {
+          "enabled": false,
+          "title": "Ürün Notları",
+          "options": []
+        },
+        "sides": {
+          "enabled": false,
+          "title": "Boyut Seçimi",
+          "options": []
+        },
+        "drinks": {
+          "enabled": false,
+          "title": "Yan Ürün Seçimi",
+          "options": []
+        }
+      },
+      "id": "sprite",
+      "position": 12
+    },
+    {
+      "categoryId": "soguk-i-cecekler",
+      "name": "Fanta",
+      "description": "Buz Gibi",
+      "price": 75,
+      "image": "/uploads/products/images-1-1788174152.jpg",
+      "emoji": "",
+      "kind": "simple",
+      "customizable": false,
+      "popular": false,
+      "active": true,
+      "stockQuantity": null,
+      "criticalStock": null,
+      "stockTrackingEnabled": false,
+      "stockSellable": true,
+      "customization": {
+        "content": {
+          "enabled": false,
+          "title": "Ürün Notları",
+          "options": []
+        },
+        "sides": {
+          "enabled": false,
+          "title": "Boyut Seçimi",
+          "options": []
+        },
+        "drinks": {
+          "enabled": false,
+          "title": "Yan Ürün Seçimi",
+          "options": []
+        }
+      },
+      "id": "fanta",
+      "position": 13
+    },
+    {
+      "categoryId": "soguk-i-cecekler",
+      "name": "Soda",
+      "description": "Buz Gibi",
+      "price": 50,
+      "image": "/uploads/products/images-3-1788175296.jpg",
+      "emoji": "",
+      "kind": "simple",
+      "customizable": false,
+      "popular": false,
+      "active": true,
+      "stockQuantity": null,
+      "criticalStock": null,
+      "stockTrackingEnabled": false,
+      "stockSellable": true,
+      "customization": {
+        "content": {
+          "enabled": false,
+          "title": "Ürün Notları",
+          "options": []
+        },
+        "sides": {
+          "enabled": false,
+          "title": "Boyut Seçimi",
+          "options": []
+        },
+        "drinks": {
+          "enabled": false,
+          "title": "Yan Ürün Seçimi",
+          "options": []
+        }
+      },
+      "id": "soda",
+      "position": 14
+    },
+    {
+      "categoryId": "soguk-i-cecekler",
+      "name": "Portakal Suyu",
+      "description": "Taze Sıkılmış",
+      "price": 150,
+      "image": "/uploads/products/images-4-1788175397.jpg",
+      "emoji": "",
+      "kind": "simple",
+      "customizable": false,
+      "popular": false,
+      "active": true,
+      "stockQuantity": null,
+      "criticalStock": null,
+      "stockTrackingEnabled": false,
+      "stockSellable": true,
+      "customization": {
+        "content": {
+          "enabled": false,
+          "title": "Ürün Notları",
+          "options": []
+        },
+        "sides": {
+          "enabled": false,
+          "title": "Boyut Seçimi",
+          "options": []
+        },
+        "drinks": {
+          "enabled": false,
+          "title": "Yan Ürün Seçimi",
+          "options": []
+        }
+      },
+      "id": "portakal-suyu",
+      "position": 15
+    },
+    {
+      "id": "espresso",
+      "categoryId": "espresso",
+      "name": "Espresso",
+      "description": "Yoğun aromalı, kısa ve klasik espresso.",
+      "price": 60,
+      "kind": "coffee",
+      "image": "/images/products/espresso.png",
+      "emoji": "☕",
+      "customizable": true,
+      "popular": false,
+      "active": true,
+      "position": 3,
+      "stockQuantity": null,
+      "criticalStock": null,
+      "stockTrackingEnabled": false,
+      "stockSellable": true,
+      "customization": {
+        "size": {
+          "enabled": true,
+          "title": "Boyut Seçimi",
+          "required": true,
+          "minSelect": 1,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "small",
+              "name": "Küçük",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "medium",
+              "name": "Orta",
+              "priceDelta": 10,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "large",
+              "name": "Büyük",
+              "priceDelta": 20,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "temperature": {
+          "enabled": true,
+          "title": "Sıcaklık",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "hot",
+              "name": "Sıcak",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "warm",
+              "name": "Ilık",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-hot",
+              "name": "Ekstra sıcak",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "ice": {
+          "enabled": false,
+          "title": "Buz Miktarı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "no-ice",
+              "name": "Buzsuz",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "light-ice",
+              "name": "Az buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "normal-ice",
+              "name": "Normal",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-ice",
+              "name": "Ekstra buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "milk": {
+          "enabled": false,
+          "title": "Süt Seçimi",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "whole-milk",
+              "name": "Tam yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "semi-skimmed",
+              "name": "Yarım yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "lactose-free",
+              "name": "Laktozsuz süt",
+              "priceDelta": 8,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "almond",
+              "name": "Badem sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "oat",
+              "name": "Yulaf sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "coconut",
+              "name": "Hindistan cevizi sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "syrup": {
+          "enabled": false,
+          "title": "Şurup Seçimi",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "vanilla",
+              "name": "Vanilya",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "caramel",
+              "name": "Karamel",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "hazelnut",
+              "name": "Fındık",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "chocolate",
+              "name": "Çikolata",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "white-chocolate",
+              "name": "Beyaz çikolata",
+              "priceDelta": 14,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "sugar": {
+          "enabled": true,
+          "title": "Şeker",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "none",
+              "name": "Şekersiz",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "one",
+              "name": "1 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "two",
+              "name": "2 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "sweetener",
+              "name": "Tatlandırıcı",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "shot": {
+          "enabled": true,
+          "title": "Ekstra Shot",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "single-shot",
+              "name": "1 ekstra shot",
+              "priceDelta": 22,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "double-shot",
+              "name": "2 ekstra shot",
+              "priceDelta": 40,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "cream": {
+          "enabled": false,
+          "title": "Krema",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "cream",
+              "name": "Krema ekle",
+              "priceDelta": 15,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "pairing": {
+          "enabled": true,
+          "title": "Yanına Tatlı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "brownie-bite",
+              "name": "Mini brownie",
+              "priceDelta": 55,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "cookie",
+              "name": "Çikolatalı cookie",
+              "priceDelta": 45,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "croissant",
+              "name": "Tereyağlı kruvasan",
+              "priceDelta": 65,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "cappuccino",
+      "categoryId": "espresso",
+      "name": "Cappuccino",
+      "description": "Espresso, sıcak süt ve bol süt köpüğü.",
+      "price": 96,
+      "kind": "coffee",
+      "image": "/images/products/cappuccino.png",
+      "emoji": "☕",
+      "customizable": true,
+      "popular": true,
+      "active": true,
+      "position": 4,
+      "stockQuantity": 54,
+      "criticalStock": 8,
+      "stockTrackingEnabled": true,
+      "stockSellable": true,
+      "customization": {
+        "size": {
+          "enabled": true,
+          "title": "Boyut Seçimi",
+          "required": true,
+          "minSelect": 1,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "small",
+              "name": "Küçük",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "medium",
+              "name": "Orta",
+              "priceDelta": 10,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "large",
+              "name": "Büyük",
+              "priceDelta": 20,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "temperature": {
+          "enabled": true,
+          "title": "Sıcaklık",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "hot",
+              "name": "Sıcak",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "warm",
+              "name": "Ilık",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-hot",
+              "name": "Ekstra sıcak",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "ice": {
+          "enabled": false,
+          "title": "Buz Miktarı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "no-ice",
+              "name": "Buzsuz",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "light-ice",
+              "name": "Az buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "normal-ice",
+              "name": "Normal",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-ice",
+              "name": "Ekstra buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "milk": {
+          "enabled": true,
+          "title": "Süt Seçimi",
+          "required": true,
+          "minSelect": 1,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "whole-milk",
+              "name": "Tam yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "semi-skimmed",
+              "name": "Yarım yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "lactose-free",
+              "name": "Laktozsuz süt",
+              "priceDelta": 8,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "almond",
+              "name": "Badem sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "oat",
+              "name": "Yulaf sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "coconut",
+              "name": "Hindistan cevizi sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "syrup": {
+          "enabled": true,
+          "title": "Şurup Seçimi",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "vanilla",
+              "name": "Vanilya",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "caramel",
+              "name": "Karamel",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "hazelnut",
+              "name": "Fındık",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "chocolate",
+              "name": "Çikolata",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "white-chocolate",
+              "name": "Beyaz çikolata",
+              "priceDelta": 14,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "sugar": {
+          "enabled": true,
+          "title": "Şeker",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "none",
+              "name": "Şekersiz",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "one",
+              "name": "1 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "two",
+              "name": "2 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "sweetener",
+              "name": "Tatlandırıcı",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "shot": {
+          "enabled": true,
+          "title": "Ekstra Shot",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "single-shot",
+              "name": "1 ekstra shot",
+              "priceDelta": 22,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "double-shot",
+              "name": "2 ekstra shot",
+              "priceDelta": 40,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "cream": {
+          "enabled": false,
+          "title": "Krema",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "cream",
+              "name": "Krema ekle",
+              "priceDelta": 15,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "pairing": {
+          "enabled": true,
+          "title": "Yanına Tatlı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "brownie-bite",
+              "name": "Mini brownie",
+              "priceDelta": 55,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "cookie",
+              "name": "Çikolatalı cookie",
+              "priceDelta": 45,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "croissant",
+              "name": "Tereyağlı kruvasan",
+              "priceDelta": 65,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "mocha",
+      "categoryId": "espresso",
+      "name": "Mocha",
+      "description": "Espresso, süt ve çikolata lezzeti.",
+      "price": 112,
+      "kind": "coffee",
+      "image": "/images/products/mocha.png",
+      "emoji": "☕",
+      "customizable": true,
+      "popular": true,
+      "active": true,
+      "position": 5,
+      "stockQuantity": 42,
+      "criticalStock": 8,
+      "stockTrackingEnabled": true,
+      "stockSellable": true,
+      "customization": {
+        "size": {
+          "enabled": true,
+          "title": "Boyut Seçimi",
+          "required": true,
+          "minSelect": 1,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "small",
+              "name": "Küçük",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "medium",
+              "name": "Orta",
+              "priceDelta": 10,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "large",
+              "name": "Büyük",
+              "priceDelta": 20,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "temperature": {
+          "enabled": true,
+          "title": "Sıcaklık",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "hot",
+              "name": "Sıcak",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "warm",
+              "name": "Ilık",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-hot",
+              "name": "Ekstra sıcak",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "ice": {
+          "enabled": false,
+          "title": "Buz Miktarı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "no-ice",
+              "name": "Buzsuz",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "light-ice",
+              "name": "Az buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "normal-ice",
+              "name": "Normal",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-ice",
+              "name": "Ekstra buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "milk": {
+          "enabled": true,
+          "title": "Süt Seçimi",
+          "required": true,
+          "minSelect": 1,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "whole-milk",
+              "name": "Tam yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "semi-skimmed",
+              "name": "Yarım yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "lactose-free",
+              "name": "Laktozsuz süt",
+              "priceDelta": 8,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "almond",
+              "name": "Badem sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "oat",
+              "name": "Yulaf sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "coconut",
+              "name": "Hindistan cevizi sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "syrup": {
+          "enabled": true,
+          "title": "Şurup Seçimi",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "vanilla",
+              "name": "Vanilya",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "caramel",
+              "name": "Karamel",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "hazelnut",
+              "name": "Fındık",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "chocolate",
+              "name": "Çikolata",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "white-chocolate",
+              "name": "Beyaz çikolata",
+              "priceDelta": 14,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "sugar": {
+          "enabled": true,
+          "title": "Şeker",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "none",
+              "name": "Şekersiz",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "one",
+              "name": "1 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "two",
+              "name": "2 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "sweetener",
+              "name": "Tatlandırıcı",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "shot": {
+          "enabled": true,
+          "title": "Ekstra Shot",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "single-shot",
+              "name": "1 ekstra shot",
+              "priceDelta": 22,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "double-shot",
+              "name": "2 ekstra shot",
+              "priceDelta": 40,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "cream": {
+          "enabled": true,
+          "title": "Krema",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "cream",
+              "name": "Krema ekle",
+              "priceDelta": 15,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "pairing": {
+          "enabled": true,
+          "title": "Yanına Tatlı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "brownie-bite",
+              "name": "Mini brownie",
+              "priceDelta": 55,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "cookie",
+              "name": "Çikolatalı cookie",
+              "priceDelta": 45,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "croissant",
+              "name": "Tereyağlı kruvasan",
+              "priceDelta": 65,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "caramel-macchiato",
+      "categoryId": "espresso",
+      "name": "Caramel Macchiato",
+      "description": "Süt köpüğü, espresso ve karamel dokunuşu.",
+      "price": 118,
+      "kind": "coffee",
+      "image": "/images/products/caramel-macchiato.png",
+      "emoji": "☕",
+      "customizable": true,
+      "popular": true,
+      "active": true,
+      "position": 6,
+      "stockQuantity": 40,
+      "criticalStock": 7,
+      "stockTrackingEnabled": true,
+      "stockSellable": true,
+      "customization": {
+        "size": {
+          "enabled": true,
+          "title": "Boyut Seçimi",
+          "required": true,
+          "minSelect": 1,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "small",
+              "name": "Küçük",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "medium",
+              "name": "Orta",
+              "priceDelta": 10,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "large",
+              "name": "Büyük",
+              "priceDelta": 20,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "temperature": {
+          "enabled": true,
+          "title": "Sıcaklık",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "hot",
+              "name": "Sıcak",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "warm",
+              "name": "Ilık",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-hot",
+              "name": "Ekstra sıcak",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "ice": {
+          "enabled": false,
+          "title": "Buz Miktarı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "no-ice",
+              "name": "Buzsuz",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "light-ice",
+              "name": "Az buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "normal-ice",
+              "name": "Normal",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-ice",
+              "name": "Ekstra buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "milk": {
+          "enabled": true,
+          "title": "Süt Seçimi",
+          "required": true,
+          "minSelect": 1,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "whole-milk",
+              "name": "Tam yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "semi-skimmed",
+              "name": "Yarım yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "lactose-free",
+              "name": "Laktozsuz süt",
+              "priceDelta": 8,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "almond",
+              "name": "Badem sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "oat",
+              "name": "Yulaf sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "coconut",
+              "name": "Hindistan cevizi sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "syrup": {
+          "enabled": true,
+          "title": "Şurup Seçimi",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "vanilla",
+              "name": "Vanilya",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "caramel",
+              "name": "Karamel",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "hazelnut",
+              "name": "Fındık",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "chocolate",
+              "name": "Çikolata",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "white-chocolate",
+              "name": "Beyaz çikolata",
+              "priceDelta": 14,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "sugar": {
+          "enabled": true,
+          "title": "Şeker",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "none",
+              "name": "Şekersiz",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "one",
+              "name": "1 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "two",
+              "name": "2 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "sweetener",
+              "name": "Tatlandırıcı",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "shot": {
+          "enabled": true,
+          "title": "Ekstra Shot",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "single-shot",
+              "name": "1 ekstra shot",
+              "priceDelta": 22,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "double-shot",
+              "name": "2 ekstra shot",
+              "priceDelta": 40,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "cream": {
+          "enabled": false,
+          "title": "Krema",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "cream",
+              "name": "Krema ekle",
+              "priceDelta": 15,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "pairing": {
+          "enabled": true,
+          "title": "Yanına Tatlı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "brownie-bite",
+              "name": "Mini brownie",
+              "priceDelta": 55,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "cookie",
+              "name": "Çikolatalı cookie",
+              "priceDelta": 45,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "croissant",
+              "name": "Tereyağlı kruvasan",
+              "priceDelta": 65,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "iced-latte",
+      "categoryId": "cold",
+      "name": "Iced Latte",
+      "description": "Soğuk süt, espresso ve buzla ferah latte.",
+      "price": 104,
+      "kind": "cold-coffee",
+      "image": "/images/products/iced-latte.png",
+      "emoji": "IC",
+      "customizable": true,
+      "popular": true,
+      "active": true,
+      "position": 9,
+      "stockQuantity": 38,
+      "criticalStock": 7,
+      "stockTrackingEnabled": true,
+      "stockSellable": true,
+      "customization": {
+        "size": {
+          "enabled": true,
+          "title": "Boyut Seçimi",
+          "required": true,
+          "minSelect": 1,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "small",
+              "name": "Küçük",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "medium",
+              "name": "Orta",
+              "priceDelta": 10,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "large",
+              "name": "Büyük",
+              "priceDelta": 20,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "temperature": {
+          "enabled": false,
+          "title": "Sıcaklık",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "hot",
+              "name": "Sıcak",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "warm",
+              "name": "Ilık",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-hot",
+              "name": "Ekstra sıcak",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "ice": {
+          "enabled": true,
+          "title": "Buz Miktarı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "no-ice",
+              "name": "Buzsuz",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "light-ice",
+              "name": "Az buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "normal-ice",
+              "name": "Normal",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-ice",
+              "name": "Ekstra buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "milk": {
+          "enabled": true,
+          "title": "Süt Seçimi",
+          "required": true,
+          "minSelect": 1,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "whole-milk",
+              "name": "Tam yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "semi-skimmed",
+              "name": "Yarım yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "lactose-free",
+              "name": "Laktozsuz süt",
+              "priceDelta": 8,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "almond",
+              "name": "Badem sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "oat",
+              "name": "Yulaf sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "coconut",
+              "name": "Hindistan cevizi sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "syrup": {
+          "enabled": true,
+          "title": "Şurup Seçimi",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "vanilla",
+              "name": "Vanilya",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "caramel",
+              "name": "Karamel",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "hazelnut",
+              "name": "Fındık",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "chocolate",
+              "name": "Çikolata",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "white-chocolate",
+              "name": "Beyaz çikolata",
+              "priceDelta": 14,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "sugar": {
+          "enabled": true,
+          "title": "Şeker",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "none",
+              "name": "Şekersiz",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "one",
+              "name": "1 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "two",
+              "name": "2 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "sweetener",
+              "name": "Tatlandırıcı",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "shot": {
+          "enabled": true,
+          "title": "Ekstra Shot",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "single-shot",
+              "name": "1 ekstra shot",
+              "priceDelta": 22,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "double-shot",
+              "name": "2 ekstra shot",
+              "priceDelta": 40,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "cream": {
+          "enabled": true,
+          "title": "Krema",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "cream",
+              "name": "Krema ekle",
+              "priceDelta": 15,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "pairing": {
+          "enabled": true,
+          "title": "Yanına Tatlı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "brownie-bite",
+              "name": "Mini brownie",
+              "priceDelta": 55,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "cookie",
+              "name": "Çikolatalı cookie",
+              "priceDelta": 45,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "croissant",
+              "name": "Tereyağlı kruvasan",
+              "priceDelta": 65,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "turkish-coffee",
+      "categoryId": "traditional",
+      "name": "Türk Kahvesi",
+      "description": "Cezvede pişen geleneksel bol köpüklü kahve.",
+      "price": 70,
+      "kind": "coffee",
+      "image": "/images/products/turkish-coffee.png",
+      "emoji": "TK",
+      "customizable": true,
+      "popular": false,
+      "active": true,
+      "position": 11,
+      "stockQuantity": null,
+      "criticalStock": null,
+      "stockTrackingEnabled": false,
+      "stockSellable": true,
+      "customization": {
+        "size": {
+          "enabled": false,
+          "title": "Boyut Seçimi",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": []
+        },
+        "temperature": {
+          "enabled": false,
+          "title": "Sıcaklık",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": []
+        },
+        "ice": {
+          "enabled": false,
+          "title": "Buz Miktarı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": []
+        },
+        "milk": {
+          "enabled": false,
+          "title": "Süt Seçimi",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": []
+        },
+        "syrup": {
+          "enabled": false,
+          "title": "Şurup Seçimi",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": []
+        },
+        "sugar": {
+          "enabled": true,
+          "title": "Şeker",
+          "required": true,
+          "minSelect": 1,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "plain",
+              "name": "Sade",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "medium-sugar",
+              "name": "Orta şekerli",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "sweet",
+              "name": "Şekerli",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "shot": {
+          "enabled": false,
+          "title": "Ekstra Shot",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": []
+        },
+        "cream": {
+          "enabled": false,
+          "title": "Krema",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": []
+        },
+        "pairing": {
+          "enabled": true,
+          "title": "Yanına Tatlı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "brownie-bite",
+              "name": "Mini brownie",
+              "priceDelta": 55,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "cookie",
+              "name": "Çikolatalı cookie",
+              "priceDelta": 45,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "croissant",
+              "name": "Tereyağlı kruvasan",
+              "priceDelta": 65,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "categoryId": "deneme",
+      "name": "ürün",
+      "description": "",
+      "price": 0,
+      "image": "/uploads/products/ekran-goruntusu-2026-08-31-144030-1788176461.png",
+      "emoji": "",
+      "kind": "simple",
+      "customizable": false,
+      "popular": false,
+      "active": true,
+      "stockQuantity": null,
+      "criticalStock": null,
+      "stockTrackingEnabled": false,
+      "stockSellable": true,
+      "customization": {
+        "content": {
+          "enabled": false,
+          "title": "Ürün Notları",
+          "options": []
+        },
+        "sides": {
+          "enabled": false,
+          "title": "Boyut Seçimi",
+          "options": []
+        },
+        "drinks": {
+          "enabled": false,
+          "title": "Yan Ürün Seçimi",
+          "options": []
+        }
+      },
+      "id": "urun",
+      "position": 22
+    },
+    {
+      "categoryId": "deneme",
+      "name": "gelin kahvesi",
+      "description": "",
+      "price": 0,
+      "image": "/uploads/products/images-5-1788176637.jpg",
+      "emoji": "",
+      "kind": "simple",
+      "customizable": false,
+      "popular": true,
+      "active": true,
+      "stockQuantity": null,
+      "criticalStock": null,
+      "stockTrackingEnabled": false,
+      "stockSellable": true,
+      "customization": {
+        "content": {
+          "enabled": false,
+          "title": "Ürün Notları",
+          "options": []
+        },
+        "sides": {
+          "enabled": false,
+          "title": "Boyut Seçimi",
+          "options": []
+        },
+        "drinks": {
+          "enabled": false,
+          "title": "Yan Ürün Seçimi",
+          "options": []
+        }
+      },
+      "id": "gelin-kahvesi",
+      "position": 23
+    },
+    {
+      "id": "v60",
+      "categoryId": "filter",
+      "name": "V60 Demleme",
+      "description": "El demlemesi, berrak ve aromatik filtre kahve.",
+      "price": 88,
+      "kind": "coffee",
+      "image": "/images/products/v60.png",
+      "emoji": "V60",
+      "customizable": true,
+      "popular": true,
+      "active": true,
+      "position": 17,
+      "stockQuantity": null,
+      "criticalStock": null,
+      "stockTrackingEnabled": false,
+      "stockSellable": true,
+      "customization": {
+        "size": {
+          "enabled": true,
+          "title": "Boyut Seçimi",
+          "required": true,
+          "minSelect": 1,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "small",
+              "name": "Küçük",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "medium",
+              "name": "Orta",
+              "priceDelta": 10,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "large",
+              "name": "Büyük",
+              "priceDelta": 20,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "temperature": {
+          "enabled": true,
+          "title": "Sıcaklık",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "hot",
+              "name": "Sıcak",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "warm",
+              "name": "Ilık",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-hot",
+              "name": "Ekstra sıcak",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "ice": {
+          "enabled": false,
+          "title": "Buz Miktarı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "no-ice",
+              "name": "Buzsuz",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "light-ice",
+              "name": "Az buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "normal-ice",
+              "name": "Normal",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-ice",
+              "name": "Ekstra buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "milk": {
+          "enabled": false,
+          "title": "Süt Seçimi",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "whole-milk",
+              "name": "Tam yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "semi-skimmed",
+              "name": "Yarım yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "lactose-free",
+              "name": "Laktozsuz süt",
+              "priceDelta": 8,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "almond",
+              "name": "Badem sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "oat",
+              "name": "Yulaf sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "coconut",
+              "name": "Hindistan cevizi sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "syrup": {
+          "enabled": false,
+          "title": "Şurup Seçimi",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "vanilla",
+              "name": "Vanilya",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "caramel",
+              "name": "Karamel",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "hazelnut",
+              "name": "Fındık",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "chocolate",
+              "name": "Çikolata",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "white-chocolate",
+              "name": "Beyaz çikolata",
+              "priceDelta": 14,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "sugar": {
+          "enabled": true,
+          "title": "Şeker",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "none",
+              "name": "Şekersiz",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "one",
+              "name": "1 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "two",
+              "name": "2 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "sweetener",
+              "name": "Tatlandırıcı",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "shot": {
+          "enabled": true,
+          "title": "Ekstra Shot",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "single-shot",
+              "name": "1 ekstra shot",
+              "priceDelta": 22,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "double-shot",
+              "name": "2 ekstra shot",
+              "priceDelta": 40,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "cream": {
+          "enabled": false,
+          "title": "Krema",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "cream",
+              "name": "Krema ekle",
+              "priceDelta": 15,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "pairing": {
+          "enabled": true,
+          "title": "Yanına Tatlı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "brownie-bite",
+              "name": "Mini brownie",
+              "priceDelta": 55,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "cookie",
+              "name": "Çikolatalı cookie",
+              "priceDelta": 45,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "croissant",
+              "name": "Tereyağlı kruvasan",
+              "priceDelta": 65,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "chemex",
+      "categoryId": "filter",
+      "name": "Chemex",
+      "description": "Yumuşak içimli, temiz gövdeli özel demleme.",
+      "price": 96,
+      "kind": "coffee",
+      "image": "/images/products/v60.png",
+      "emoji": "CH",
+      "customizable": true,
+      "popular": false,
+      "active": true,
+      "position": 18,
+      "stockQuantity": null,
+      "criticalStock": null,
+      "stockTrackingEnabled": false,
+      "stockSellable": true,
+      "customization": {
+        "size": {
+          "enabled": true,
+          "title": "Boyut Seçimi",
+          "required": true,
+          "minSelect": 1,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "small",
+              "name": "Küçük",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "medium",
+              "name": "Orta",
+              "priceDelta": 10,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "large",
+              "name": "Büyük",
+              "priceDelta": 20,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "temperature": {
+          "enabled": true,
+          "title": "Sıcaklık",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "hot",
+              "name": "Sıcak",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "warm",
+              "name": "Ilık",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-hot",
+              "name": "Ekstra sıcak",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "ice": {
+          "enabled": false,
+          "title": "Buz Miktarı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "no-ice",
+              "name": "Buzsuz",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "light-ice",
+              "name": "Az buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "normal-ice",
+              "name": "Normal",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-ice",
+              "name": "Ekstra buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "milk": {
+          "enabled": false,
+          "title": "Süt Seçimi",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "whole-milk",
+              "name": "Tam yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "semi-skimmed",
+              "name": "Yarım yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "lactose-free",
+              "name": "Laktozsuz süt",
+              "priceDelta": 8,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "almond",
+              "name": "Badem sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "oat",
+              "name": "Yulaf sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "coconut",
+              "name": "Hindistan cevizi sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "syrup": {
+          "enabled": false,
+          "title": "Şurup Seçimi",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "vanilla",
+              "name": "Vanilya",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "caramel",
+              "name": "Karamel",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "hazelnut",
+              "name": "Fındık",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "chocolate",
+              "name": "Çikolata",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "white-chocolate",
+              "name": "Beyaz çikolata",
+              "priceDelta": 14,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "sugar": {
+          "enabled": true,
+          "title": "Şeker",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "none",
+              "name": "Şekersiz",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "one",
+              "name": "1 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "two",
+              "name": "2 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "sweetener",
+              "name": "Tatlandırıcı",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "shot": {
+          "enabled": true,
+          "title": "Ekstra Shot",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "single-shot",
+              "name": "1 ekstra shot",
+              "priceDelta": 22,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "double-shot",
+              "name": "2 ekstra shot",
+              "priceDelta": 40,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "cream": {
+          "enabled": false,
+          "title": "Krema",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "cream",
+              "name": "Krema ekle",
+              "priceDelta": 15,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "pairing": {
+          "enabled": true,
+          "title": "Yanına Tatlı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "brownie-bite",
+              "name": "Mini brownie",
+              "priceDelta": 55,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "cookie",
+              "name": "Çikolatalı cookie",
+              "priceDelta": 45,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "croissant",
+              "name": "Tereyağlı kruvasan",
+              "priceDelta": 65,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "iced-americano",
+      "categoryId": "cold",
+      "name": "Iced Americano",
+      "description": "Espresso, soğuk su ve buzla hafif içim.",
+      "price": 86,
+      "kind": "cold-coffee",
+      "image": "/images/products/iced-americano.png",
+      "emoji": "IA",
+      "customizable": true,
+      "popular": false,
+      "active": true,
+      "position": 19,
+      "stockQuantity": 45,
+      "criticalStock": 8,
+      "stockTrackingEnabled": true,
+      "stockSellable": true,
+      "customization": {
+        "size": {
+          "enabled": true,
+          "title": "Boyut Seçimi",
+          "required": true,
+          "minSelect": 1,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "small",
+              "name": "Küçük",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "medium",
+              "name": "Orta",
+              "priceDelta": 10,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "large",
+              "name": "Büyük",
+              "priceDelta": 20,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "temperature": {
+          "enabled": false,
+          "title": "Sıcaklık",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "hot",
+              "name": "Sıcak",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "warm",
+              "name": "Ilık",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-hot",
+              "name": "Ekstra sıcak",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "ice": {
+          "enabled": true,
+          "title": "Buz Miktarı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "no-ice",
+              "name": "Buzsuz",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "light-ice",
+              "name": "Az buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "normal-ice",
+              "name": "Normal",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-ice",
+              "name": "Ekstra buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "milk": {
+          "enabled": false,
+          "title": "Süt Seçimi",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "whole-milk",
+              "name": "Tam yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "semi-skimmed",
+              "name": "Yarım yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "lactose-free",
+              "name": "Laktozsuz süt",
+              "priceDelta": 8,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "almond",
+              "name": "Badem sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "oat",
+              "name": "Yulaf sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "coconut",
+              "name": "Hindistan cevizi sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "syrup": {
+          "enabled": false,
+          "title": "Şurup Seçimi",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "vanilla",
+              "name": "Vanilya",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "caramel",
+              "name": "Karamel",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "hazelnut",
+              "name": "Fındık",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "chocolate",
+              "name": "Çikolata",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "white-chocolate",
+              "name": "Beyaz çikolata",
+              "priceDelta": 14,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "sugar": {
+          "enabled": true,
+          "title": "Şeker",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "none",
+              "name": "Şekersiz",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "one",
+              "name": "1 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "two",
+              "name": "2 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "sweetener",
+              "name": "Tatlandırıcı",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "shot": {
+          "enabled": true,
+          "title": "Ekstra Shot",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "single-shot",
+              "name": "1 ekstra shot",
+              "priceDelta": 22,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "double-shot",
+              "name": "2 ekstra shot",
+              "priceDelta": 40,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "cream": {
+          "enabled": true,
+          "title": "Krema",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "cream",
+              "name": "Krema ekle",
+              "priceDelta": 15,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "pairing": {
+          "enabled": true,
+          "title": "Yanına Tatlı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "brownie-bite",
+              "name": "Mini brownie",
+              "priceDelta": 55,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "cookie",
+              "name": "Çikolatalı cookie",
+              "priceDelta": 45,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "croissant",
+              "name": "Tereyağlı kruvasan",
+              "priceDelta": 65,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "mocha-frappe",
+      "categoryId": "frappe",
+      "name": "Mocha Frappe",
+      "description": "Çikolata, kahve ve krema ile soğuk tatlı içim.",
+      "price": 124,
+      "kind": "cold-coffee",
+      "image": "/images/products/mocha-frappe.png",
+      "emoji": "MF",
+      "customizable": true,
+      "popular": true,
+      "active": true,
+      "position": 20,
+      "stockQuantity": 28,
+      "criticalStock": 5,
+      "stockTrackingEnabled": true,
+      "stockSellable": true,
+      "customization": {
+        "size": {
+          "enabled": true,
+          "title": "Boyut Seçimi",
+          "required": true,
+          "minSelect": 1,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "small",
+              "name": "Küçük",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "medium",
+              "name": "Orta",
+              "priceDelta": 10,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "large",
+              "name": "Büyük",
+              "priceDelta": 20,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "temperature": {
+          "enabled": false,
+          "title": "Sıcaklık",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "hot",
+              "name": "Sıcak",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "warm",
+              "name": "Ilık",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-hot",
+              "name": "Ekstra sıcak",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "ice": {
+          "enabled": true,
+          "title": "Buz Miktarı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "no-ice",
+              "name": "Buzsuz",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "light-ice",
+              "name": "Az buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "normal-ice",
+              "name": "Normal",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-ice",
+              "name": "Ekstra buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "milk": {
+          "enabled": true,
+          "title": "Süt Seçimi",
+          "required": true,
+          "minSelect": 1,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "whole-milk",
+              "name": "Tam yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "semi-skimmed",
+              "name": "Yarım yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "lactose-free",
+              "name": "Laktozsuz süt",
+              "priceDelta": 8,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "almond",
+              "name": "Badem sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "oat",
+              "name": "Yulaf sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "coconut",
+              "name": "Hindistan cevizi sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "syrup": {
+          "enabled": true,
+          "title": "Şurup Seçimi",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "vanilla",
+              "name": "Vanilya",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "caramel",
+              "name": "Karamel",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "hazelnut",
+              "name": "Fındık",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "chocolate",
+              "name": "Çikolata",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "white-chocolate",
+              "name": "Beyaz çikolata",
+              "priceDelta": 14,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "sugar": {
+          "enabled": true,
+          "title": "Şeker",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "none",
+              "name": "Şekersiz",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "one",
+              "name": "1 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "two",
+              "name": "2 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "sweetener",
+              "name": "Tatlandırıcı",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "shot": {
+          "enabled": true,
+          "title": "Ekstra Shot",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "single-shot",
+              "name": "1 ekstra shot",
+              "priceDelta": 22,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "double-shot",
+              "name": "2 ekstra shot",
+              "priceDelta": 40,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "cream": {
+          "enabled": true,
+          "title": "Krema",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "cream",
+              "name": "Krema ekle",
+              "priceDelta": 15,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "pairing": {
+          "enabled": true,
+          "title": "Yanına Tatlı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "brownie-bite",
+              "name": "Mini brownie",
+              "priceDelta": 55,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "cookie",
+              "name": "Çikolatalı cookie",
+              "priceDelta": 45,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "croissant",
+              "name": "Tereyağlı kruvasan",
+              "priceDelta": 65,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "turkish-tea",
+      "categoryId": "tea",
+      "name": "Türk Çayı",
+      "description": "İnce belli bardakta taze demlenmiş siyah çay.",
+      "price": 34,
+      "kind": "simple",
+      "image": "/images/products/earl-grey.png",
+      "emoji": "ÇAY",
+      "customizable": true,
+      "popular": false,
+      "active": true,
+      "position": 21,
+      "stockQuantity": null,
+      "criticalStock": null,
+      "stockTrackingEnabled": false,
+      "stockSellable": true,
+      "customization": {
+        "sugar": {
+          "enabled": true,
+          "title": "Şeker",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "none",
+              "name": "Şekersiz",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "one",
+              "name": "1 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "two",
+              "name": "2 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "sweetener",
+              "name": "Tatlandırıcı",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "chai-tea-latte",
+      "categoryId": "tea",
+      "name": "Chai Tea Latte",
+      "description": "Baharatlı çay, süt ve yumuşak köpük.",
+      "price": 92,
+      "kind": "tea",
+      "image": "/images/products/chai-tea-latte.png",
+      "emoji": "CHAI",
+      "customizable": true,
+      "popular": true,
+      "active": true,
+      "position": 22,
+      "stockQuantity": 30,
+      "criticalStock": 6,
+      "stockTrackingEnabled": true,
+      "stockSellable": true,
+      "customization": {
+        "size": {
+          "enabled": true,
+          "title": "Boyut Seçimi",
+          "required": true,
+          "minSelect": 1,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "small",
+              "name": "Küçük",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "medium",
+              "name": "Orta",
+              "priceDelta": 10,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "large",
+              "name": "Büyük",
+              "priceDelta": 20,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "temperature": {
+          "enabled": true,
+          "title": "Sıcaklık",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "hot",
+              "name": "Sıcak",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "warm",
+              "name": "Ilık",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-hot",
+              "name": "Ekstra sıcak",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "ice": {
+          "enabled": false,
+          "title": "Buz Miktarı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "no-ice",
+              "name": "Buzsuz",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "light-ice",
+              "name": "Az buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "normal-ice",
+              "name": "Normal",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-ice",
+              "name": "Ekstra buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "milk": {
+          "enabled": true,
+          "title": "Süt Seçimi",
+          "required": true,
+          "minSelect": 1,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "whole-milk",
+              "name": "Tam yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "semi-skimmed",
+              "name": "Yarım yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "lactose-free",
+              "name": "Laktozsuz süt",
+              "priceDelta": 8,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "almond",
+              "name": "Badem sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "oat",
+              "name": "Yulaf sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "coconut",
+              "name": "Hindistan cevizi sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "syrup": {
+          "enabled": false,
+          "title": "Şurup Seçimi",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "vanilla",
+              "name": "Vanilya",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "caramel",
+              "name": "Karamel",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "hazelnut",
+              "name": "Fındık",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "chocolate",
+              "name": "Çikolata",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "white-chocolate",
+              "name": "Beyaz çikolata",
+              "priceDelta": 14,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "sugar": {
+          "enabled": true,
+          "title": "Şeker",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "none",
+              "name": "Şekersiz",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "one",
+              "name": "1 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "two",
+              "name": "2 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "sweetener",
+              "name": "Tatlandırıcı",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "shot": {
+          "enabled": true,
+          "title": "Ekstra Shot",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "single-shot",
+              "name": "1 ekstra shot",
+              "priceDelta": 22,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "double-shot",
+              "name": "2 ekstra shot",
+              "priceDelta": 40,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "cream": {
+          "enabled": false,
+          "title": "Krema",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "cream",
+              "name": "Krema ekle",
+              "priceDelta": 15,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "pairing": {
+          "enabled": true,
+          "title": "Yanına Tatlı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "brownie-bite",
+              "name": "Mini brownie",
+              "priceDelta": 55,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "cookie",
+              "name": "Çikolatalı cookie",
+              "priceDelta": 45,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "croissant",
+              "name": "Tereyağlı kruvasan",
+              "priceDelta": 65,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "hot-chocolate",
+      "categoryId": "other-drinks",
+      "name": "Sıcak Çikolata",
+      "description": "Yoğun kakao, sıcak süt ve marshmallow.",
+      "price": 88,
+      "kind": "hot-drink",
+      "image": "/images/products/hot-chocolate.png",
+      "emoji": "HC",
+      "customizable": true,
+      "popular": true,
+      "active": true,
+      "position": 23,
+      "stockQuantity": 31,
+      "criticalStock": 6,
+      "stockTrackingEnabled": true,
+      "stockSellable": true,
+      "customization": {
+        "size": {
+          "enabled": true,
+          "title": "Boyut Seçimi",
+          "required": true,
+          "minSelect": 1,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "small",
+              "name": "Küçük",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "medium",
+              "name": "Orta",
+              "priceDelta": 10,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "large",
+              "name": "Büyük",
+              "priceDelta": 20,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "temperature": {
+          "enabled": true,
+          "title": "Sıcaklık",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "hot",
+              "name": "Sıcak",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "warm",
+              "name": "Ilık",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-hot",
+              "name": "Ekstra sıcak",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "ice": {
+          "enabled": false,
+          "title": "Buz Miktarı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "no-ice",
+              "name": "Buzsuz",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "light-ice",
+              "name": "Az buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "normal-ice",
+              "name": "Normal",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "extra-ice",
+              "name": "Ekstra buzlu",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "milk": {
+          "enabled": true,
+          "title": "Süt Seçimi",
+          "required": true,
+          "minSelect": 1,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "whole-milk",
+              "name": "Tam yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "semi-skimmed",
+              "name": "Yarım yağlı süt",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "lactose-free",
+              "name": "Laktozsuz süt",
+              "priceDelta": 8,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "almond",
+              "name": "Badem sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "oat",
+              "name": "Yulaf sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "coconut",
+              "name": "Hindistan cevizi sütü",
+              "priceDelta": 18,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "syrup": {
+          "enabled": false,
+          "title": "Şurup Seçimi",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "vanilla",
+              "name": "Vanilya",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "caramel",
+              "name": "Karamel",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "hazelnut",
+              "name": "Fındık",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "chocolate",
+              "name": "Çikolata",
+              "priceDelta": 12,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "white-chocolate",
+              "name": "Beyaz çikolata",
+              "priceDelta": 14,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "sugar": {
+          "enabled": true,
+          "title": "Şeker",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "none",
+              "name": "Şekersiz",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "one",
+              "name": "1 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "two",
+              "name": "2 şeker",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "sweetener",
+              "name": "Tatlandırıcı",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "shot": {
+          "enabled": true,
+          "title": "Ekstra Shot",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 2,
+          "options": [
+            {
+              "id": "single-shot",
+              "name": "1 ekstra shot",
+              "priceDelta": 22,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "double-shot",
+              "name": "2 ekstra shot",
+              "priceDelta": 40,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "cream": {
+          "enabled": true,
+          "title": "Krema",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "cream",
+              "name": "Krema ekle",
+              "priceDelta": 15,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "pairing": {
+          "enabled": true,
+          "title": "Yanına Tatlı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "brownie-bite",
+              "name": "Mini brownie",
+              "priceDelta": 55,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "cookie",
+              "name": "Çikolatalı cookie",
+              "priceDelta": 45,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "croissant",
+              "name": "Tereyağlı kruvasan",
+              "priceDelta": 65,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "brownie",
+      "categoryId": "desserts",
+      "name": "Çikolatalı Brownie",
+      "description": "Yoğun çikolatalı, yumuşak dokulu brownie.",
+      "price": 95,
+      "kind": "simple",
+      "image": "/images/products/brownie.png",
+      "emoji": "BR",
+      "customizable": false,
+      "popular": true,
+      "active": true,
+      "position": 24,
+      "stockQuantity": 18,
+      "criticalStock": 4,
+      "stockTrackingEnabled": true,
+      "stockSellable": true,
+      "customization": {}
+    },
+    {
+      "id": "cookie",
+      "categoryId": "desserts",
+      "name": "Çikolatalı Cookie",
+      "description": "Bol damla çikolatalı taze kurabiye.",
+      "price": 62,
+      "kind": "simple",
+      "image": "/images/products/brownie.png",
+      "emoji": "CK",
+      "customizable": false,
+      "popular": false,
+      "active": true,
+      "position": 25,
+      "stockQuantity": 24,
+      "criticalStock": 5,
+      "stockTrackingEnabled": true,
+      "stockSellable": true,
+      "customization": {}
+    },
+    {
+      "id": "bagel",
+      "categoryId": "snacks",
+      "name": "Krem Peynirli Bagel",
+      "description": "Kızarmış bagel, krem peynir ve yeşillik.",
+      "price": 110,
+      "kind": "simple",
+      "image": "/images/products/bagel.png",
+      "emoji": "BG",
+      "customizable": false,
+      "popular": false,
+      "active": true,
+      "position": 26,
+      "stockQuantity": 13,
+      "criticalStock": 3,
+      "stockTrackingEnabled": true,
+      "stockSellable": true,
+      "customization": {}
+    },
+    {
+      "id": "strawberry-lemonade",
+      "categoryId": "other-drinks",
+      "name": "?ilekli Limonata",
+      "description": "Taze limonata, ?ilek p?resi ve buz.",
+      "price": 82,
+      "kind": "simple",
+      "image": "/images/products/lemonade.png",
+      "emoji": "LIM",
+      "customizable": false,
+      "popular": true,
+      "active": true,
+      "position": 13.1,
+      "stockQuantity": 18,
+      "criticalStock": 4,
+      "stockTrackingEnabled": true,
+      "stockSellable": true,
+      "customization": {}
+    },
+    {
+      "id": "mint-lemonade",
+      "categoryId": "other-drinks",
+      "name": "Naneli Limonata",
+      "description": "Taze limonata, ferah nane ve buz.",
+      "price": 78,
+      "kind": "simple",
+      "image": "/images/products/lemonade.png",
+      "emoji": "LIM",
+      "customizable": false,
+      "popular": false,
+      "active": true,
+      "position": 13.2,
+      "stockQuantity": 18,
+      "criticalStock": 4,
+      "stockTrackingEnabled": true,
+      "stockSellable": true,
+      "customization": {}
+    },
+    {
+      "id": "berry-lemonade",
+      "categoryId": "other-drinks",
+      "name": "Orman Meyveli Limonata",
+      "description": "Limonata, orman meyveleri ve buz.",
+      "price": 86,
+      "kind": "simple",
+      "image": "/images/products/lemonade.png",
+      "emoji": "LIM",
+      "customizable": false,
+      "popular": true,
+      "active": true,
+      "position": 13.3,
+      "stockQuantity": 18,
+      "criticalStock": 4,
+      "stockTrackingEnabled": true,
+      "stockSellable": true,
+      "customization": {}
+    },
+    {
+      "id": "ginger-lemonade",
+      "categoryId": "other-drinks",
+      "name": "Zencefilli Limonata",
+      "description": "Taze limonata, zencefil ve buz.",
+      "price": 84,
+      "kind": "simple",
+      "image": "/images/products/lemonade.png",
+      "emoji": "LIM",
+      "customizable": false,
+      "popular": false,
+      "active": true,
+      "position": 13.4,
+      "stockQuantity": 18,
+      "criticalStock": 4,
+      "stockTrackingEnabled": true,
+      "stockSellable": true,
+      "customization": {}
+    }
+  ],
+  "orders": {
+    "MC-301": {
+      "number": "MC-301",
+      "status": "preparing",
+      "fulfillment": "restaurant",
+      "payment_method": "card",
+      "total": 353.0,
+      "created_at": "2026-08-31T12:36:32.672685+00:00",
+      "item_count": 3,
+      "lines": [
+        {
+          "productId": "bagel",
+          "name": "Krem Peynirli Bagel",
+          "quantity": 1,
+          "unitPrice": 110.0,
+          "selection": null
+        },
+        {
+          "productId": "san-sebastian",
+          "name": "San Sebastian Cheesecake",
+          "quantity": 1,
+          "unitPrice": 135.0,
+          "selection": null
+        },
+        {
+          "productId": "hot-chocolate",
+          "name": "Sıcak Çikolata",
+          "quantity": 1,
+          "unitPrice": 108.0,
+          "selection": {
+            "choices": {
+              "size": [
+                "large"
+              ],
+              "temperature": [
+                "hot"
+              ],
+              "milk": [
+                "whole-milk"
+              ],
+              "sugar": [
+                "none"
+              ],
+              "shot": [],
+              "cream": [],
+              "pairing": []
+            }
+          }
+        }
+      ]
+    },
+    "MC-302": {
+      "number": "MC-302",
+      "status": "preparing",
+      "fulfillment": "restaurant",
+      "payment_method": "card",
+      "total": 146.0,
+      "created_at": "2026-08-31T15:22:50.170354+00:00",
+      "item_count": 1,
+      "lines": [
+        {
+          "productId": "cappuccino",
+          "name": "Cappuccino",
+          "quantity": 1,
+          "unitPrice": 146.0,
+          "selection": {
+            "choices": {
+              "size": [
+                "medium"
+              ],
+              "temperature": [
+                "hot"
+              ],
+              "milk": [
+                "whole-milk"
+              ],
+              "syrup": [],
+              "sugar": [
+                "none"
+              ],
+              "shot": [
+                "double-shot"
+              ],
+              "pairing": []
+            }
+          }
+        }
+      ]
+    },
+    "MC-303": {
+      "number": "MC-303",
+      "status": "preparing",
+      "fulfillment": "restaurant",
+      "payment_method": "card",
+      "total": 219.0,
+      "created_at": "2026-08-31T10:43:47.023144+00:00",
+      "item_count": 2,
+      "lines": [
+        {
+          "productId": "croissant",
+          "name": "Tereyağlı Kruvasan",
+          "quantity": 1,
+          "unitPrice": 84.0,
+          "selection": null
+        },
+        {
+          "productId": "san-sebastian",
+          "name": "San Sebastian Cheesecake",
+          "quantity": 1,
+          "unitPrice": 135.0,
+          "selection": null
+        }
+      ]
+    }
+  },
+  "stockMovements": [
+    {
+      "id": 4,
+      "product_id": "cappuccino",
+      "product_name": "Cappuccino",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 55,
+      "after_quantity": 54,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-08-31T15:22:50.169092+00:00"
+    },
+    {
+      "id": 3,
+      "product_id": "hot-chocolate",
+      "product_name": "Sıcak Çikolata",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 32,
+      "after_quantity": 31,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-08-31T12:36:32.672664+00:00"
+    },
+    {
+      "id": 2,
+      "product_id": "san-sebastian",
+      "product_name": "San Sebastian Cheesecake",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 10,
+      "after_quantity": 9,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-08-31T12:36:32.672652+00:00"
+    },
+    {
+      "id": 1,
+      "product_id": "bagel",
+      "product_name": "Krem Peynirli Bagel",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 14,
+      "after_quantity": 13,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-08-31T12:36:32.672623+00:00"
+    },
+    {
+      "id": 4,
+      "product_id": "croissant",
+      "product_name": "Tereyağlı Kruvasan",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 17,
+      "after_quantity": 16,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-08-31T12:14:11.131656+00:00"
+    },
+    {
+      "id": 3,
+      "product_id": "san-sebastian",
+      "product_name": "San Sebastian Cheesecake",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 11,
+      "after_quantity": 10,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-08-31T12:14:11.131650+00:00"
+    },
+    {
+      "id": 2,
+      "product_id": "lemonade",
+      "product_name": "Ev Yapımı Limonata",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 18,
+      "after_quantity": 17,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-08-31T12:14:11.131635+00:00"
+    },
+    {
+      "id": 1,
+      "product_id": "caramel-frappe",
+      "product_name": "Karamel Frappe",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 24,
+      "after_quantity": 23,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-08-31T12:07:38.364035+00:00"
+    },
+    {
+      "id": 1,
+      "product_id": "latte",
+      "product_name": "Caffe Latte",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 78,
+      "after_quantity": 77,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-08-31T11:12:42.671533+00:00"
+    },
+    {
+      "id": 2,
+      "product_id": "cold-brew",
+      "product_name": "Cold Brew",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 35,
+      "after_quantity": 34,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-08-31T11:04:51.711538+00:00"
+    },
+    {
+      "id": 1,
+      "product_id": "cold-brew",
+      "product_name": "Cold Brew",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 36,
+      "after_quantity": 35,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-08-31T11:04:51.711501+00:00"
+    },
+    {
+      "id": 6,
+      "product_id": "san-sebastian",
+      "product_name": "San Sebastian Cheesecake",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 12,
+      "after_quantity": 11,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-08-31T10:43:47.023144+00:00"
+    },
+    {
+      "id": 5,
+      "product_id": "croissant",
+      "product_name": "Tereyağlı Kruvasan",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 18,
+      "after_quantity": 17,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-08-31T10:43:47.023144+00:00"
+    },
+    {
+      "id": 4,
+      "product_id": "latte",
+      "product_name": "Caffe Latte",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 79,
+      "after_quantity": 78,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-08-31T10:42:00.054178+00:00"
+    },
+    {
+      "id": 3,
+      "product_id": "croissant",
+      "product_name": "Tereyağlı Kruvasan",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 19,
+      "after_quantity": 18,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-08-31T10:39:32.695625+00:00"
+    },
+    {
+      "id": 2,
+      "product_id": "croissant",
+      "product_name": "Tereyağlı Kruvasan",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 20,
+      "after_quantity": 19,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-08-31T10:39:32.695625+00:00"
+    },
+    {
+      "id": 1,
+      "product_id": "latte",
+      "product_name": "Caffe Latte",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 80,
+      "after_quantity": 79,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-08-31T10:39:32.695625+00:00"
+    }
+  ]
+}
