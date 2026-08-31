@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import base64
+import json
 import re
 from copy import deepcopy
 from datetime import date, datetime, timezone
@@ -33,12 +34,29 @@ UPLOAD_DIR = Path(__file__).resolve().parent.parent / "uploads" / "products"
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 app.mount("/uploads", StaticFiles(directory=str(UPLOAD_DIR.parent)), name="uploads")
 
-categories: list[dict[str, Any]] = deepcopy(CATEGORIES)
-products: list[dict[str, Any]] = deepcopy(PRODUCTS)
-orders: dict[str, dict[str, Any]] = {}
-stock_movements: list[dict[str, Any]] = []
+DATA_FILE = Path(__file__).resolve().parent.parent / "data" / "store.json"
+
+
+def load_state() -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, dict[str, Any]], list[dict[str, Any]]]:
+    if DATA_FILE.exists():
+        data = json.loads(DATA_FILE.read_text(encoding="utf-8"))
+        return data.get("categories", []), data.get("products", []), data.get("orders", {}), data.get("stockMovements", [])
+    return deepcopy(CATEGORIES), deepcopy(PRODUCTS), {}, []
+
+
+categories, products, orders, stock_movements = load_state()
 order_numbers = count(301)
 stock_ids = count(1)
+
+
+def save_state():
+    DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
+    DATA_FILE.write_text(json.dumps({
+        "categories": categories,
+        "products": products,
+        "orders": orders,
+        "stockMovements": stock_movements,
+    }, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
 class OrderSelection(BaseModel):
@@ -227,6 +245,7 @@ def create_order(payload: OrderCreate):
         "lines": order_lines,
     }
     orders[number] = order
+    save_state()
     return order
 
 
@@ -248,6 +267,7 @@ def create_category(payload: dict[str, Any]):
     category_id = slugify(payload.get("id") or name)
     category = {"id": category_id, "name": name, "eyebrow": payload.get("eyebrow", "Coffee menüsü"), "position": len(categories), "active": payload.get("active", True)}
     categories.append(category)
+    save_state()
     return serialize_category(category)
 
 
@@ -257,6 +277,7 @@ def update_category(category_id: str, payload: dict[str, Any]):
     if not category:
         raise HTTPException(status_code=404, detail="Kategori bulunamadı")
     category.update({key: value for key, value in payload.items() if key in {"name", "eyebrow", "position", "active"}})
+    save_state()
     return serialize_category(category)
 
 
@@ -265,6 +286,7 @@ def delete_category(category_id: str):
     if category_product_count(category_id):
         raise HTTPException(status_code=400, detail="Ürün içeren kategori silinemez")
     categories[:] = [item for item in categories if item["id"] != category_id]
+    save_state()
 
 
 @app.post("/api/admin/categories/reorder")
@@ -273,6 +295,7 @@ def reorder_categories(payload: dict[str, list[str]]):
     for category in categories:
         if category["id"] in order:
             category["position"] = order.index(category["id"])
+    save_state()
     return admin_categories()
 
 
@@ -286,6 +309,7 @@ def create_product(payload: dict[str, Any]):
     product_id = slugify(payload.get("id") or payload.get("name", "urun"))
     product = {**payload, "id": product_id, "position": len(products)}
     products.append(product)
+    save_state()
     return serialize_product(product)
 
 
@@ -293,12 +317,14 @@ def create_product(payload: dict[str, Any]):
 def update_product(product_id: str, payload: dict[str, Any]):
     product = find_product(product_id)
     product.update({key: value for key, value in payload.items() if key != "id"})
+    save_state()
     return serialize_product(product)
 
 
 @app.delete("/api/admin/products/{product_id}", status_code=204)
 def delete_product(product_id: str):
     products[:] = [item for item in products if item["id"] != product_id]
+    save_state()
 
 
 @app.get("/api/admin/stock")
@@ -319,6 +345,7 @@ def adjust_stock(product_id: str, payload: StockAdjust):
     product["stockTrackingEnabled"] = True
     product["stockQuantity"] = after
     record_stock(product, before, after, after - before, payload.note or "Panel stok işlemi")
+    save_state()
     return serialize_product(product)
 
 
