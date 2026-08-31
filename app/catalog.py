@@ -44,13 +44,13 @@ CATEGORIES = [
     {"id": "frappe", "name": "Frappeler", "eyebrow": "Tatlı ve buzlu", "position": 3, "active": True},
     {"id": "tea", "name": "Çaylar", "eyebrow": "Sade, sıcak, ferah", "position": 4, "active": True},
     {"id": "other-drinks", "name": "Diğer İçecekler", "eyebrow": "Kahvesiz seçenekler", "position": 5, "active": True},
-    {"id": "desserts", "name": "Tatlılar", "eyebrow": "Kahvenin yanına", "position": 6, "active": True},
+    {"id": "desserts", "name": "Tatlılar", "eyebrow": "Yan lezzetler", "position": 6, "active": True},
     {"id": "snacks", "name": "Atıştırmalıklar", "eyebrow": "Hızlı eşlikçiler", "position": 7, "active": True},
 ]
 
 
 def customization(*, cold: bool = False, milk_required: bool = False, pairings: bool = True):
-    steps = {
+    return {
         "size": {
             "enabled": True,
             "title": "Boyut Seçimi",
@@ -96,7 +96,6 @@ def customization(*, cold: bool = False, milk_required: bool = False, pairings: 
         "cream": {"enabled": cold, "title": "Krema", "required": False, "minSelect": 0, "maxSelect": 1, "options": [option("cream", "Krema ekle", 15)]},
         "pairing": {"enabled": pairings, "title": "Yanına Tatlı", "required": False, "minSelect": 0, "maxSelect": 1, "options": deepcopy(DESSERT_PAIRINGS)},
     }
-    return steps
 
 
 PRODUCTS = [
@@ -104,10 +103,10 @@ PRODUCTS = [
     {"id": "americano", "categoryId": "espresso", "name": "Americano", "description": "Espresso ve sıcak suyla dengeli klasik.", "price": 76, "kind": "coffee", "image": "", "emoji": "☕", "customizable": True, "popular": False, "active": True, "position": 1, "stockQuantity": None, "criticalStock": None, "stockTrackingEnabled": False, "stockSellable": True, "customization": customization()},
     {"id": "flat-white", "categoryId": "espresso", "name": "Flat White", "description": "Yoğun espresso ve mikro köpüklü süt.", "price": 98, "kind": "coffee", "image": "", "emoji": "☕", "customizable": True, "popular": True, "active": True, "position": 2, "stockQuantity": 45, "criticalStock": 8, "stockTrackingEnabled": True, "stockSellable": True, "customization": customization(milk_required=True)},
     {"id": "batch-brew", "categoryId": "filter", "name": "Günlük Filtre Kahve", "description": "Taze çekilmiş çekirdeklerle günlük demleme.", "price": 68, "kind": "coffee", "image": "", "emoji": "☕", "customizable": True, "popular": False, "active": True, "position": 3, "stockQuantity": None, "criticalStock": None, "stockTrackingEnabled": False, "stockSellable": True, "customization": customization()},
-    {"id": "cold-brew", "categoryId": "cold", "name": "Cold Brew", "description": "Uzun demlenmiş, yumuşak içimli soğuk kahve.", "price": 95, "kind": "cold-coffee", "image": "", "emoji": "🧊", "customizable": True, "popular": True, "active": True, "position": 4, "stockQuantity": 36, "criticalStock": 6, "stockTrackingEnabled": True, "stockSellable": True, "customization": customization(cold=True)},
-    {"id": "caramel-frappe", "categoryId": "frappe", "name": "Karamel Frappe", "description": "Kahve, süt, karamel ve buzla hazırlanan tatlı içim.", "price": 118, "kind": "cold-coffee", "image": "", "emoji": "🥤", "customizable": True, "popular": True, "active": True, "position": 5, "stockQuantity": 24, "criticalStock": 5, "stockTrackingEnabled": True, "stockSellable": True, "customization": customization(cold=True, milk_required=True)},
-    {"id": "earl-grey", "categoryId": "tea", "name": "Earl Grey", "description": "Bergamot aromalı siyah çay.", "price": 52, "kind": "simple", "image": "", "emoji": "🍵", "customizable": False, "popular": False, "active": True, "position": 6, "stockQuantity": None, "criticalStock": None, "stockTrackingEnabled": False, "stockSellable": True, "customization": customization(pairings=False)},
-    {"id": "lemonade", "categoryId": "other-drinks", "name": "Ev Yapımı Limonata", "description": "Taze limon, nane ve buz.", "price": 72, "kind": "simple", "image": "", "emoji": "🍋", "customizable": False, "popular": False, "active": True, "position": 7, "stockQuantity": 18, "criticalStock": 4, "stockTrackingEnabled": True, "stockSellable": True, "customization": customization(cold=True, pairings=False)},
-    {"id": "san-sebastian", "categoryId": "desserts", "name": "San Sebastian Cheesecake", "description": "Kremamsı dokulu, kahveyle uyumlu cheesecake.", "price": 135, "kind": "simple", "image": "", "emoji": "🍰", "customizable": False, "popular": True, "active": True, "position": 8, "stockQuantity": 12, "criticalStock": 3, "stockTrackingEnabled": True, "stockSellable": True, "customization": customization(pairings=False)},
-    {"id": "croissant", "categoryId": "snacks", "name": "Tereyağlı Kruvasan", "description": "Kat kat hamur, sade ve sıcak servis.", "price": 84, "kind": "simple", "image": "", "emoji": "🥐", "customizable": False, "popular": False, "active": True, "position": 9, "stockQuantity": 20, "criticalStock": 4, "stockTrackingEnabled": True, "stockSellable": True, "customization": customization(pairings=False)},
+    {"id": "cold-brew", "categoryId": "cold", "name": "Cold Brew", "description": "Uzun demlenmiş, yumuşak içimli soğuk kahve.", "price": 95, "kind": "cold-coffee", "image": "", "emoji": "CB", "customizable": True, "popular": True, "active": True, "position": 4, "stockQuantity": 36, "criticalStock": 6, "stockTrackingEnabled": True, "stockSellable": True, "customization": customization(cold=True)},
+    {"id": "caramel-frappe", "categoryId": "frappe", "name": "Karamel Frappe", "description": "Süt, karamel ve buzla hazırlanan tatlı içim.", "price": 118, "kind": "cold-coffee", "image": "", "emoji": "FR", "customizable": True, "popular": True, "active": True, "position": 5, "stockQuantity": 24, "criticalStock": 5, "stockTrackingEnabled": True, "stockSellable": True, "customization": customization(cold=True, milk_required=True)},
+    {"id": "earl-grey", "categoryId": "tea", "name": "Earl Grey", "description": "Bergamot aromalı siyah çay.", "price": 52, "kind": "simple", "image": "", "emoji": "TEA", "customizable": False, "popular": False, "active": True, "position": 6, "stockQuantity": None, "criticalStock": None, "stockTrackingEnabled": False, "stockSellable": True, "customization": customization(pairings=False)},
+    {"id": "lemonade", "categoryId": "other-drinks", "name": "Ev Yapımı Limonata", "description": "Taze limon, nane ve buz.", "price": 72, "kind": "simple", "image": "", "emoji": "LIM", "customizable": False, "popular": False, "active": True, "position": 7, "stockQuantity": 18, "criticalStock": 4, "stockTrackingEnabled": True, "stockSellable": True, "customization": customization(cold=True, pairings=False)},
+    {"id": "san-sebastian", "categoryId": "desserts", "name": "San Sebastian Cheesecake", "description": "Kremamsı dokulu cheesecake.", "price": 135, "kind": "simple", "image": "", "emoji": "CAKE", "customizable": False, "popular": True, "active": True, "position": 8, "stockQuantity": 12, "criticalStock": 3, "stockTrackingEnabled": True, "stockSellable": True, "customization": customization(pairings=False)},
+    {"id": "croissant", "categoryId": "snacks", "name": "Tereyağlı Kruvasan", "description": "Kat kat hamur, sade ve sıcak servis.", "price": 84, "kind": "simple", "image": "", "emoji": "CR", "customizable": False, "popular": False, "active": True, "position": 9, "stockQuantity": 20, "criticalStock": 4, "stockTrackingEnabled": True, "stockSellable": True, "customization": customization(pairings=False)},
 ]
