@@ -39,7 +39,7 @@ DATA_FILE = Path(__file__).resolve().parent.parent / "data" / "store.json"
 
 def load_state() -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, dict[str, Any]], list[dict[str, Any]]]:
     if DATA_FILE.exists():
-        data = json.loads(DATA_FILE.read_text(encoding="utf-8"))
+        data = json.loads(DATA_FILE.read_text(encoding="utf-8-sig"))
         return data.get("categories", []), data.get("products", []), data.get("orders", {}), data.get("stockMovements", [])
     return deepcopy(CATEGORIES), deepcopy(PRODUCTS), {}, []
 
