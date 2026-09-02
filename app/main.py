@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import base64
 import json
+import os
 import re
 from copy import deepcopy
 from datetime import date, datetime, timezone
@@ -13,18 +14,23 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
+import psycopg
+from psycopg.rows import dict_row
 
 from .catalog import CATEGORIES, PRODUCTS
 
 app = FastAPI(title="Magic Coffee Kiosk API", version="1.0.0")
+ALLOWED_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv(
+        "ALLOWED_ORIGINS",
+        "http://localhost:5370,http://127.0.0.1:5370,http://localhost:5371,http://127.0.0.1:5371",
+    ).split(",")
+    if origin.strip()
+]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5370",
-        "http://127.0.0.1:5370",
-        "http://localhost:5371",
-        "http://127.0.0.1:5371",
-    ],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -35,13 +41,57 @@ UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 app.mount("/uploads", StaticFiles(directory=str(UPLOAD_DIR.parent)), name="uploads")
 
 DATA_FILE = Path(__file__).resolve().parent.parent / "data" / "store.json"
+DATABASE_URL = os.getenv("DATABASE_URL")
+STORE_KEY = "magic-coffee"
+
+
+def default_state() -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, dict[str, Any]], list[dict[str, Any]]]:
+    return deepcopy(CATEGORIES), deepcopy(PRODUCTS), {}, []
+
+
+def connect_db():
+    if not DATABASE_URL:
+        return None
+    return psycopg.connect(DATABASE_URL, row_factory=dict_row)
+
+
+def load_database_state() -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, dict[str, Any]], list[dict[str, Any]]] | None:
+    with connect_db() as conn:
+        if conn is None:
+            return None
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS app_state (
+                key TEXT PRIMARY KEY,
+                data JSONB NOT NULL,
+                updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+            )
+        """)
+        row = conn.execute("SELECT data FROM app_state WHERE key = %s", (STORE_KEY,)).fetchone()
+        if not row:
+            categories, products, orders, stock_movements = default_state()
+            conn.execute(
+                "INSERT INTO app_state (key, data) VALUES (%s, %s::jsonb)",
+                (STORE_KEY, json.dumps({
+                    "categories": categories,
+                    "products": products,
+                    "orders": orders,
+                    "stockMovements": stock_movements,
+                }, ensure_ascii=False)),
+            )
+            return categories, products, orders, stock_movements
+        data = row["data"]
+        return data.get("categories", []), data.get("products", []), data.get("orders", {}), data.get("stockMovements", [])
 
 
 def load_state() -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, dict[str, Any]], list[dict[str, Any]]]:
+    if DATABASE_URL:
+        database_state = load_database_state()
+        if database_state is not None:
+            return database_state
     if DATA_FILE.exists():
         data = json.loads(DATA_FILE.read_text(encoding="utf-8-sig"))
         return data.get("categories", []), data.get("products", []), data.get("orders", {}), data.get("stockMovements", [])
-    return deepcopy(CATEGORIES), deepcopy(PRODUCTS), {}, []
+    return default_state()
 
 
 categories, products, orders, stock_movements = load_state()
@@ -61,6 +111,24 @@ order_numbers = count(next_order_seed())
 
 
 def save_state():
+    if DATABASE_URL:
+        with connect_db() as conn:
+            if conn is not None:
+                conn.execute(
+                    """
+                    INSERT INTO app_state (key, data, updated_at)
+                    VALUES (%s, %s::jsonb, now())
+                    ON CONFLICT (key) DO UPDATE
+                    SET data = EXCLUDED.data, updated_at = now()
+                    """,
+                    (STORE_KEY, json.dumps({
+                        "categories": categories,
+                        "products": products,
+                        "orders": orders,
+                        "stockMovements": stock_movements,
+                    }, ensure_ascii=False)),
+                )
+                return
     DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
     DATA_FILE.write_text(json.dumps({
         "categories": categories,
@@ -246,7 +314,7 @@ def record_stock(product: dict[str, Any], before: int | None, after: int | None,
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "service": "magic-coffee-api", "database": "in-memory"}
+    return {"status": "ok", "service": "magic-coffee-api", "database": "postgresql" if DATABASE_URL else "local-file"}
 
 
 @app.get("/api/catalog")
