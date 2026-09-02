@@ -55,10 +55,12 @@ def customization(
     *,
     cold: bool = False,
     milk_required: bool = False,
-    milk: bool = True,
-    syrup: bool = True,
+    milk: bool = False,
+    syrup: bool = False,
+    sugar: bool = False,
+    shot: bool = False,
     cream: bool | None = None,
-    pairings: bool = True,
+    pairings: bool = False,
 ):
     return {
         "size": {
@@ -70,7 +72,7 @@ def customization(
             "options": [option("small", "Küçük", 0), option("medium", "Orta", 10, True), option("large", "Büyük", 20)],
         },
         "temperature": {
-            "enabled": not cold,
+            "enabled": False,
             "title": "Sıcaklık",
             "required": False,
             "minSelect": 0,
@@ -95,14 +97,14 @@ def customization(
         },
         "syrup": {"enabled": syrup, "title": "Şurup Seçimi", "required": False, "minSelect": 0, "maxSelect": 2, "options": deepcopy(SYRUPS)},
         "sugar": {
-            "enabled": True,
+            "enabled": sugar,
             "title": "Şeker",
             "required": False,
             "minSelect": 0,
             "maxSelect": 1,
             "options": [option("none", "Şekersiz", 0, True), option("one", "1 şeker"), option("two", "2 şeker"), option("sweetener", "Tatlandırıcı")],
         },
-        "shot": {"enabled": True, "title": "Ekstra Shot", "required": False, "minSelect": 0, "maxSelect": 2, "options": [option("single-shot", "1 ekstra shot", 22), option("double-shot", "2 ekstra shot", 40)]},
+        "shot": {"enabled": shot, "title": "Ekstra Shot", "required": False, "minSelect": 0, "maxSelect": 2, "options": [option("single-shot", "1 ekstra shot", 22), option("double-shot", "2 ekstra shot", 40)]},
         "cream": {"enabled": cold if cream is None else cream, "title": "Krema", "required": False, "minSelect": 0, "maxSelect": 1, "options": [option("cream", "Krema ekle", 15)]},
         "pairing": {"enabled": pairings, "title": "Yanına Tatlı", "required": False, "minSelect": 0, "maxSelect": 1, "options": deepcopy(DESSERT_PAIRINGS)},
     }
@@ -157,3 +159,63 @@ PRODUCTS.extend([
     {"id": "berry-lemonade", "categoryId": "other-drinks", "name": "Orman Meyveli Limonata", "description": "Limonata, orman meyveleri ve buz.", "price": 86, "kind": "simple", "image": "/images/products/lemonade.png", "emoji": "LIM", "customizable": False, "popular": True, "active": True, "position": 13.3, "stockQuantity": 18, "criticalStock": 4, "stockTrackingEnabled": True, "stockSellable": True, "customization": {}},
     {"id": "ginger-lemonade", "categoryId": "other-drinks", "name": "Zencefilli Limonata", "description": "Taze limonata, zencefil ve buz.", "price": 84, "kind": "simple", "image": "/images/products/lemonade.png", "emoji": "LIM", "customizable": False, "popular": False, "active": True, "position": 13.4, "stockQuantity": 18, "criticalStock": 4, "stockTrackingEnabled": True, "stockSellable": True, "customization": {}},
 ])
+
+
+PRODUCT_CUSTOMIZATION_STEPS = {
+    "latte": ("size", "milk", "syrup"),
+    "flat-white": ("size", "milk", "shot"),
+    "cappuccino": ("size", "milk", "shot"),
+    "mocha": ("size", "milk", "cream"),
+    "caramel-macchiato": ("size", "milk", "shot"),
+    "chai-tea-latte": ("size", "milk", "sugar"),
+    "hot-chocolate": ("size", "milk", "cream"),
+    "americano": ("size", "shot"),
+    "espresso": ("shot", "pairing"),
+    "batch-brew": ("size",),
+    "v60": ("size",),
+    "chemex": ("size",),
+    "cold-brew": ("size", "ice"),
+    "iced-americano": ("size", "ice", "shot"),
+    "iced-latte": ("size", "ice", "milk"),
+    "caramel-frappe": ("size", "milk", "cream"),
+    "mocha-frappe": ("size", "milk", "cream"),
+    "turkish-coffee": ("sugar", "pairing"),
+    "turkish-tea": (),
+}
+
+REQUIRED_CUSTOMIZATION_STEPS = {
+    "latte": {"size", "milk"},
+    "flat-white": {"size", "milk"},
+    "cappuccino": {"size", "milk"},
+    "mocha": {"size", "milk"},
+    "caramel-macchiato": {"size", "milk"},
+    "chai-tea-latte": {"size", "milk"},
+    "hot-chocolate": {"size", "milk"},
+    "americano": {"size"},
+    "batch-brew": {"size"},
+    "v60": {"size"},
+    "chemex": {"size"},
+    "cold-brew": {"size"},
+    "iced-americano": {"size"},
+    "iced-latte": {"size", "milk"},
+    "caramel-frappe": {"size", "milk"},
+    "mocha-frappe": {"size", "milk"},
+    "turkish-coffee": {"sugar"},
+}
+
+
+def apply_customization_rules():
+    for product in PRODUCTS:
+        customization_map = product.get("customization") or {}
+        enabled_steps = set(PRODUCT_CUSTOMIZATION_STEPS.get(product["id"], ()))
+        required_steps = REQUIRED_CUSTOMIZATION_STEPS.get(product["id"], set())
+        for step_id, step in customization_map.items():
+            step["enabled"] = step_id in enabled_steps
+            step["required"] = step_id in required_steps
+            step["minSelect"] = 1 if step["required"] else 0
+            if step["required"] and not step.get("maxSelect"):
+                step["maxSelect"] = 1
+        product["customizable"] = any(step.get("enabled") and step.get("options") for step in customization_map.values())
+
+
+apply_customization_rules()

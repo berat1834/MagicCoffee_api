@@ -45,8 +45,19 @@ def load_state() -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, 
 
 
 categories, products, orders, stock_movements = load_state()
-order_numbers = count(301)
 stock_ids = count(1)
+
+
+def next_order_seed() -> int:
+    numbers = []
+    for order_number in orders:
+        match = re.fullmatch(r"MC-(\d+)", order_number)
+        if match:
+            numbers.append(int(match.group(1)))
+    return max(numbers, default=300) + 1
+
+
+order_numbers = count(next_order_seed())
 
 
 def save_state():
@@ -120,6 +131,18 @@ def product_available(product: dict[str, Any]) -> tuple[bool, str | None]:
     return True, None
 
 
+def parse_created_at(value: str) -> datetime:
+    parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    return parsed.astimezone()
+
+
+def is_kiosk_visible(product: dict[str, Any]) -> bool:
+    category = next((item for item in categories if item["id"] == product["categoryId"]), None)
+    return bool(category and category.get("active", True) and product.get("active", True) and product_available(product)[0])
+
+
 def limit_customization_steps(product: dict[str, Any], max_steps: int = 3) -> dict[str, Any]:
     customization = deepcopy(product.get("customization") or {})
     active_steps = [step_id for step_id, step in customization.items() if step.get("enabled")]
@@ -169,7 +192,7 @@ def active_catalog():
     visible_products = [
         serialize_product(item)
         for item in sorted(products, key=lambda item: item.get("position", 0))
-        if item.get("active", True) and item["categoryId"] in visible_ids
+        if item["categoryId"] in visible_ids and is_kiosk_visible(item)
     ]
     return {"brand": {"name": "Magic Coffee", "currency": "TL", "version": "1.0.0"}, "categories": visible_categories, "products": visible_products}
 
@@ -399,24 +422,26 @@ def upload_product_image(payload: UploadPayload):
 
 @app.get("/api/admin/orders")
 def admin_orders():
-    return list(orders.values())
+    return sorted(orders.values(), key=lambda item: parse_created_at(item["created_at"]), reverse=True)
 
 
 @app.get("/api/admin/dashboard")
 def dashboard():
-    today_key = date.today().isoformat()
-    today_orders = [order for order in orders.values() if order["created_at"].startswith(today_key)]
+    today_key = date.today()
+    order_list = sorted(orders.values(), key=lambda item: parse_created_at(item["created_at"]), reverse=True)
+    today_orders = [order for order in order_list if parse_created_at(order["created_at"]).date() == today_key]
     product_rows = report_rows(list(orders.values()))[:5]
+    active_categories = [item for item in categories if item.get("active", True)]
     return {
         "stats": {
             "product_count": len(products),
-            "active_product_count": sum(1 for item in products if item.get("active", True)),
-            "category_count": len(categories),
+            "active_product_count": sum(1 for item in products if is_kiosk_visible(item)),
+            "category_count": len(active_categories),
             "low_stock_count": sum(1 for item in products if item.get("stockTrackingEnabled") and int(item.get("stockQuantity") or 0) <= int(item.get("criticalStock") or 0)),
             "today_order_count": len(today_orders),
             "today_revenue": sum(order["total"] for order in today_orders),
         },
-        "recentOrders": list(orders.values())[:8],
+        "recentOrders": order_list[:8],
         "topProducts": [{"name": row["name"], "quantity": row["quantity"], "revenue": row["revenue"]} for row in product_rows],
     }
 
@@ -425,20 +450,22 @@ def report_rows(order_list: list[dict[str, Any]]):
     rows: dict[str, dict[str, Any]] = {}
     for order in order_list:
         for line in order["lines"]:
-            product = find_product(line["productId"])
-            category = next((item for item in categories if item["id"] == product["categoryId"]), {})
-            row = rows.setdefault(product["id"], {"product_id": product["id"], "name": product["name"], "category": category.get("name", ""), "quantity": 0, "revenue": 0.0})
+            product = next((item for item in products if item["id"] == line["productId"]), None)
+            category = next((item for item in categories if item["id"] == product["categoryId"]), {}) if product else {}
+            product_id = product["id"] if product else line["productId"]
+            product_name = product["name"] if product else line.get("name", product_id)
+            row = rows.setdefault(product_id, {"product_id": product_id, "name": product_name, "category": category.get("name", ""), "quantity": 0, "revenue": 0.0})
             row["quantity"] += line["quantity"]
             row["revenue"] += line["unitPrice"] * line["quantity"]
-    return sorted(rows.values(), key=lambda item: item["revenue"], reverse=True)
+    return sorted(rows.values(), key=lambda item: (item["quantity"], item["revenue"]), reverse=True)
 
 
 @app.get("/api/admin/reports")
 def reports(start: str = Query(...), end: str = Query(...)):
-    selected = [order for order in orders.values() if start <= order["created_at"][:10] <= end]
+    selected = [order for order in orders.values() if start <= parse_created_at(order["created_at"]).date().isoformat() <= end]
     daily: dict[str, dict[str, Any]] = {}
     for order in selected:
-        day = order["created_at"][:10]
+        day = parse_created_at(order["created_at"]).date().isoformat()
         row = daily.setdefault(day, {"day": day, "order_count": 0, "revenue": 0.0})
         row["order_count"] += 1
         row["revenue"] += order["total"]

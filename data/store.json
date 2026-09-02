@@ -4,21 +4,21 @@
       "id": "espresso",
       "name": "Espresso Bazlı Kahveler",
       "eyebrow": "Barista klasikleri",
-      "position": 0,
+      "position": 2,
       "active": true
     },
     {
       "id": "filter",
       "name": "Filtre Kahveler",
       "eyebrow": "Yavaş demlenmiş",
-      "position": 1,
+      "position": 0,
       "active": true
     },
     {
       "id": "cold",
       "name": "Soğuk Kahveler",
       "eyebrow": "Serin kahve molası",
-      "position": 2,
+      "position": 1,
       "active": true
     },
     {
@@ -39,27 +39,20 @@
       "id": "other-drinks",
       "name": "Diğer İçecekler",
       "eyebrow": "Kahvesiz seçenekler",
-      "position": 5,
+      "position": 6,
       "active": true
     },
     {
       "id": "desserts",
       "name": "Tatlılar",
       "eyebrow": "Yan lezzetler",
-      "position": 6,
+      "position": 7,
       "active": true
     },
     {
       "id": "snacks",
       "name": "Atıştırmalıklar",
       "eyebrow": "Hızlı eşlikçiler",
-      "position": 7,
-      "active": true
-    },
-    {
-      "id": "deneme",
-      "name": "Deneme Kategori",
-      "eyebrow": "Test ürünleri",
       "position": 8,
       "active": true
     },
@@ -67,14 +60,14 @@
       "id": "soguk-i-cecekler",
       "name": "Soğuk İçecekler",
       "eyebrow": "Buz Gibi",
-      "position": 9,
+      "position": 10,
       "active": true
     },
     {
       "id": "traditional",
       "name": "Geleneksel Kahveler",
       "eyebrow": "Klasik fincanlar",
-      "position": 4,
+      "position": 5,
       "active": true
     }
   ],
@@ -92,339 +85,76 @@
       "popular": true,
       "active": true,
       "position": 0,
-      "stockQuantity": 77,
+      "stockQuantity": 76,
       "criticalStock": 10,
       "stockTrackingEnabled": true,
       "stockSellable": true,
       "customization": {
-        "size": {
+        "content": {
+          "enabled": true,
+          "title": "Ürün Notları",
+          "options": [
+            {
+              "id": "no-foam",
+              "name": "Köpüksüz",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true
+            },
+            {
+              "id": "extra-foam",
+              "name": "Ekstra köpük",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true
+            },
+            {
+              "id": "less-sweet",
+              "name": "Az tatlı",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true
+            },
+            {
+              "id": "decaf",
+              "name": "Kafeinsiz seçenek",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true
+            }
+          ]
+        },
+        "sides": {
           "enabled": true,
           "title": "Boyut Seçimi",
-          "required": true,
-          "minSelect": 1,
-          "maxSelect": 1,
           "options": [
             {
               "id": "small",
               "name": "Küçük",
               "priceDelta": 0,
-              "defaultSelected": false,
-              "enabled": true,
-              "available": true
+              "defaultSelected": true,
+              "enabled": true
             },
             {
               "id": "medium",
               "name": "Orta",
-              "priceDelta": 10,
-              "defaultSelected": true,
-              "enabled": true,
-              "available": true
+              "priceDelta": 20,
+              "defaultSelected": false,
+              "enabled": true
             },
             {
               "id": "large",
               "name": "Büyük",
-              "priceDelta": 20,
+              "priceDelta": 35,
               "defaultSelected": false,
-              "enabled": true,
-              "available": true
+              "enabled": true
             }
           ]
         },
-        "temperature": {
-          "enabled": true,
-          "title": "Sıcaklık",
-          "required": false,
-          "minSelect": 0,
-          "maxSelect": 1,
-          "options": [
-            {
-              "id": "hot",
-              "name": "Sıcak",
-              "priceDelta": 0,
-              "defaultSelected": true,
-              "enabled": true,
-              "available": true
-            },
-            {
-              "id": "warm",
-              "name": "Ilık",
-              "priceDelta": 0,
-              "defaultSelected": false,
-              "enabled": true,
-              "available": true
-            },
-            {
-              "id": "extra-hot",
-              "name": "Ekstra sıcak",
-              "priceDelta": 0,
-              "defaultSelected": false,
-              "enabled": true,
-              "available": true
-            }
-          ]
-        },
-        "ice": {
+        "drinks": {
           "enabled": false,
-          "title": "Buz Miktarı",
-          "required": false,
-          "minSelect": 0,
-          "maxSelect": 1,
-          "options": [
-            {
-              "id": "no-ice",
-              "name": "Buzsuz",
-              "priceDelta": 0,
-              "defaultSelected": false,
-              "enabled": true,
-              "available": true
-            },
-            {
-              "id": "light-ice",
-              "name": "Az buzlu",
-              "priceDelta": 0,
-              "defaultSelected": false,
-              "enabled": true,
-              "available": true
-            },
-            {
-              "id": "normal-ice",
-              "name": "Normal",
-              "priceDelta": 0,
-              "defaultSelected": true,
-              "enabled": true,
-              "available": true
-            },
-            {
-              "id": "extra-ice",
-              "name": "Ekstra buzlu",
-              "priceDelta": 0,
-              "defaultSelected": false,
-              "enabled": true,
-              "available": true
-            }
-          ]
-        },
-        "milk": {
-          "enabled": true,
-          "title": "Süt Seçimi",
-          "required": true,
-          "minSelect": 1,
-          "maxSelect": 1,
-          "options": [
-            {
-              "id": "whole-milk",
-              "name": "Tam yağlı süt",
-              "priceDelta": 0,
-              "defaultSelected": true,
-              "enabled": true,
-              "available": true
-            },
-            {
-              "id": "semi-skimmed",
-              "name": "Yarım yağlı süt",
-              "priceDelta": 0,
-              "defaultSelected": false,
-              "enabled": true,
-              "available": true
-            },
-            {
-              "id": "lactose-free",
-              "name": "Laktozsuz süt",
-              "priceDelta": 8,
-              "defaultSelected": false,
-              "enabled": true,
-              "available": true
-            },
-            {
-              "id": "almond",
-              "name": "Badem sütü",
-              "priceDelta": 18,
-              "defaultSelected": false,
-              "enabled": true,
-              "available": true
-            },
-            {
-              "id": "oat",
-              "name": "Yulaf sütü",
-              "priceDelta": 18,
-              "defaultSelected": false,
-              "enabled": true,
-              "available": true
-            },
-            {
-              "id": "coconut",
-              "name": "Hindistan cevizi sütü",
-              "priceDelta": 18,
-              "defaultSelected": false,
-              "enabled": true,
-              "available": true
-            }
-          ]
-        },
-        "syrup": {
-          "enabled": true,
-          "title": "Şurup Seçimi",
-          "required": false,
-          "minSelect": 0,
-          "maxSelect": 2,
-          "options": [
-            {
-              "id": "vanilla",
-              "name": "Vanilya",
-              "priceDelta": 12,
-              "defaultSelected": false,
-              "enabled": true,
-              "available": true
-            },
-            {
-              "id": "caramel",
-              "name": "Karamel",
-              "priceDelta": 12,
-              "defaultSelected": false,
-              "enabled": true,
-              "available": true
-            },
-            {
-              "id": "hazelnut",
-              "name": "Fındık",
-              "priceDelta": 12,
-              "defaultSelected": false,
-              "enabled": true,
-              "available": true
-            },
-            {
-              "id": "chocolate",
-              "name": "Çikolata",
-              "priceDelta": 12,
-              "defaultSelected": false,
-              "enabled": true,
-              "available": true
-            },
-            {
-              "id": "white-chocolate",
-              "name": "Beyaz çikolata",
-              "priceDelta": 14,
-              "defaultSelected": false,
-              "enabled": true,
-              "available": true
-            }
-          ]
-        },
-        "sugar": {
-          "enabled": true,
-          "title": "Şeker",
-          "required": false,
-          "minSelect": 0,
-          "maxSelect": 1,
-          "options": [
-            {
-              "id": "none",
-              "name": "Şekersiz",
-              "priceDelta": 0,
-              "defaultSelected": true,
-              "enabled": true,
-              "available": true
-            },
-            {
-              "id": "one",
-              "name": "1 şeker",
-              "priceDelta": 0,
-              "defaultSelected": false,
-              "enabled": true,
-              "available": true
-            },
-            {
-              "id": "two",
-              "name": "2 şeker",
-              "priceDelta": 0,
-              "defaultSelected": false,
-              "enabled": true,
-              "available": true
-            },
-            {
-              "id": "sweetener",
-              "name": "Tatlandırıcı",
-              "priceDelta": 0,
-              "defaultSelected": false,
-              "enabled": true,
-              "available": true
-            }
-          ]
-        },
-        "shot": {
-          "enabled": true,
-          "title": "Ekstra Shot",
-          "required": false,
-          "minSelect": 0,
-          "maxSelect": 2,
-          "options": [
-            {
-              "id": "single-shot",
-              "name": "1 ekstra shot",
-              "priceDelta": 22,
-              "defaultSelected": false,
-              "enabled": true,
-              "available": true
-            },
-            {
-              "id": "double-shot",
-              "name": "2 ekstra shot",
-              "priceDelta": 40,
-              "defaultSelected": false,
-              "enabled": true,
-              "available": true
-            }
-          ]
-        },
-        "cream": {
-          "enabled": false,
-          "title": "Krema",
-          "required": false,
-          "minSelect": 0,
-          "maxSelect": 1,
-          "options": [
-            {
-              "id": "cream",
-              "name": "Krema ekle",
-              "priceDelta": 15,
-              "defaultSelected": false,
-              "enabled": true,
-              "available": true
-            }
-          ]
-        },
-        "pairing": {
-          "enabled": true,
-          "title": "Yanına Tatlı",
-          "required": false,
-          "minSelect": 0,
-          "maxSelect": 1,
-          "options": [
-            {
-              "id": "brownie-bite",
-              "name": "Mini brownie",
-              "priceDelta": 55,
-              "defaultSelected": false,
-              "enabled": true,
-              "available": true
-            },
-            {
-              "id": "cookie",
-              "name": "Çikolatalı cookie",
-              "priceDelta": 45,
-              "defaultSelected": false,
-              "enabled": true,
-              "available": true
-            },
-            {
-              "id": "croissant",
-              "name": "Tereyağlı kruvasan",
-              "priceDelta": 65,
-              "defaultSelected": false,
-              "enabled": true,
-              "available": true
-            }
-          ]
+          "title": "Yan Ürün Seçimi",
+          "options": []
         }
       }
     },
@@ -480,7 +210,7 @@
           ]
         },
         "temperature": {
-          "enabled": true,
+          "enabled": false,
           "title": "Sıcaklık",
           "required": false,
           "minSelect": 0,
@@ -554,7 +284,7 @@
           ]
         },
         "milk": {
-          "enabled": true,
+          "enabled": false,
           "title": "Süt Seçimi",
           "required": false,
           "minSelect": 0,
@@ -611,7 +341,7 @@
           ]
         },
         "syrup": {
-          "enabled": true,
+          "enabled": false,
           "title": "Şurup Seçimi",
           "required": false,
           "minSelect": 0,
@@ -660,7 +390,7 @@
           ]
         },
         "sugar": {
-          "enabled": true,
+          "enabled": false,
           "title": "Şeker",
           "required": false,
           "minSelect": 0,
@@ -743,7 +473,7 @@
           ]
         },
         "pairing": {
-          "enabled": true,
+          "enabled": false,
           "title": "Yanına Tatlı",
           "required": false,
           "minSelect": 0,
@@ -829,7 +559,7 @@
           ]
         },
         "temperature": {
-          "enabled": true,
+          "enabled": false,
           "title": "Sıcaklık",
           "required": false,
           "minSelect": 0,
@@ -960,7 +690,7 @@
           ]
         },
         "syrup": {
-          "enabled": true,
+          "enabled": false,
           "title": "Şurup Seçimi",
           "required": false,
           "minSelect": 0,
@@ -1009,7 +739,7 @@
           ]
         },
         "sugar": {
-          "enabled": true,
+          "enabled": false,
           "title": "Şeker",
           "required": false,
           "minSelect": 0,
@@ -1092,7 +822,7 @@
           ]
         },
         "pairing": {
-          "enabled": true,
+          "enabled": false,
           "title": "Yanına Tatlı",
           "required": false,
           "minSelect": 0,
@@ -1178,7 +908,7 @@
           ]
         },
         "temperature": {
-          "enabled": true,
+          "enabled": false,
           "title": "Sıcaklık",
           "required": false,
           "minSelect": 0,
@@ -1252,7 +982,7 @@
           ]
         },
         "milk": {
-          "enabled": true,
+          "enabled": false,
           "title": "Süt Seçimi",
           "required": false,
           "minSelect": 0,
@@ -1309,7 +1039,7 @@
           ]
         },
         "syrup": {
-          "enabled": true,
+          "enabled": false,
           "title": "Şurup Seçimi",
           "required": false,
           "minSelect": 0,
@@ -1358,7 +1088,7 @@
           ]
         },
         "sugar": {
-          "enabled": true,
+          "enabled": false,
           "title": "Şeker",
           "required": false,
           "minSelect": 0,
@@ -1441,7 +1171,7 @@
           ]
         },
         "pairing": {
-          "enabled": true,
+          "enabled": false,
           "title": "Yanına Tatlı",
           "required": false,
           "minSelect": 0,
@@ -1488,7 +1218,7 @@
       "popular": true,
       "active": true,
       "position": 4,
-      "stockQuantity": 34,
+      "stockQuantity": 33,
       "criticalStock": 6,
       "stockTrackingEnabled": true,
       "stockSellable": true,
@@ -1601,7 +1331,7 @@
           ]
         },
         "milk": {
-          "enabled": true,
+          "enabled": false,
           "title": "Süt Seçimi",
           "required": false,
           "minSelect": 0,
@@ -1658,7 +1388,7 @@
           ]
         },
         "syrup": {
-          "enabled": true,
+          "enabled": false,
           "title": "Şurup Seçimi",
           "required": false,
           "minSelect": 0,
@@ -1707,7 +1437,7 @@
           ]
         },
         "sugar": {
-          "enabled": true,
+          "enabled": false,
           "title": "Şeker",
           "required": false,
           "minSelect": 0,
@@ -1748,7 +1478,7 @@
           ]
         },
         "shot": {
-          "enabled": true,
+          "enabled": false,
           "title": "Ekstra Shot",
           "required": false,
           "minSelect": 0,
@@ -1773,7 +1503,7 @@
           ]
         },
         "cream": {
-          "enabled": true,
+          "enabled": false,
           "title": "Krema",
           "required": false,
           "minSelect": 0,
@@ -1790,7 +1520,7 @@
           ]
         },
         "pairing": {
-          "enabled": true,
+          "enabled": false,
           "title": "Yanına Tatlı",
           "required": false,
           "minSelect": 0,
@@ -1909,7 +1639,7 @@
           ]
         },
         "ice": {
-          "enabled": true,
+          "enabled": false,
           "title": "Buz Miktarı",
           "required": false,
           "minSelect": 0,
@@ -2007,7 +1737,7 @@
           ]
         },
         "syrup": {
-          "enabled": true,
+          "enabled": false,
           "title": "Şurup Seçimi",
           "required": false,
           "minSelect": 0,
@@ -2056,7 +1786,7 @@
           ]
         },
         "sugar": {
-          "enabled": true,
+          "enabled": false,
           "title": "Şeker",
           "required": false,
           "minSelect": 0,
@@ -2097,7 +1827,7 @@
           ]
         },
         "shot": {
-          "enabled": true,
+          "enabled": false,
           "title": "Ekstra Shot",
           "required": false,
           "minSelect": 0,
@@ -2139,7 +1869,7 @@
           ]
         },
         "pairing": {
-          "enabled": true,
+          "enabled": false,
           "title": "Yanına Tatlı",
           "required": false,
           "minSelect": 0,
@@ -2205,7 +1935,7 @@
       "popular": false,
       "active": true,
       "position": 7,
-      "stockQuantity": 17,
+      "stockQuantity": 12,
       "criticalStock": 4,
       "stockTrackingEnabled": true,
       "stockSellable": true,
@@ -2224,7 +1954,7 @@
       "popular": true,
       "active": true,
       "position": 8,
-      "stockQuantity": 9,
+      "stockQuantity": 6,
       "criticalStock": 3,
       "stockTrackingEnabled": true,
       "stockSellable": true,
@@ -2243,106 +1973,11 @@
       "popular": false,
       "active": true,
       "position": 9,
-      "stockQuantity": 16,
+      "stockQuantity": 13,
       "criticalStock": 4,
       "stockTrackingEnabled": true,
       "stockSellable": true,
       "customization": {}
-    },
-    {
-      "id": "deneme-urun",
-      "categoryId": "deneme",
-      "name": "deneme ürün",
-      "description": "örnek açıklama",
-      "price": 100,
-      "kind": "cold-coffee",
-      "image": "/uploads/products/ekran-goruntusu-2026-08-31-130403-1788170665.png",
-      "emoji": "",
-      "customizable": true,
-      "popular": false,
-      "active": true,
-      "position": 10,
-      "stockQuantity": 25,
-      "criticalStock": 20,
-      "stockTrackingEnabled": false,
-      "stockSellable": true,
-      "customization": {
-        "content": {
-          "enabled": true,
-          "title": "Kahve Notları",
-          "options": [
-            {
-              "id": "no-foam",
-              "name": "Köpüksüz",
-              "priceDelta": 0,
-              "defaultSelected": true,
-              "enabled": true
-            },
-            {
-              "id": "extra-foam",
-              "name": "Ekstra köpük",
-              "priceDelta": 0,
-              "defaultSelected": true,
-              "enabled": true
-            },
-            {
-              "id": "less-sweet",
-              "name": "Az tatlı",
-              "priceDelta": 0,
-              "defaultSelected": true,
-              "enabled": true
-            },
-            {
-              "id": "decaf",
-              "name": "Kafeinsiz espresso",
-              "priceDelta": 0,
-              "defaultSelected": true,
-              "enabled": true
-            },
-            {
-              "id": "custom-1788169891170",
-              "name": "deneme seçenek",
-              "priceDelta": 15,
-              "defaultSelected": true,
-              "enabled": true
-            }
-          ]
-        },
-        "sides": {
-          "enabled": true,
-          "title": "Boyut Seçimi",
-          "options": [
-            {
-              "id": "small",
-              "name": "Küçük",
-              "priceDelta": 0,
-              "defaultSelected": true,
-              "enabled": true
-            },
-            {
-              "id": "medium",
-              "name": "Orta",
-              "priceDelta": 20,
-              "defaultSelected": false,
-              "enabled": true
-            },
-            {
-              "id": "large",
-              "name": "Büyük",
-              "priceDelta": 35,
-              "defaultSelected": false,
-              "enabled": true
-            }
-          ]
-        },
-        "drinks": {
-          "enabled": false,
-          "title": "deneme Yan Ürün Seçimi",
-          "options": []
-        }
-      },
-      "protein": "örnek etiket",
-      "patties": 2
     },
     {
       "categoryId": "soguk-i-cecekler",
@@ -2363,17 +1998,23 @@
         "content": {
           "enabled": false,
           "title": "Ürün Notları",
-          "options": []
+          "options": [],
+          "required": false,
+          "minSelect": 0
         },
         "sides": {
           "enabled": false,
           "title": "Boyut Seçimi",
-          "options": []
+          "options": [],
+          "required": false,
+          "minSelect": 0
         },
         "drinks": {
           "enabled": false,
           "title": "Yan Ürün Seçimi",
-          "options": []
+          "options": [],
+          "required": false,
+          "minSelect": 0
         }
       },
       "id": "coca-cola",
@@ -2398,17 +2039,23 @@
         "content": {
           "enabled": false,
           "title": "Ürün Notları",
-          "options": []
+          "options": [],
+          "required": false,
+          "minSelect": 0
         },
         "sides": {
           "enabled": false,
           "title": "Boyut Seçimi",
-          "options": []
+          "options": [],
+          "required": false,
+          "minSelect": 0
         },
         "drinks": {
           "enabled": false,
           "title": "Yan Ürün Seçimi",
-          "options": []
+          "options": [],
+          "required": false,
+          "minSelect": 0
         }
       },
       "id": "sprite",
@@ -2433,17 +2080,23 @@
         "content": {
           "enabled": false,
           "title": "Ürün Notları",
-          "options": []
+          "options": [],
+          "required": false,
+          "minSelect": 0
         },
         "sides": {
           "enabled": false,
           "title": "Boyut Seçimi",
-          "options": []
+          "options": [],
+          "required": false,
+          "minSelect": 0
         },
         "drinks": {
           "enabled": false,
           "title": "Yan Ürün Seçimi",
-          "options": []
+          "options": [],
+          "required": false,
+          "minSelect": 0
         }
       },
       "id": "fanta",
@@ -2468,17 +2121,23 @@
         "content": {
           "enabled": false,
           "title": "Ürün Notları",
-          "options": []
+          "options": [],
+          "required": false,
+          "minSelect": 0
         },
         "sides": {
           "enabled": false,
           "title": "Boyut Seçimi",
-          "options": []
+          "options": [],
+          "required": false,
+          "minSelect": 0
         },
         "drinks": {
           "enabled": false,
           "title": "Yan Ürün Seçimi",
-          "options": []
+          "options": [],
+          "required": false,
+          "minSelect": 0
         }
       },
       "id": "soda",
@@ -2503,17 +2162,23 @@
         "content": {
           "enabled": false,
           "title": "Ürün Notları",
-          "options": []
+          "options": [],
+          "required": false,
+          "minSelect": 0
         },
         "sides": {
           "enabled": false,
           "title": "Boyut Seçimi",
-          "options": []
+          "options": [],
+          "required": false,
+          "minSelect": 0
         },
         "drinks": {
           "enabled": false,
           "title": "Yan Ürün Seçimi",
-          "options": []
+          "options": [],
+          "required": false,
+          "minSelect": 0
         }
       },
       "id": "portakal-suyu",
@@ -2538,10 +2203,10 @@
       "stockSellable": true,
       "customization": {
         "size": {
-          "enabled": true,
+          "enabled": false,
           "title": "Boyut Seçimi",
-          "required": true,
-          "minSelect": 1,
+          "required": false,
+          "minSelect": 0,
           "maxSelect": 1,
           "options": [
             {
@@ -2571,7 +2236,7 @@
           ]
         },
         "temperature": {
-          "enabled": true,
+          "enabled": false,
           "title": "Sıcaklık",
           "required": false,
           "minSelect": 0,
@@ -2751,7 +2416,7 @@
           ]
         },
         "sugar": {
-          "enabled": true,
+          "enabled": false,
           "title": "Şeker",
           "required": false,
           "minSelect": 0,
@@ -2920,7 +2585,7 @@
           ]
         },
         "temperature": {
-          "enabled": true,
+          "enabled": false,
           "title": "Sıcaklık",
           "required": false,
           "minSelect": 0,
@@ -3051,7 +2716,7 @@
           ]
         },
         "syrup": {
-          "enabled": true,
+          "enabled": false,
           "title": "Şurup Seçimi",
           "required": false,
           "minSelect": 0,
@@ -3100,7 +2765,7 @@
           ]
         },
         "sugar": {
-          "enabled": true,
+          "enabled": false,
           "title": "Şeker",
           "required": false,
           "minSelect": 0,
@@ -3183,7 +2848,7 @@
           ]
         },
         "pairing": {
-          "enabled": true,
+          "enabled": false,
           "title": "Yanına Tatlı",
           "required": false,
           "minSelect": 0,
@@ -3269,7 +2934,7 @@
           ]
         },
         "temperature": {
-          "enabled": true,
+          "enabled": false,
           "title": "Sıcaklık",
           "required": false,
           "minSelect": 0,
@@ -3400,7 +3065,7 @@
           ]
         },
         "syrup": {
-          "enabled": true,
+          "enabled": false,
           "title": "Şurup Seçimi",
           "required": false,
           "minSelect": 0,
@@ -3449,7 +3114,7 @@
           ]
         },
         "sugar": {
-          "enabled": true,
+          "enabled": false,
           "title": "Şeker",
           "required": false,
           "minSelect": 0,
@@ -3490,7 +3155,7 @@
           ]
         },
         "shot": {
-          "enabled": true,
+          "enabled": false,
           "title": "Ekstra Shot",
           "required": false,
           "minSelect": 0,
@@ -3532,7 +3197,7 @@
           ]
         },
         "pairing": {
-          "enabled": true,
+          "enabled": false,
           "title": "Yanına Tatlı",
           "required": false,
           "minSelect": 0,
@@ -3618,7 +3283,7 @@
           ]
         },
         "temperature": {
-          "enabled": true,
+          "enabled": false,
           "title": "Sıcaklık",
           "required": false,
           "minSelect": 0,
@@ -3749,7 +3414,7 @@
           ]
         },
         "syrup": {
-          "enabled": true,
+          "enabled": false,
           "title": "Şurup Seçimi",
           "required": false,
           "minSelect": 0,
@@ -3798,7 +3463,7 @@
           ]
         },
         "sugar": {
-          "enabled": true,
+          "enabled": false,
           "title": "Şeker",
           "required": false,
           "minSelect": 0,
@@ -3881,7 +3546,7 @@
           ]
         },
         "pairing": {
-          "enabled": true,
+          "enabled": false,
           "title": "Yanına Tatlı",
           "required": false,
           "minSelect": 0,
@@ -3928,7 +3593,7 @@
       "popular": true,
       "active": true,
       "position": 9,
-      "stockQuantity": 38,
+      "stockQuantity": 36,
       "criticalStock": 7,
       "stockTrackingEnabled": true,
       "stockSellable": true,
@@ -4098,7 +3763,7 @@
           ]
         },
         "syrup": {
-          "enabled": true,
+          "enabled": false,
           "title": "Şurup Seçimi",
           "required": false,
           "minSelect": 0,
@@ -4147,7 +3812,7 @@
           ]
         },
         "sugar": {
-          "enabled": true,
+          "enabled": false,
           "title": "Şeker",
           "required": false,
           "minSelect": 0,
@@ -4188,7 +3853,7 @@
           ]
         },
         "shot": {
-          "enabled": true,
+          "enabled": false,
           "title": "Ekstra Shot",
           "required": false,
           "minSelect": 0,
@@ -4213,7 +3878,7 @@
           ]
         },
         "cream": {
-          "enabled": true,
+          "enabled": false,
           "title": "Krema",
           "required": false,
           "minSelect": 0,
@@ -4230,7 +3895,7 @@
           ]
         },
         "pairing": {
-          "enabled": true,
+          "enabled": false,
           "title": "Yanına Tatlı",
           "required": false,
           "minSelect": 0,
@@ -4407,76 +4072,6 @@
       }
     },
     {
-      "categoryId": "deneme",
-      "name": "ürün",
-      "description": "",
-      "price": 0,
-      "image": "/uploads/products/ekran-goruntusu-2026-08-31-144030-1788176461.png",
-      "emoji": "",
-      "kind": "simple",
-      "customizable": false,
-      "popular": false,
-      "active": true,
-      "stockQuantity": null,
-      "criticalStock": null,
-      "stockTrackingEnabled": false,
-      "stockSellable": true,
-      "customization": {
-        "content": {
-          "enabled": false,
-          "title": "Ürün Notları",
-          "options": []
-        },
-        "sides": {
-          "enabled": false,
-          "title": "Boyut Seçimi",
-          "options": []
-        },
-        "drinks": {
-          "enabled": false,
-          "title": "Yan Ürün Seçimi",
-          "options": []
-        }
-      },
-      "id": "urun",
-      "position": 22
-    },
-    {
-      "categoryId": "deneme",
-      "name": "gelin kahvesi",
-      "description": "",
-      "price": 0,
-      "image": "/uploads/products/images-5-1788176637.jpg",
-      "emoji": "",
-      "kind": "simple",
-      "customizable": false,
-      "popular": true,
-      "active": true,
-      "stockQuantity": null,
-      "criticalStock": null,
-      "stockTrackingEnabled": false,
-      "stockSellable": true,
-      "customization": {
-        "content": {
-          "enabled": false,
-          "title": "Ürün Notları",
-          "options": []
-        },
-        "sides": {
-          "enabled": false,
-          "title": "Boyut Seçimi",
-          "options": []
-        },
-        "drinks": {
-          "enabled": false,
-          "title": "Yan Ürün Seçimi",
-          "options": []
-        }
-      },
-      "id": "gelin-kahvesi",
-      "position": 23
-    },
-    {
       "id": "v60",
       "categoryId": "filter",
       "name": "V60 Demleme",
@@ -4528,7 +4123,7 @@
           ]
         },
         "temperature": {
-          "enabled": true,
+          "enabled": false,
           "title": "Sıcaklık",
           "required": false,
           "minSelect": 0,
@@ -4708,7 +4303,7 @@
           ]
         },
         "sugar": {
-          "enabled": true,
+          "enabled": false,
           "title": "Şeker",
           "required": false,
           "minSelect": 0,
@@ -4791,7 +4386,7 @@
           ]
         },
         "pairing": {
-          "enabled": true,
+          "enabled": false,
           "title": "Yanına Tatlı",
           "required": false,
           "minSelect": 0,
@@ -4877,7 +4472,7 @@
           ]
         },
         "temperature": {
-          "enabled": true,
+          "enabled": false,
           "title": "Sıcaklık",
           "required": false,
           "minSelect": 0,
@@ -5057,7 +4652,7 @@
           ]
         },
         "sugar": {
-          "enabled": true,
+          "enabled": false,
           "title": "Şeker",
           "required": false,
           "minSelect": 0,
@@ -5140,7 +4735,7 @@
           ]
         },
         "pairing": {
-          "enabled": true,
+          "enabled": false,
           "title": "Yanına Tatlı",
           "required": false,
           "minSelect": 0,
@@ -5187,7 +4782,7 @@
       "popular": false,
       "active": true,
       "position": 19,
-      "stockQuantity": 45,
+      "stockQuantity": 44,
       "criticalStock": 8,
       "stockTrackingEnabled": true,
       "stockSellable": true,
@@ -5406,7 +5001,7 @@
           ]
         },
         "sugar": {
-          "enabled": true,
+          "enabled": false,
           "title": "Şeker",
           "required": false,
           "minSelect": 0,
@@ -5472,7 +5067,7 @@
           ]
         },
         "cream": {
-          "enabled": true,
+          "enabled": false,
           "title": "Krema",
           "required": false,
           "minSelect": 0,
@@ -5489,7 +5084,7 @@
           ]
         },
         "pairing": {
-          "enabled": true,
+          "enabled": false,
           "title": "Yanına Tatlı",
           "required": false,
           "minSelect": 0,
@@ -5536,7 +5131,7 @@
       "popular": true,
       "active": true,
       "position": 20,
-      "stockQuantity": 28,
+      "stockQuantity": 26,
       "criticalStock": 5,
       "stockTrackingEnabled": true,
       "stockSellable": true,
@@ -5608,7 +5203,7 @@
           ]
         },
         "ice": {
-          "enabled": true,
+          "enabled": false,
           "title": "Buz Miktarı",
           "required": false,
           "minSelect": 0,
@@ -5706,7 +5301,7 @@
           ]
         },
         "syrup": {
-          "enabled": true,
+          "enabled": false,
           "title": "Şurup Seçimi",
           "required": false,
           "minSelect": 0,
@@ -5755,7 +5350,7 @@
           ]
         },
         "sugar": {
-          "enabled": true,
+          "enabled": false,
           "title": "Şeker",
           "required": false,
           "minSelect": 0,
@@ -5796,7 +5391,7 @@
           ]
         },
         "shot": {
-          "enabled": true,
+          "enabled": false,
           "title": "Ekstra Shot",
           "required": false,
           "minSelect": 0,
@@ -5838,7 +5433,7 @@
           ]
         },
         "pairing": {
-          "enabled": true,
+          "enabled": false,
           "title": "Yanına Tatlı",
           "required": false,
           "minSelect": 0,
@@ -5875,61 +5470,41 @@
     {
       "id": "turkish-tea",
       "categoryId": "tea",
-      "name": "Türk Çayı",
+      "name": "Maça Çayı",
       "description": "İnce belli bardakta taze demlenmiş siyah çay.",
       "price": 34,
       "kind": "simple",
-      "image": "/images/products/earl-grey.png",
+      "image": "/uploads/products/images-9-1788252728.jpg",
       "emoji": "ÇAY",
-      "customizable": true,
+      "customizable": false,
       "popular": false,
       "active": true,
       "position": 21,
       "stockQuantity": null,
       "criticalStock": null,
-      "stockTrackingEnabled": false,
+      "stockTrackingEnabled": true,
       "stockSellable": true,
       "customization": {
-        "sugar": {
-          "enabled": true,
-          "title": "Şeker",
+        "content": {
+          "enabled": false,
+          "title": "Ürün Notları",
+          "options": [],
           "required": false,
-          "minSelect": 0,
-          "maxSelect": 1,
-          "options": [
-            {
-              "id": "none",
-              "name": "Şekersiz",
-              "priceDelta": 0,
-              "defaultSelected": true,
-              "enabled": true,
-              "available": true
-            },
-            {
-              "id": "one",
-              "name": "1 şeker",
-              "priceDelta": 0,
-              "defaultSelected": false,
-              "enabled": true,
-              "available": true
-            },
-            {
-              "id": "two",
-              "name": "2 şeker",
-              "priceDelta": 0,
-              "defaultSelected": false,
-              "enabled": true,
-              "available": true
-            },
-            {
-              "id": "sweetener",
-              "name": "Tatlandırıcı",
-              "priceDelta": 0,
-              "defaultSelected": false,
-              "enabled": true,
-              "available": true
-            }
-          ]
+          "minSelect": 0
+        },
+        "sides": {
+          "enabled": false,
+          "title": "Boyut Seçimi",
+          "options": [],
+          "required": false,
+          "minSelect": 0
+        },
+        "drinks": {
+          "enabled": false,
+          "title": "Yan Ürün Seçimi",
+          "options": [],
+          "required": false,
+          "minSelect": 0
         }
       }
     },
@@ -5985,7 +5560,7 @@
           ]
         },
         "temperature": {
-          "enabled": true,
+          "enabled": false,
           "title": "Sıcaklık",
           "required": false,
           "minSelect": 0,
@@ -6206,7 +5781,7 @@
           ]
         },
         "shot": {
-          "enabled": true,
+          "enabled": false,
           "title": "Ekstra Shot",
           "required": false,
           "minSelect": 0,
@@ -6248,7 +5823,7 @@
           ]
         },
         "pairing": {
-          "enabled": true,
+          "enabled": false,
           "title": "Yanına Tatlı",
           "required": false,
           "minSelect": 0,
@@ -6295,7 +5870,7 @@
       "popular": true,
       "active": true,
       "position": 23,
-      "stockQuantity": 31,
+      "stockQuantity": 30,
       "criticalStock": 6,
       "stockTrackingEnabled": true,
       "stockSellable": true,
@@ -6334,7 +5909,7 @@
           ]
         },
         "temperature": {
-          "enabled": true,
+          "enabled": false,
           "title": "Sıcaklık",
           "required": false,
           "minSelect": 0,
@@ -6514,7 +6089,7 @@
           ]
         },
         "sugar": {
-          "enabled": true,
+          "enabled": false,
           "title": "Şeker",
           "required": false,
           "minSelect": 0,
@@ -6555,7 +6130,7 @@
           ]
         },
         "shot": {
-          "enabled": true,
+          "enabled": false,
           "title": "Ekstra Shot",
           "required": false,
           "minSelect": 0,
@@ -6597,7 +6172,7 @@
           ]
         },
         "pairing": {
-          "enabled": true,
+          "enabled": false,
           "title": "Yanına Tatlı",
           "required": false,
           "minSelect": 0,
@@ -6644,7 +6219,7 @@
       "popular": true,
       "active": true,
       "position": 24,
-      "stockQuantity": 18,
+      "stockQuantity": 15,
       "criticalStock": 4,
       "stockTrackingEnabled": true,
       "stockSellable": true,
@@ -6663,7 +6238,7 @@
       "popular": false,
       "active": true,
       "position": 25,
-      "stockQuantity": 24,
+      "stockQuantity": 23,
       "criticalStock": 5,
       "stockTrackingEnabled": true,
       "stockSellable": true,
@@ -6682,7 +6257,7 @@
       "popular": false,
       "active": true,
       "position": 26,
-      "stockQuantity": 13,
+      "stockQuantity": 10,
       "criticalStock": 3,
       "stockTrackingEnabled": true,
       "stockSellable": true,
@@ -6691,21 +6266,43 @@
     {
       "id": "strawberry-lemonade",
       "categoryId": "other-drinks",
-      "name": "?ilekli Limonata",
-      "description": "Taze limonata, ?ilek p?resi ve buz.",
+      "name": "çilekli Limonata",
+      "description": "Taze limonata, çilek püresi ve buz.",
       "price": 82,
       "kind": "simple",
-      "image": "/images/products/lemonade.png",
+      "image": "/uploads/products/cileklilimonata-min-1788252428.jpg",
       "emoji": "LIM",
       "customizable": false,
       "popular": true,
       "active": true,
       "position": 13.1,
-      "stockQuantity": 18,
+      "stockQuantity": 13,
       "criticalStock": 4,
       "stockTrackingEnabled": true,
       "stockSellable": true,
-      "customization": {}
+      "customization": {
+        "content": {
+          "enabled": false,
+          "title": "Ürün Notları",
+          "options": [],
+          "required": false,
+          "minSelect": 0
+        },
+        "sides": {
+          "enabled": false,
+          "title": "Boyut Seçimi",
+          "options": [],
+          "required": false,
+          "minSelect": 0
+        },
+        "drinks": {
+          "enabled": false,
+          "title": "Yan Ürün Seçimi",
+          "options": [],
+          "required": false,
+          "minSelect": 0
+        }
+      }
     },
     {
       "id": "mint-lemonade",
@@ -6714,17 +6311,39 @@
       "description": "Taze limonata, ferah nane ve buz.",
       "price": 78,
       "kind": "simple",
-      "image": "/images/products/lemonade.png",
+      "image": "/uploads/products/images-6-1788252471.jpg",
       "emoji": "LIM",
       "customizable": false,
       "popular": false,
       "active": true,
       "position": 13.2,
-      "stockQuantity": 18,
+      "stockQuantity": 14,
       "criticalStock": 4,
       "stockTrackingEnabled": true,
       "stockSellable": true,
-      "customization": {}
+      "customization": {
+        "content": {
+          "enabled": false,
+          "title": "Ürün Notları",
+          "options": [],
+          "required": false,
+          "minSelect": 0
+        },
+        "sides": {
+          "enabled": false,
+          "title": "Boyut Seçimi",
+          "options": [],
+          "required": false,
+          "minSelect": 0
+        },
+        "drinks": {
+          "enabled": false,
+          "title": "Yan Ürün Seçimi",
+          "options": [],
+          "required": false,
+          "minSelect": 0
+        }
+      }
     },
     {
       "id": "berry-lemonade",
@@ -6733,17 +6352,39 @@
       "description": "Limonata, orman meyveleri ve buz.",
       "price": 86,
       "kind": "simple",
-      "image": "/images/products/lemonade.png",
+      "image": "/uploads/products/images-7-1788252500.jpg",
       "emoji": "LIM",
       "customizable": false,
       "popular": true,
       "active": true,
       "position": 13.3,
-      "stockQuantity": 18,
+      "stockQuantity": 17,
       "criticalStock": 4,
       "stockTrackingEnabled": true,
       "stockSellable": true,
-      "customization": {}
+      "customization": {
+        "content": {
+          "enabled": false,
+          "title": "Ürün Notları",
+          "options": [],
+          "required": false,
+          "minSelect": 0
+        },
+        "sides": {
+          "enabled": false,
+          "title": "Boyut Seçimi",
+          "options": [],
+          "required": false,
+          "minSelect": 0
+        },
+        "drinks": {
+          "enabled": false,
+          "title": "Yan Ürün Seçimi",
+          "options": [],
+          "required": false,
+          "minSelect": 0
+        }
+      }
     },
     {
       "id": "ginger-lemonade",
@@ -6752,17 +6393,335 @@
       "description": "Taze limonata, zencefil ve buz.",
       "price": 84,
       "kind": "simple",
-      "image": "/images/products/lemonade.png",
+      "image": "/uploads/products/images-8-1788252549.jpg",
       "emoji": "LIM",
       "customizable": false,
       "popular": false,
       "active": true,
       "position": 13.4,
-      "stockQuantity": 18,
+      "stockQuantity": 15,
       "criticalStock": 4,
       "stockTrackingEnabled": true,
       "stockSellable": true,
-      "customization": {}
+      "customization": {
+        "content": {
+          "enabled": false,
+          "title": "Ürün Notları",
+          "options": [],
+          "required": false,
+          "minSelect": 0
+        },
+        "sides": {
+          "enabled": false,
+          "title": "Boyut Seçimi",
+          "options": [],
+          "required": false,
+          "minSelect": 0
+        },
+        "drinks": {
+          "enabled": false,
+          "title": "Yan Ürün Seçimi",
+          "options": [],
+          "required": false,
+          "minSelect": 0
+        }
+      }
+    },
+    {
+      "categoryId": "tea",
+      "name": "Yeşil Çay",
+      "description": "",
+      "price": 120,
+      "image": "/uploads/products/images-10-1788252816.jpg",
+      "emoji": "",
+      "kind": "simple",
+      "customizable": false,
+      "popular": false,
+      "active": true,
+      "stockQuantity": null,
+      "criticalStock": null,
+      "stockTrackingEnabled": false,
+      "stockSellable": true,
+      "customization": {
+        "content": {
+          "enabled": false,
+          "title": "Ürün Notları",
+          "options": [],
+          "required": false,
+          "minSelect": 0
+        },
+        "sides": {
+          "enabled": false,
+          "title": "Boyut Seçimi",
+          "options": [],
+          "required": false,
+          "minSelect": 0
+        },
+        "drinks": {
+          "enabled": false,
+          "title": "Yan Ürün Seçimi",
+          "options": [],
+          "required": false,
+          "minSelect": 0
+        }
+      },
+      "id": "yesil-cay",
+      "position": 38
+    },
+    {
+      "categoryId": "traditional",
+      "name": "Menengiç Kahvesi",
+      "description": "",
+      "price": 150,
+      "image": "/uploads/products/images-11-1788252919.jpg",
+      "emoji": "",
+      "kind": "simple",
+      "customizable": true,
+      "popular": false,
+      "active": true,
+      "stockQuantity": null,
+      "criticalStock": null,
+      "stockTrackingEnabled": false,
+      "stockSellable": true,
+      "customization": {
+        "content": {
+          "enabled": false,
+          "title": "Ürün Notları",
+          "options": [],
+          "required": false,
+          "minSelect": 0
+        },
+        "sides": {
+          "enabled": false,
+          "title": "Boyut Seçimi",
+          "options": [],
+          "required": false,
+          "minSelect": 0
+        },
+        "drinks": {
+          "enabled": false,
+          "title": "Yan Ürün Seçimi",
+          "options": [],
+          "required": false,
+          "minSelect": 0
+        },
+        "sugar": {
+          "enabled": true,
+          "title": "Şeker",
+          "required": true,
+          "minSelect": 1,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "plain",
+              "name": "Sade",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "medium-sugar",
+              "name": "Orta şekerli",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "sweet",
+              "name": "Şekerli",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "pairing": {
+          "enabled": true,
+          "title": "Yanına Tatlı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "brownie-bite",
+              "name": "Mini brownie",
+              "priceDelta": 55,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "cookie",
+              "name": "Çikolatalı cookie",
+              "priceDelta": 45,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "croissant",
+              "name": "Tereyağlı kruvasan",
+              "priceDelta": 65,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        }
+      },
+      "id": "menengic-kahvesi",
+      "position": 39
+    },
+    {
+      "categoryId": "espresso",
+      "name": "Mırra",
+      "description": "",
+      "price": 150,
+      "image": "/uploads/products/images-12-1788252961.jpg",
+      "emoji": "",
+      "kind": "simple",
+      "customizable": false,
+      "popular": false,
+      "active": true,
+      "stockQuantity": null,
+      "criticalStock": null,
+      "stockTrackingEnabled": false,
+      "stockSellable": true,
+      "customization": {
+        "content": {
+          "enabled": false,
+          "title": "Ürün Notları",
+          "options": [],
+          "required": false,
+          "minSelect": 0
+        },
+        "sides": {
+          "enabled": false,
+          "title": "Boyut Seçimi",
+          "options": [],
+          "required": false,
+          "minSelect": 0
+        },
+        "drinks": {
+          "enabled": false,
+          "title": "Yan Ürün Seçimi",
+          "options": [],
+          "required": false,
+          "minSelect": 0
+        }
+      },
+      "id": "mirra",
+      "position": 40
+    },
+    {
+      "categoryId": "traditional",
+      "name": "Dibek Kahvesi",
+      "description": "",
+      "price": 150,
+      "image": "/uploads/products/images-13-1788253113.jpg",
+      "emoji": "",
+      "kind": "simple",
+      "customizable": true,
+      "popular": false,
+      "active": true,
+      "stockQuantity": null,
+      "criticalStock": null,
+      "stockTrackingEnabled": false,
+      "stockSellable": true,
+      "customization": {
+        "content": {
+          "enabled": false,
+          "title": "Ürün Notları",
+          "options": [],
+          "required": false,
+          "minSelect": 0
+        },
+        "sides": {
+          "enabled": false,
+          "title": "Boyut Seçimi",
+          "options": [],
+          "required": false,
+          "minSelect": 0
+        },
+        "drinks": {
+          "enabled": false,
+          "title": "Yan Ürün Seçimi",
+          "options": [],
+          "required": false,
+          "minSelect": 0
+        },
+        "sugar": {
+          "enabled": true,
+          "title": "Şeker",
+          "required": true,
+          "minSelect": 1,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "plain",
+              "name": "Sade",
+              "priceDelta": 0,
+              "defaultSelected": true,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "medium-sugar",
+              "name": "Orta şekerli",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "sweet",
+              "name": "Şekerli",
+              "priceDelta": 0,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        },
+        "pairing": {
+          "enabled": true,
+          "title": "Yanına Tatlı",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "options": [
+            {
+              "id": "brownie-bite",
+              "name": "Mini brownie",
+              "priceDelta": 55,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "cookie",
+              "name": "Çikolatalı cookie",
+              "priceDelta": 45,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            },
+            {
+              "id": "croissant",
+              "name": "Tereyağlı kruvasan",
+              "priceDelta": 65,
+              "defaultSelected": false,
+              "enabled": true,
+              "available": true
+            }
+          ]
+        }
+      },
+      "id": "dibek-kahvesi",
+      "position": 41
     }
   ],
   "orders": {
@@ -6771,10 +6730,24 @@
       "status": "preparing",
       "fulfillment": "restaurant",
       "payment_method": "card",
-      "total": 353.0,
-      "created_at": "2026-08-31T12:36:32.672685+00:00",
-      "item_count": 3,
+      "total": 1261.0,
+      "created_at": "2026-09-01T10:26:44.992972+00:00",
+      "item_count": 12,
       "lines": [
+        {
+          "productId": "fanta",
+          "name": "Fanta",
+          "quantity": 1,
+          "unitPrice": 75.0,
+          "selection": null
+        },
+        {
+          "productId": "croissant",
+          "name": "Tereyağlı Kruvasan",
+          "quantity": 2,
+          "unitPrice": 84.0,
+          "selection": null
+        },
         {
           "productId": "bagel",
           "name": "Krem Peynirli Bagel",
@@ -6790,27 +6763,87 @@
           "selection": null
         },
         {
-          "productId": "hot-chocolate",
-          "name": "Sıcak Çikolata",
+          "productId": "lemonade",
+          "name": "Ev Yapımı Limonata",
           "quantity": 1,
-          "unitPrice": 108.0,
+          "unitPrice": 72.0,
+          "selection": null
+        },
+        {
+          "productId": "turkish-coffee",
+          "name": "Türk Kahvesi",
+          "quantity": 1,
+          "unitPrice": 70.0,
+          "selection": {
+            "choices": {
+              "sugar": [
+                "sweet"
+              ],
+              "pairing": []
+            }
+          }
+        },
+        {
+          "productId": "yesil-cay",
+          "name": "Yeşil Çay",
+          "quantity": 1,
+          "unitPrice": 120.0,
+          "selection": null
+        },
+        {
+          "productId": "mocha-frappe",
+          "name": "Mocha Frappe",
+          "quantity": 1,
+          "unitPrice": 177.0,
           "selection": {
             "choices": {
               "size": [
                 "large"
               ],
-              "temperature": [
-                "hot"
-              ],
               "milk": [
-                "whole-milk"
+                "coconut"
               ],
-              "sugar": [
-                "none"
+              "cream": [
+                "cream"
+              ]
+            }
+          }
+        },
+        {
+          "productId": "mirra",
+          "name": "Mırra",
+          "quantity": 1,
+          "unitPrice": 150.0,
+          "selection": null
+        },
+        {
+          "productId": "iced-americano",
+          "name": "Iced Americano",
+          "quantity": 1,
+          "unitPrice": 96.0,
+          "selection": {
+            "choices": {
+              "size": [
+                "medium"
               ],
-              "shot": [],
-              "cream": [],
-              "pairing": []
+              "ice": [
+                "normal-ice"
+              ],
+              "shot": []
+            }
+          }
+        },
+        {
+          "productId": "batch-brew",
+          "name": "Günlük Filtre Kahve",
+          "quantity": 1,
+          "unitPrice": 88.0,
+          "selection": {
+            "choices": {
+              "size": [
+                "large"
+              ],
+              "shot": []
             }
           }
         }
@@ -6878,9 +6911,794 @@
           "selection": null
         }
       ]
+    },
+    "MC-304": {
+      "number": "MC-304",
+      "status": "preparing",
+      "fulfillment": "restaurant",
+      "payment_method": "card",
+      "total": 590.0,
+      "created_at": "2026-09-01T10:36:24.200601+00:00",
+      "item_count": 7,
+      "lines": [
+        {
+          "productId": "brownie",
+          "name": "Çikolatalı Brownie",
+          "quantity": 2,
+          "unitPrice": 95.0,
+          "selection": null
+        },
+        {
+          "productId": "coca-cola",
+          "name": "Coca Cola",
+          "quantity": 1,
+          "unitPrice": 50.0,
+          "selection": null
+        },
+        {
+          "productId": "fanta",
+          "name": "Fanta",
+          "quantity": 1,
+          "unitPrice": 75.0,
+          "selection": null
+        },
+        {
+          "productId": "sprite",
+          "name": "Sprite",
+          "quantity": 1,
+          "unitPrice": 75.0,
+          "selection": null
+        },
+        {
+          "productId": "portakal-suyu",
+          "name": "Portakal Suyu",
+          "quantity": 1,
+          "unitPrice": 150.0,
+          "selection": null
+        },
+        {
+          "productId": "soda",
+          "name": "Soda",
+          "quantity": 1,
+          "unitPrice": 50.0,
+          "selection": null
+        }
+      ]
+    },
+    "MC-305": {
+      "number": "MC-305",
+      "status": "preparing",
+      "fulfillment": "restaurant",
+      "payment_method": "card",
+      "total": 696.0,
+      "created_at": "2026-09-01T12:18:00.005215+00:00",
+      "item_count": 6,
+      "lines": [
+        {
+          "productId": "strawberry-lemonade",
+          "name": "çilekli Limonata",
+          "quantity": 3,
+          "unitPrice": 82.0,
+          "selection": null
+        },
+        {
+          "productId": "mirra",
+          "name": "Mırra",
+          "quantity": 3,
+          "unitPrice": 150.0,
+          "selection": null
+        }
+      ]
+    },
+    "MC-306": {
+      "number": "MC-306",
+      "status": "preparing",
+      "fulfillment": "restaurant",
+      "payment_method": "card",
+      "total": 90.0,
+      "created_at": "2026-09-01T12:34:36.877864+00:00",
+      "item_count": 1,
+      "lines": [
+        {
+          "productId": "batch-brew",
+          "name": "Günlük Filtre Kahve",
+          "quantity": 1,
+          "unitPrice": 90.0,
+          "selection": {
+            "choices": {
+              "size": [
+                "small"
+              ],
+              "shot": [
+                "single-shot"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "MC-307": {
+      "number": "MC-307",
+      "status": "preparing",
+      "fulfillment": "restaurant",
+      "payment_method": "card",
+      "total": 90.0,
+      "created_at": "2026-09-01T12:34:40.251165+00:00",
+      "item_count": 1,
+      "lines": [
+        {
+          "productId": "batch-brew",
+          "name": "Günlük Filtre Kahve",
+          "quantity": 1,
+          "unitPrice": 90.0,
+          "selection": {
+            "choices": {
+              "size": [
+                "small"
+              ],
+              "shot": [
+                "single-shot"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "MC-308": {
+      "number": "MC-308",
+      "status": "preparing",
+      "fulfillment": "restaurant",
+      "payment_method": "card",
+      "total": 90.0,
+      "created_at": "2026-09-01T12:34:43.872937+00:00",
+      "item_count": 1,
+      "lines": [
+        {
+          "productId": "batch-brew",
+          "name": "Günlük Filtre Kahve",
+          "quantity": 1,
+          "unitPrice": 90.0,
+          "selection": {
+            "choices": {
+              "size": [
+                "small"
+              ],
+              "shot": [
+                "single-shot"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "MC-309": {
+      "number": "MC-309",
+      "status": "preparing",
+      "fulfillment": "restaurant",
+      "payment_method": "card",
+      "total": 90.0,
+      "created_at": "2026-09-01T12:34:47.969280+00:00",
+      "item_count": 1,
+      "lines": [
+        {
+          "productId": "batch-brew",
+          "name": "Günlük Filtre Kahve",
+          "quantity": 1,
+          "unitPrice": 90.0,
+          "selection": {
+            "choices": {
+              "size": [
+                "small"
+              ],
+              "shot": [
+                "single-shot"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "MC-310": {
+      "number": "MC-310",
+      "status": "preparing",
+      "fulfillment": "restaurant",
+      "payment_method": "card",
+      "total": 90.0,
+      "created_at": "2026-09-01T12:34:52.448995+00:00",
+      "item_count": 1,
+      "lines": [
+        {
+          "productId": "batch-brew",
+          "name": "Günlük Filtre Kahve",
+          "quantity": 1,
+          "unitPrice": 90.0,
+          "selection": {
+            "choices": {
+              "size": [
+                "small"
+              ],
+              "shot": [
+                "single-shot"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "MC-311": {
+      "number": "MC-311",
+      "status": "preparing",
+      "fulfillment": "restaurant",
+      "payment_method": "card",
+      "total": 90.0,
+      "created_at": "2026-09-01T12:34:56.059555+00:00",
+      "item_count": 1,
+      "lines": [
+        {
+          "productId": "batch-brew",
+          "name": "Günlük Filtre Kahve",
+          "quantity": 1,
+          "unitPrice": 90.0,
+          "selection": {
+            "choices": {
+              "size": [
+                "small"
+              ],
+              "shot": [
+                "single-shot"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "MC-312": {
+      "number": "MC-312",
+      "status": "preparing",
+      "fulfillment": "restaurant",
+      "payment_method": "card",
+      "total": 90.0,
+      "created_at": "2026-09-01T12:35:13.955399+00:00",
+      "item_count": 1,
+      "lines": [
+        {
+          "productId": "batch-brew",
+          "name": "Günlük Filtre Kahve",
+          "quantity": 1,
+          "unitPrice": 90.0,
+          "selection": {
+            "choices": {
+              "size": [
+                "small"
+              ],
+              "shot": [
+                "single-shot"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "MC-313": {
+      "number": "MC-313",
+      "status": "preparing",
+      "fulfillment": "restaurant",
+      "payment_method": "card",
+      "total": 90.0,
+      "created_at": "2026-09-01T12:35:17.917848+00:00",
+      "item_count": 1,
+      "lines": [
+        {
+          "productId": "batch-brew",
+          "name": "Günlük Filtre Kahve",
+          "quantity": 1,
+          "unitPrice": 90.0,
+          "selection": {
+            "choices": {
+              "size": [
+                "small"
+              ],
+              "shot": [
+                "single-shot"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "MC-314": {
+      "number": "MC-314",
+      "status": "preparing",
+      "fulfillment": "restaurant",
+      "payment_method": "card",
+      "total": 90.0,
+      "created_at": "2026-09-01T12:35:21.802278+00:00",
+      "item_count": 1,
+      "lines": [
+        {
+          "productId": "batch-brew",
+          "name": "Günlük Filtre Kahve",
+          "quantity": 1,
+          "unitPrice": 90.0,
+          "selection": {
+            "choices": {
+              "size": [
+                "small"
+              ],
+              "shot": [
+                "single-shot"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "MC-315": {
+      "number": "MC-315",
+      "status": "preparing",
+      "fulfillment": "restaurant",
+      "payment_method": "card",
+      "total": 90.0,
+      "created_at": "2026-09-01T12:35:25.820315+00:00",
+      "item_count": 1,
+      "lines": [
+        {
+          "productId": "batch-brew",
+          "name": "Günlük Filtre Kahve",
+          "quantity": 1,
+          "unitPrice": 90.0,
+          "selection": {
+            "choices": {
+              "size": [
+                "small"
+              ],
+              "shot": [
+                "single-shot"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "MC-316": {
+      "number": "MC-316",
+      "status": "preparing",
+      "fulfillment": "restaurant",
+      "payment_method": "card",
+      "total": 90.0,
+      "created_at": "2026-09-01T12:35:30.247313+00:00",
+      "item_count": 1,
+      "lines": [
+        {
+          "productId": "batch-brew",
+          "name": "Günlük Filtre Kahve",
+          "quantity": 1,
+          "unitPrice": 90.0,
+          "selection": {
+            "choices": {
+              "size": [
+                "small"
+              ],
+              "shot": [
+                "single-shot"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "MC-317": {
+      "number": "MC-317",
+      "status": "preparing",
+      "fulfillment": "restaurant",
+      "payment_method": "card",
+      "total": 90.0,
+      "created_at": "2026-09-01T12:35:33.879838+00:00",
+      "item_count": 1,
+      "lines": [
+        {
+          "productId": "batch-brew",
+          "name": "Günlük Filtre Kahve",
+          "quantity": 1,
+          "unitPrice": 90.0,
+          "selection": {
+            "choices": {
+              "size": [
+                "small"
+              ],
+              "shot": [
+                "single-shot"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "MC-318": {
+      "number": "MC-318",
+      "status": "preparing",
+      "fulfillment": "package",
+      "payment_method": "card",
+      "total": 75.0,
+      "created_at": "2026-09-01T12:40:26.286143+00:00",
+      "item_count": 1,
+      "lines": [
+        {
+          "productId": "fanta",
+          "name": "Fanta",
+          "quantity": 1,
+          "unitPrice": 75.0,
+          "selection": null
+        }
+      ]
+    },
+    "MC-319": {
+      "number": "MC-319",
+      "status": "preparing",
+      "fulfillment": "restaurant",
+      "payment_method": "card",
+      "total": 284.0,
+      "created_at": "2026-09-01T12:44:59.147552+00:00",
+      "item_count": 2,
+      "lines": [
+        {
+          "productId": "iced-latte",
+          "name": "Iced Latte",
+          "quantity": 2,
+          "unitPrice": 142.0,
+          "selection": {
+            "choices": {
+              "size": [
+                "large"
+              ],
+              "ice": [
+                "extra-ice"
+              ],
+              "milk": [
+                "coconut"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "MC-320": {
+      "number": "MC-320",
+      "status": "preparing",
+      "fulfillment": "restaurant",
+      "payment_method": "card",
+      "total": 118.0,
+      "created_at": "2026-09-02T07:33:42.042617+00:00",
+      "item_count": 1,
+      "lines": [
+        {
+          "productId": "batch-brew",
+          "name": "Günlük Filtre Kahve",
+          "quantity": 1,
+          "unitPrice": 118.0,
+          "selection": {
+            "choices": {
+              "size": [
+                "medium"
+              ],
+              "shot": [
+                "double-shot"
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "stockMovements": [
+    {
+      "id": 3,
+      "product_id": "iced-latte",
+      "product_name": "Iced Latte",
+      "movement_type": "order",
+      "quantity": -2,
+      "before_quantity": 38,
+      "after_quantity": 36,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-09-01T12:44:59.147552+00:00"
+    },
+    {
+      "id": 2,
+      "product_id": "strawberry-lemonade",
+      "product_name": "çilekli Limonata",
+      "movement_type": "order",
+      "quantity": -3,
+      "before_quantity": 16,
+      "after_quantity": 13,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-09-01T12:18:00.005215+00:00"
+    },
+    {
+      "id": 1,
+      "product_id": "brownie",
+      "product_name": "Çikolatalı Brownie",
+      "movement_type": "order",
+      "quantity": -2,
+      "before_quantity": 17,
+      "after_quantity": 15,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-09-01T10:36:24.200601+00:00"
+    },
+    {
+      "id": 6,
+      "product_id": "iced-americano",
+      "product_name": "Iced Americano",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 45,
+      "after_quantity": 44,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-09-01T10:26:44.992972+00:00"
+    },
+    {
+      "id": 5,
+      "product_id": "mocha-frappe",
+      "product_name": "Mocha Frappe",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 27,
+      "after_quantity": 26,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-09-01T10:26:44.992972+00:00"
+    },
+    {
+      "id": 4,
+      "product_id": "lemonade",
+      "product_name": "Ev Yapımı Limonata",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 13,
+      "after_quantity": 12,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-09-01T10:26:44.992972+00:00"
+    },
+    {
+      "id": 3,
+      "product_id": "san-sebastian",
+      "product_name": "San Sebastian Cheesecake",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 7,
+      "after_quantity": 6,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-09-01T10:26:44.992972+00:00"
+    },
+    {
+      "id": 2,
+      "product_id": "bagel",
+      "product_name": "Krem Peynirli Bagel",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 11,
+      "after_quantity": 10,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-09-01T10:26:44.992972+00:00"
+    },
+    {
+      "id": 1,
+      "product_id": "croissant",
+      "product_name": "Tereyağlı Kruvasan",
+      "movement_type": "order",
+      "quantity": -2,
+      "before_quantity": 15,
+      "after_quantity": 13,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-09-01T10:26:44.991974+00:00"
+    },
+    {
+      "id": 9,
+      "product_id": "bagel",
+      "product_name": "Krem Peynirli Bagel",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 12,
+      "after_quantity": 11,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-09-01T10:09:56.780136+00:00"
+    },
+    {
+      "id": 8,
+      "product_id": "san-sebastian",
+      "product_name": "San Sebastian Cheesecake",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 8,
+      "after_quantity": 7,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-09-01T10:09:56.780136+00:00"
+    },
+    {
+      "id": 7,
+      "product_id": "hot-chocolate",
+      "product_name": "Sıcak Çikolata",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 31,
+      "after_quantity": 30,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-09-01T10:09:56.780136+00:00"
+    },
+    {
+      "id": 6,
+      "product_id": "ginger-lemonade",
+      "product_name": "Zencefilli Limonata",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 16,
+      "after_quantity": 15,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-09-01T10:09:56.780136+00:00"
+    },
+    {
+      "id": 5,
+      "product_id": "mint-lemonade",
+      "product_name": "Naneli Limonata",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 15,
+      "after_quantity": 14,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-09-01T10:09:56.780136+00:00"
+    },
+    {
+      "id": 4,
+      "product_id": "lemonade",
+      "product_name": "Ev Yapımı Limonata",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 14,
+      "after_quantity": 13,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-09-01T10:09:56.780136+00:00"
+    },
+    {
+      "id": 3,
+      "product_id": "mocha-frappe",
+      "product_name": "Mocha Frappe",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 28,
+      "after_quantity": 27,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-09-01T10:09:56.780136+00:00"
+    },
+    {
+      "id": 2,
+      "product_id": "latte",
+      "product_name": "Caffe Latte",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 77,
+      "after_quantity": 76,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-09-01T10:09:56.780136+00:00"
+    },
+    {
+      "id": 1,
+      "product_id": "cold-brew",
+      "product_name": "Cold Brew",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 34,
+      "after_quantity": 33,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-09-01T10:09:56.780136+00:00"
+    },
+    {
+      "id": 10,
+      "product_id": "croissant",
+      "product_name": "Tereyağlı Kruvasan",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 16,
+      "after_quantity": 15,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-09-01T09:45:47.486238+00:00"
+    },
+    {
+      "id": 9,
+      "product_id": "bagel",
+      "product_name": "Krem Peynirli Bagel",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 13,
+      "after_quantity": 12,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-09-01T09:45:47.486238+00:00"
+    },
+    {
+      "id": 8,
+      "product_id": "ginger-lemonade",
+      "product_name": "Zencefilli Limonata",
+      "movement_type": "order",
+      "quantity": -2,
+      "before_quantity": 18,
+      "after_quantity": 16,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-09-01T09:45:47.486238+00:00"
+    },
+    {
+      "id": 7,
+      "product_id": "berry-lemonade",
+      "product_name": "Orman Meyveli Limonata",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 18,
+      "after_quantity": 17,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-09-01T09:45:47.486238+00:00"
+    },
+    {
+      "id": 6,
+      "product_id": "cookie",
+      "product_name": "Çikolatalı Cookie",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 24,
+      "after_quantity": 23,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-09-01T09:45:47.486238+00:00"
+    },
+    {
+      "id": 5,
+      "product_id": "brownie",
+      "product_name": "Çikolatalı Brownie",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 18,
+      "after_quantity": 17,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-09-01T09:45:47.486238+00:00"
+    },
+    {
+      "id": 4,
+      "product_id": "san-sebastian",
+      "product_name": "San Sebastian Cheesecake",
+      "movement_type": "order",
+      "quantity": -1,
+      "before_quantity": 9,
+      "after_quantity": 8,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-09-01T09:45:47.486238+00:00"
+    },
+    {
+      "id": 3,
+      "product_id": "mint-lemonade",
+      "product_name": "Naneli Limonata",
+      "movement_type": "order",
+      "quantity": -3,
+      "before_quantity": 18,
+      "after_quantity": 15,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-09-01T09:45:47.486238+00:00"
+    },
+    {
+      "id": 2,
+      "product_id": "strawberry-lemonade",
+      "product_name": "çilekli Limonata",
+      "movement_type": "order",
+      "quantity": -2,
+      "before_quantity": 18,
+      "after_quantity": 16,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-09-01T09:45:47.486238+00:00"
+    },
+    {
+      "id": 1,
+      "product_id": "lemonade",
+      "product_name": "Ev Yapımı Limonata",
+      "movement_type": "order",
+      "quantity": -3,
+      "before_quantity": 17,
+      "after_quantity": 14,
+      "note": "Sipariş sonrası stok düşümü",
+      "created_at": "2026-09-01T09:45:47.486238+00:00"
+    },
     {
       "id": 4,
       "product_id": "cappuccino",
