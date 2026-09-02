@@ -20,7 +20,7 @@ from psycopg.rows import dict_row
 from .catalog import CATEGORIES, PRODUCTS
 
 app = FastAPI(title="Magic Coffee Kiosk API", version="1.0.0")
-ALLOWED_ORIGINS = [
+configured_origins = [
     origin.strip()
     for origin in os.getenv(
         "ALLOWED_ORIGINS",
@@ -28,6 +28,13 @@ ALLOWED_ORIGINS = [
     ).split(",")
     if origin.strip()
 ]
+NATIVE_APP_ORIGINS = [
+    "capacitor://localhost",
+    "ionic://localhost",
+    "http://localhost",
+    "https://localhost",
+]
+ALLOWED_ORIGINS = list(dict.fromkeys([*configured_origins, *NATIVE_APP_ORIGINS]))
 app.add_middleware(
     CORSMiddleware,
     allow_origins=ALLOWED_ORIGINS,
