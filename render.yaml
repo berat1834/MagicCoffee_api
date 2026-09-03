@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: magiccoffee-api
+    runtime: python
+    plan: free
+    branch: Berat
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: ALLOWED_ORIGINS
+        value: https://magiccoffee-panel.onrender.com,https://magiccoffee-ui.onrender.com,http://localhost:5370,http://127.0.0.1:5370,http://localhost:5371,http://127.0.0.1:5371
