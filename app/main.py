@@ -431,10 +431,18 @@ def update_category(category_id: str, payload: dict[str, Any]):
 
 
 @app.delete("/api/admin/categories/{category_id}", status_code=204)
-def delete_category(category_id: str):
-    if category_product_count(category_id):
+def delete_category(category_id: str, delete_products: bool = Query(False, alias="deleteProducts")):
+    category = next((item for item in categories if item["id"] == category_id), None)
+    if not category:
+        raise HTTPException(status_code=404, detail="Kategori bulunamadi")
+    product_count = category_product_count(category_id)
+    if product_count and not delete_products:
         raise HTTPException(status_code=400, detail="Ürün içeren kategori silinemez")
+    if delete_products:
+        products[:] = [item for item in products if item["categoryId"] != category_id]
     categories[:] = [item for item in categories if item["id"] != category_id]
+    for index, item in enumerate(sorted(categories, key=lambda item: item.get("position", 0))):
+        item["position"] = index
     save_state()
 
 
