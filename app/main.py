@@ -19,6 +19,14 @@ from psycopg.rows import dict_row
 
 from .catalog import CATEGORIES, PRODUCTS
 
+try:
+    from dotenv import load_dotenv
+except ImportError:
+    load_dotenv = None
+
+if load_dotenv:
+    load_dotenv()
+
 app = FastAPI(title="Magic Coffee Kiosk API", version="1.0.0")
 configured_origins = [
     origin.strip()
@@ -49,7 +57,11 @@ app.mount("/uploads", StaticFiles(directory=str(UPLOAD_DIR.parent)), name="uploa
 
 DATA_FILE = Path(__file__).resolve().parent.parent / "data" / "store.json"
 DATABASE_URL = os.getenv("DATABASE_URL")
+ALLOW_LOCAL_FILE_STORE = os.getenv("ALLOW_LOCAL_FILE_STORE", "").lower() in {"1", "true", "yes"}
 STORE_KEY = "magic-coffee"
+
+if DATABASE_URL and "USER:PASSWORD@HOST:PORT/DBNAME" in DATABASE_URL:
+    raise RuntimeError("Replace magicCoffee_api/.env DATABASE_URL with the real Aiven PostgreSQL connection string.")
 
 
 def default_state() -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, dict[str, Any]], list[dict[str, Any]]]:
@@ -95,6 +107,8 @@ def load_state() -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, 
         database_state = load_database_state()
         if database_state is not None:
             return database_state
+    if not ALLOW_LOCAL_FILE_STORE:
+        raise RuntimeError("DATABASE_URL is required. Set the Aiven PostgreSQL connection string before starting the API.")
     if DATA_FILE.exists():
         data = json.loads(DATA_FILE.read_text(encoding="utf-8-sig"))
         return data.get("categories", []), data.get("products", []), data.get("orders", {}), data.get("stockMovements", [])
@@ -136,6 +150,8 @@ def save_state():
                     }, ensure_ascii=False)),
                 )
                 return
+    if not ALLOW_LOCAL_FILE_STORE:
+        raise RuntimeError("DATABASE_URL is required. Refusing to save to local JSON store.")
     DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
     DATA_FILE.write_text(json.dumps({
         "categories": categories,
