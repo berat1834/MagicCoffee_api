@@ -17,6 +17,10 @@ API, `DATABASE_URL` olmadan local JSON dosyasina dusmez. Bu bilgisayarda calisti
 ```env
 DATABASE_URL=postgresql://USER:PASSWORD@HOST:PORT/DBNAME?sslmode=require
 ALLOWED_ORIGINS=http://127.0.0.1:5370,http://localhost:5370,http://127.0.0.1:5371,http://localhost:5371
+PAVO_GATEWAY_BASE_URL=https://fullmoon-api.magicpay.ai/api
+PAVO_TERMINAL_SERIAL=PAV960000010
+PAVO_BRANCH_ID=173
+GOOGLE_TRANSLATE_API_KEY=your-google-translate-key
 ```
 
 Gecici offline gelistirme icin ayrica `ALLOW_LOCAL_FILE_STORE=true` verilebilir; kiosk/panel kullaniminda kapali kalmali.
@@ -30,9 +34,23 @@ Gecici offline gelistirme icin ayrica `ALLOW_LOCAL_FILE_STORE=true` verilebilir;
 
 - `GET /health`
 - `GET /api/catalog`
+- `GET /api/catalog?lang=tr|en`
+- `GET|POST|PUT|DELETE /api/admin/pos/devices`
+- `POST /api/admin/pos/devices/{id}/pair`
+- `POST /api/admin/pos/devices/{id}/pair/check`
+- `POST /api/pos/payments`
+- `GET /api/pos/payments/{transaction_id}`
 - `POST /api/orders`
+- `POST /api/orders/{order_number}/receipt`
 - `GET /api/admin/categories`
 - `GET /api/admin/products`
 - `GET /api/admin/stock`
 - `GET /api/admin/orders`
 - `GET /api/admin/reports`
+
+Mock POS testleri gerçek Pavo servisine istek göndermez:
+
+```powershell
+.\.venv\Scripts\python.exe -m compileall app tests
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+```
