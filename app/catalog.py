@@ -104,7 +104,7 @@ def customization(
             "maxSelect": 1,
             "options": [option("none", "Şekersiz", 0, True), option("one", "1 şeker"), option("two", "2 şeker"), option("sweetener", "Tatlandırıcı")],
         },
-        "shot": {"enabled": shot, "title": "Ekstra Shot", "required": False, "minSelect": 0, "maxSelect": 2, "options": [option("single-shot", "1 ekstra shot", 22), option("double-shot", "2 ekstra shot", 40)]},
+        "shot": {"enabled": shot, "title": "Ekstra Shot", "required": False, "minSelect": 0, "maxSelect": 1, "options": [option("single-shot", "1 ekstra shot", 22), option("double-shot", "2 ekstra shot", 40)]},
         "cream": {"enabled": cold if cream is None else cream, "title": "Krema", "required": False, "minSelect": 0, "maxSelect": 1, "options": [option("cream", "Krema ekle", 15)]},
         "pairing": {"enabled": pairings, "title": "Yanına Tatlı", "required": False, "minSelect": 0, "maxSelect": 1, "options": deepcopy(DESSERT_PAIRINGS)},
     }
@@ -213,6 +213,8 @@ def apply_customization_rules():
             step["enabled"] = step_id in enabled_steps
             step["required"] = step_id in required_steps
             step["minSelect"] = 1 if step["required"] else 0
+            if step_id == "shot":
+                step["maxSelect"] = 1
             if step["required"] and not step.get("maxSelect"):
                 step["maxSelect"] = 1
         product["customizable"] = any(step.get("enabled") and step.get("options") for step in customization_map.values())

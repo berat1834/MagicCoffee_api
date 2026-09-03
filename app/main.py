@@ -298,6 +298,32 @@ def validate_required_steps(product: dict[str, Any], selection: OrderSelection |
             raise HTTPException(status_code=400, detail=f"{product['name']} için çok fazla seçim yapıldı")
 
 
+def validate_customization_selection(product: dict[str, Any], selection: OrderSelection | None):
+    if not product.get("customizable", False):
+        return
+    choices = selection.choices if selection else {}
+    for step_id, step in product.get("customization", {}).items():
+        if not step.get("enabled"):
+            continue
+        option_ids = choices.get(step_id, [])
+        if len(set(option_ids)) != len(option_ids):
+            raise HTTPException(status_code=400, detail=f"{product['name']} icin tekrarlanan secim yapildi")
+        enabled_options = {option["id"]: option for option in step.get("options", []) if option.get("enabled", True)}
+        for option_id in option_ids:
+            option = enabled_options.get(option_id)
+            if not option:
+                raise HTTPException(status_code=400, detail=f"{product['name']} icin gecersiz secim")
+            if option.get("available") is False:
+                raise HTTPException(status_code=400, detail="Secilen ozellestirme stokta yok")
+        count_selected = len(option_ids)
+        min_select = int(step.get("minSelect") or (1 if step.get("required") else 0))
+        max_select = 1 if step_id == "shot" else int(step.get("maxSelect") or count_selected or 1)
+        if count_selected < min_select:
+            raise HTTPException(status_code=400, detail=f"{product['name']} icin {step['title']} zorunlu")
+        if count_selected > max_select:
+            raise HTTPException(status_code=400, detail=f"{product['name']} icin cok fazla secim yapildi")
+
+
 def record_stock(product: dict[str, Any], before: int | None, after: int | None, quantity: int, note: str):
     stock_movements.insert(0, {
         "id": next(stock_ids),
@@ -332,7 +358,7 @@ def create_order(payload: OrderCreate):
         available, reason = product_available(product)
         if not available:
             raise HTTPException(status_code=409, detail=reason)
-        validate_required_steps(product, line.selection)
+        validate_customization_selection(product, line.selection)
         unit_price = float(product["price"]) + selected_price_delta(product, line.selection)
         calculated_total += unit_price * line.quantity
         requested_quantities[product["id"]] = requested_quantities.get(product["id"], 0) + line.quantity
