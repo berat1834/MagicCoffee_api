@@ -236,31 +236,8 @@ def is_kiosk_visible(product: dict[str, Any]) -> bool:
 
 def limit_customization_steps(product: dict[str, Any], max_steps: int = 3) -> dict[str, Any]:
     customization = deepcopy(product.get("customization") or {})
-    active_steps = [step_id for step_id, step in customization.items() if step.get("enabled")]
-    if len(active_steps) <= max_steps:
-        return customization
-
-    required_steps = [step_id for step_id in active_steps if customization[step_id].get("required")]
-    is_cold = customization.get("ice", {}).get("enabled", False)
-    preferred_order = [
-        "size",
-        "ice" if is_cold else "temperature",
-        "milk",
-        "syrup",
-        "sugar",
-        "shot",
-        "cream",
-        "pairing",
-    ]
-    kept: list[str] = []
-    for step_id in [*required_steps, *preferred_order, *active_steps]:
-        if step_id in active_steps and step_id not in kept:
-            kept.append(step_id)
-        if len(kept) == max_steps:
-            break
-
-    for step_id in active_steps:
-        if step_id not in kept:
+    for step_id in list(customization.keys()):
+        if not customization[step_id].get("enabled"):
             customization[step_id]["enabled"] = False
     return customization
 
