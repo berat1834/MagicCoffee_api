@@ -41,11 +41,12 @@ class PosOrderFlowTests(unittest.TestCase):
         api.order_numbers = iter(range(401, 500))
         self.gateway_calls = []
         self.poll_status = "COMPLETED"
+        self.include_configured_device = True
 
         async def fake_gateway(method, path, payload=None):
             self.gateway_calls.append((method, path, payload))
             if path.startswith("/pavo/devices/"):
-                return [{
+                devices = [{
                     "id": DEVICE_ID,
                     "name": "Coffee POS",
                     "provider_type": "PAVO_CLOUD",
@@ -55,6 +56,15 @@ class PosOrderFlowTests(unittest.TestCase):
                     "cloud_source_fingerprint": "coffee-test",
                     "cloud_pairing_id": "pair-1",
                 }]
+                if not self.include_configured_device:
+                    devices = [{
+                        **devices[0],
+                        "id": "33333333-3333-4333-8333-333333333333",
+                        "name": "Wrong fallback POS",
+                        "serial_number": "PAV210016087",
+                        "is_default": True,
+                    }]
+                return devices
             if method == "POST" and path == "/pavo/payment":
                 return {"id": PAYMENT_ID, "status": "PROCESSING"}
             if method == "POST" and path == "/pavo/device":
@@ -148,6 +158,13 @@ class PosOrderFlowTests(unittest.TestCase):
         })
         self.assertEqual(response.status_code, 409)
         self.assertEqual(len(api.orders), 0)
+
+    def test_payment_never_falls_back_to_another_active_terminal(self):
+        self.include_configured_device = False
+        response = self.client.post("/api/pos/payments", json=self.payment_payload("payment-request-wrong-terminal"))
+
+        self.assertEqual(response.status_code, 503)
+        self.assertNotIn(("POST", "/pavo/payment"), [call[:2] for call in self.gateway_calls])
 
     def test_pairing_preserves_fingerprint_and_returns_six_digit_code(self):
         fingerprint = "  Coffee Fingerprint / 01  "

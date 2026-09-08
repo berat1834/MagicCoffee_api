@@ -612,11 +612,12 @@ async def list_pavo_devices(*, only_active: bool = False) -> list[dict[str, Any]
 async def resolve_pavo_device() -> dict[str, Any]:
     _, configured_serial, _ = pavo_gateway_settings()
     devices = await list_pavo_devices(only_active=True)
-    device = next((item for item in devices if item.get("is_default")), None)
-    device = device or next((item for item in devices if item.get("serial_number") == configured_serial), None)
-    device = device or next(iter(devices), None)
+    device = next((item for item in devices if item.get("serial_number") == configured_serial), None)
     if not device:
-        raise HTTPException(status_code=404, detail="Odeme alabilecek aktif POS terminali bulunamadi")
+        raise HTTPException(
+            status_code=503,
+            detail="Yapilandirilmis POS terminali aktif veya eslesmis degil",
+        )
     return device
 
 
