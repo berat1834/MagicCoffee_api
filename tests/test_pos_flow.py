@@ -7,6 +7,7 @@ os.environ["ALLOW_LOCAL_FILE_STORE"] = "true"
 os.environ["PAVO_GATEWAY_BASE_URL"] = "https://pos.invalid/api"
 os.environ["PAVO_TERMINAL_SERIAL"] = "PAV960000010"
 os.environ["PAVO_BRANCH_ID"] = "173"
+os.environ["PAVO_PAIRING_ID"] = ""
 
 from fastapi.testclient import TestClient
 
@@ -42,6 +43,7 @@ class PosOrderFlowTests(unittest.TestCase):
         self.gateway_calls = []
         self.poll_status = "COMPLETED"
         self.include_configured_device = True
+        self.configured_device_paired = True
 
         async def fake_gateway(method, path, payload=None):
             self.gateway_calls.append((method, path, payload))
@@ -53,8 +55,8 @@ class PosOrderFlowTests(unittest.TestCase):
                     "serial_number": "PAV960000010",
                     "status": "ACTIVE",
                     "is_default": True,
-                    "cloud_source_fingerprint": "coffee-test",
-                    "cloud_pairing_id": "pair-1",
+                    "cloud_source_fingerprint": "coffee-test" if self.configured_device_paired else None,
+                    "cloud_pairing_id": "pair-1" if self.configured_device_paired else None,
                 }]
                 if not self.include_configured_device:
                     devices = [{
@@ -68,6 +70,8 @@ class PosOrderFlowTests(unittest.TestCase):
             if method == "POST" and path == "/pavo/payment":
                 return {"id": PAYMENT_ID, "status": "PROCESSING"}
             if method == "POST" and path == "/pavo/device":
+                self.include_configured_device = True
+                self.configured_device_paired = False
                 return {"id": DEVICE_ID, **payload}
             if method == "PUT" and path == f"/pavo/device/{DEVICE_ID}":
                 return {"id": DEVICE_ID, "serial_number": "PAV960000010", **payload}
@@ -78,6 +82,7 @@ class PosOrderFlowTests(unittest.TestCase):
             if method == "POST" and path == "/pavo/cloud/pair":
                 return {"Success": True, "Data": {"Id": 2, "PairingCode": "123456"}}
             if method == "POST" and path == "/pavo/cloud/pair/check":
+                self.configured_device_paired = True
                 return {"Success": True, "Data": {"IsApproved": True, "IsActive": True}}
             if method == "POST" and path.startswith("/pavo/cloud/check-status/"):
                 return {"success": True}
@@ -165,6 +170,17 @@ class PosOrderFlowTests(unittest.TestCase):
 
         self.assertEqual(response.status_code, 503)
         self.assertNotIn(("POST", "/pavo/payment"), [call[:2] for call in self.gateway_calls])
+
+    def test_payment_repairs_missing_configured_terminal_from_approved_pairing(self):
+        self.include_configured_device = False
+        with patch.dict(os.environ, {"PAVO_PAIRING_ID": "2", "PAVO_SOURCE_FINGERPRINT": "coffee-test"}):
+            response = self.client.post("/api/pos/payments", json=self.payment_payload("payment-request-self-heal"))
+
+        self.assertEqual(response.status_code, 201)
+        self.assertIn(("POST", "/pavo/device"), [call[:2] for call in self.gateway_calls])
+        self.assertIn(("POST", "/pavo/cloud/pair/check"), [call[:2] for call in self.gateway_calls])
+        payment_call = next(call for call in self.gateway_calls if call[:2] == ("POST", "/pavo/payment"))
+        self.assertEqual(payment_call[2]["terminal_serial"], "PAV960000010")
 
     def test_pairing_preserves_fingerprint_and_returns_six_digit_code(self):
         fingerprint = "  Coffee Fingerprint / 01  "

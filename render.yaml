@@ -18,5 +18,9 @@ services:
         value: PAV960000010
       - key: PAVO_BRANCH_ID
         value: "173"
+      - key: PAVO_PAIRING_ID
+        value: "8512"
+      - key: PAVO_SOURCE_FINGERPRINT
+        value: Coffee1
       - key: GOOGLE_TRANSLATE_API_KEY
         sync: false

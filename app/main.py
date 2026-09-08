@@ -609,11 +609,67 @@ async def list_pavo_devices(*, only_active: bool = False) -> list[dict[str, Any]
     return result if isinstance(result, list) else []
 
 
-async def resolve_pavo_device() -> dict[str, Any]:
-    _, configured_serial, _ = pavo_gateway_settings()
-    devices = await list_pavo_devices(only_active=True)
+def configured_pavo_pairing() -> tuple[int | None, str]:
+    raw_pairing_id = os.getenv("PAVO_PAIRING_ID", "8512").strip()
+    fingerprint = os.getenv("PAVO_SOURCE_FINGERPRINT", "Coffee1").strip()
+    if not raw_pairing_id:
+        return None, fingerprint
+    try:
+        pairing_id = int(raw_pairing_id)
+    except ValueError as error:
+        raise HTTPException(status_code=503, detail="POS eslestirme ayari gecersiz") from error
+    if pairing_id <= 0 or not fingerprint:
+        raise HTTPException(status_code=503, detail="POS eslestirme ayari gecersiz")
+    return pairing_id, fingerprint
+
+
+async def reconcile_configured_pavo_device() -> dict[str, Any] | None:
+    _, configured_serial, branch_id = pavo_gateway_settings()
+    pairing_id, _ = configured_pavo_pairing()
+    devices = await list_pavo_devices()
     device = next((item for item in devices if item.get("serial_number") == configured_serial), None)
-    if not device:
+
+    if not device and pairing_id:
+        try:
+            await pavo_gateway_request("POST", "/pavo/device", {
+                "branch_id": branch_id,
+                "name": "fullmoon",
+                "provider_type": "PAVO_CLOUD",
+                "serial_number": configured_serial,
+                "port": 4567,
+                "status": "ACTIVE",
+                "is_default": True,
+            })
+        except HTTPException:
+            # A concurrent request may already have recreated the unique serial.
+            pass
+        devices = await list_pavo_devices()
+        device = next((item for item in devices if item.get("serial_number") == configured_serial), None)
+
+    if device and pairing_id and not (
+        device.get("status") == "ACTIVE"
+        and device.get("cloud_source_fingerprint")
+        and device.get("cloud_pairing_id")
+    ):
+        result = await pavo_gateway_request("POST", "/pavo/cloud/pair/check", {
+            "pairing_id": pairing_id,
+            "target_serial_no": configured_serial,
+        })
+        data = result.get("Data", {}) if isinstance(result, dict) else {}
+        if data.get("IsApproved") and data.get("IsActive"):
+            devices = await list_pavo_devices()
+            device = next((item for item in devices if item.get("serial_number") == configured_serial), None)
+
+    return device
+
+
+async def resolve_pavo_device() -> dict[str, Any]:
+    device = await reconcile_configured_pavo_device()
+    if not device or not (
+        device.get("status") == "ACTIVE"
+        and device.get("cloud_source_fingerprint")
+        and device.get("cloud_pairing_id")
+    ):
         raise HTTPException(
             status_code=503,
             detail="Yapilandirilmis POS terminali aktif veya eslesmis degil",
@@ -647,6 +703,7 @@ async def find_pavo_device(device_id: str) -> dict[str, Any]:
 
 @app.get("/api/admin/pos/devices")
 async def admin_list_pos_devices():
+    await reconcile_configured_pavo_device()
     return [pos_device_record(device) for device in await list_pavo_devices()]
 
 
