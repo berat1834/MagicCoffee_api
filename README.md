@@ -18,15 +18,17 @@ API, `DATABASE_URL` olmadan local JSON dosyasina dusmez. Canli ortamda yalnizca 
 DATABASE_URL=
 ALLOWED_ORIGINS=http://127.0.0.1:5370,http://localhost:5370,http://127.0.0.1:5371,http://localhost:5371
 PAVO_GATEWAY_BASE_URL=
+PAVO_GATEWAY_ALLOWED_HOST=
 PAVO_BRANCH_ID=
 PAVO_TERMINAL_SERIAL=
 PAVO_SOURCE_FINGERPRINT=
 PAVO_PROVIDER_TYPE=
-PAVO_INTERNAL_GATEWAY_TOKEN=
+PAVO_GATEWAY_SERVICE_EMAIL=
+PAVO_GATEWAY_SERVICE_PASSWORD=
 GOOGLE_TRANSLATE_API_KEY=
 ```
 
-Gateway URL'si HTTPS olmali ve kod seviyesindeki kesin Kebo host allowlist'iyle birebir eslesmelidir. Gateway yalnizca `PAVO_UNICLOUD` saglayicisini, branch `2`, `PAV960000010` terminalini ve `test1` source fingerprint'ini kabul eder. Dahili gateway token'i en az 32 karakter olmali ve baska projelerle paylasilmamalidir. Gecici offline gelistirme icin `ALLOW_LOCAL_FILE_STORE=true` verilebilir; kiosk/panel kullaniminda kapali kalmali.
+Gateway URL'si HTTPS olmali ve `PAVO_GATEWAY_ALLOWED_HOST` ile kod seviyesindeki Kebo allowlist'ine birebir uymalidir. Odeme akisi yalnizca `PAVO_CLOUD`, branch `2`, `PAV960000010` ve `TEST` kimligini kabul eder. MagicCoffee API, Kebo servis hesabi ile login olur; JWT yalnizca process belleginde tutulur ve 401 durumunda en fazla bir kez yenilenir. Odeme baslatma ve sorgulama isteklerinde `X-MagicCoffee-Kiosk-Fingerprint` basligi da tanimli source fingerprint ile birebir dogrulanir. Kebo'daki terminal kaydi MagicCoffee paneli ve API'si icin salt okunurdur; olusturma, degistirme, silme ve yeniden eslestirme kapatilmistir. Servis hesabi secret'lari repoya yazilmamalidir. Gecici offline gelistirme icin `ALLOW_LOCAL_FILE_STORE=true` verilebilir; kiosk/panel kullaniminda kapali kalmali.
 
 ## Port
 

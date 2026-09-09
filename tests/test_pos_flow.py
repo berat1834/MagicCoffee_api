@@ -7,11 +7,13 @@ import httpx
 os.environ["DATABASE_URL"] = ""
 os.environ["ALLOW_LOCAL_FILE_STORE"] = "true"
 os.environ["PAVO_GATEWAY_BASE_URL"] = "https://kebo-api-dev.magicpay.ai/api"
+os.environ["PAVO_GATEWAY_ALLOWED_HOST"] = "kebo-api-dev.magicpay.ai"
 os.environ["PAVO_BRANCH_ID"] = "2"
 os.environ["PAVO_TERMINAL_SERIAL"] = "PAV960000010"
-os.environ["PAVO_SOURCE_FINGERPRINT"] = "test1"
-os.environ["PAVO_PROVIDER_TYPE"] = "PAVO_UNICLOUD"
-os.environ["PAVO_INTERNAL_GATEWAY_TOKEN"] = "test-magiccoffee-token-0000000000000001"
+os.environ["PAVO_SOURCE_FINGERPRINT"] = "TEST"
+os.environ["PAVO_PROVIDER_TYPE"] = "PAVO_CLOUD"
+os.environ["PAVO_GATEWAY_SERVICE_EMAIL"] = "magiccoffee-service@example.test"
+os.environ["PAVO_GATEWAY_SERVICE_PASSWORD"] = "test-service-password"
 
 from fastapi.testclient import TestClient
 
@@ -22,11 +24,13 @@ DEVICE_ID = "11111111-1111-4111-8111-111111111111"
 PAYMENT_ID = "22222222-2222-4222-8222-222222222222"
 PAVO_ENV_KEYS = (
     "PAVO_GATEWAY_BASE_URL",
+    "PAVO_GATEWAY_ALLOWED_HOST",
     "PAVO_BRANCH_ID",
     "PAVO_TERMINAL_SERIAL",
     "PAVO_SOURCE_FINGERPRINT",
     "PAVO_PROVIDER_TYPE",
-    "PAVO_INTERNAL_GATEWAY_TOKEN",
+    "PAVO_GATEWAY_SERVICE_EMAIL",
+    "PAVO_GATEWAY_SERVICE_PASSWORD",
 )
 
 
@@ -51,16 +55,18 @@ class PosOrderFlowTests(unittest.TestCase):
         api.pos_payments.clear()
         api.order_requests.clear()
         api.translations.clear()
+        api.PAYMENT_ATTEMPTS.clear()
         api.order_numbers = iter(range(401, 500))
         self.gateway_calls = []
         self.poll_status = "COMPLETED"
         self.include_configured_device = True
         self.device_branch_id = 2
         self.device_serial = "PAV960000010"
-        self.device_provider = "PAVO_UNICLOUD"
+        self.device_provider = "PAVO_CLOUD"
         self.device_is_default = True
-        self.device_fingerprint = "test1"
-        self.pair_response_fingerprint = "test1"
+        self.device_fingerprint = "TEST"
+        self.device_count = 1
+        self.pair_response_fingerprint = "TEST"
 
         async def fake_gateway(method, path, payload=None):
             self.gateway_calls.append((method, path, payload))
@@ -84,6 +90,8 @@ class PosOrderFlowTests(unittest.TestCase):
                         "serial_number": "OTHER-POS-999",
                         "is_default": True,
                     }]
+                elif self.device_count > 1:
+                    devices = devices * self.device_count
                 return devices
             if method == "POST" and path == "/pavo/payment":
                 return {"id": PAYMENT_ID, "status": "PROCESSING"}
@@ -118,7 +126,7 @@ class PosOrderFlowTests(unittest.TestCase):
         self.save_patch = patch.object(api, "save_state", new=lambda: None)
         self.gateway_patch.start()
         self.save_patch.start()
-        self.client = TestClient(api.app)
+        self.client = TestClient(api.app, headers={"X-MagicCoffee-Kiosk-Fingerprint": "TEST"})
 
     def tearDown(self):
         self.gateway_patch.stop()
@@ -143,8 +151,8 @@ class PosOrderFlowTests(unittest.TestCase):
         self.assertEqual(payment_posts[0][2]["amount"], 92.0)
         self.assertEqual(payment_posts[0][2]["branch_id"], 2)
         self.assertEqual(payment_posts[0][2]["terminal_serial"], "PAV960000010")
-        self.assertEqual(payment_posts[0][2]["provider_type"], "PAVO_UNICLOUD")
-        self.assertEqual(payment_posts[0][2]["source_fingerprint"], "test1")
+        self.assertEqual(payment_posts[0][2]["provider_type"], "PAVO_CLOUD")
+        self.assertEqual(payment_posts[0][2]["source_fingerprint"], "TEST")
         self.assertEqual(payment_posts[0][2]["sale_items"][0]["quantity"], 1)
 
         paid = self.client.get(f"/api/pos/payments/{PAYMENT_ID}")
@@ -201,6 +209,19 @@ class PosOrderFlowTests(unittest.TestCase):
         self.assertEqual(response.status_code, 503)
         self.assertNotIn(("POST", "/pavo/payment"), [call[:2] for call in self.gateway_calls])
 
+    def test_payment_rejects_ambiguous_terminal_match(self):
+        self.device_count = 2
+        response = self.client.post("/api/pos/payments", json=self.payment_payload("payment-request-duplicate-terminal"))
+
+        self.assertEqual(response.status_code, 503)
+        self.assertNotIn(("POST", "/pavo/payment"), [call[:2] for call in self.gateway_calls])
+
+    def test_payment_requires_exact_kiosk_identity(self):
+        response = TestClient(api.app).post("/api/pos/payments", json=self.payment_payload("payment-request-no-kiosk"))
+
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(self.gateway_calls, [])
+
     def test_missing_pavo_setting_returns_503_without_gateway_request(self):
         for key in PAVO_ENV_KEYS:
             with self.subTest(key=key), patch.dict(os.environ, {key: ""}):
@@ -208,6 +229,16 @@ class PosOrderFlowTests(unittest.TestCase):
                 response = self.client.post("/api/pos/payments", json=self.payment_payload(f"missing-{key.lower()}"))
                 self.assertEqual(response.status_code, 503)
                 self.assertEqual(self.gateway_calls, [])
+
+    def test_payment_endpoint_rate_limits_repeated_requests(self):
+        with patch.object(api, "PAYMENT_RATE_LIMIT", 2):
+            first = self.client.post("/api/pos/payments", json=self.payment_payload("rate-limit-one"))
+            second = self.client.post("/api/pos/payments", json=self.payment_payload("rate-limit-two"))
+            blocked = self.client.post("/api/pos/payments", json=self.payment_payload("rate-limit-three"))
+
+        self.assertEqual(first.status_code, 201)
+        self.assertEqual(second.status_code, 201)
+        self.assertEqual(blocked.status_code, 429)
 
     def test_forbidden_gateway_host_returns_503_without_gateway_request(self):
         forbidden_host = ("full" + "moon") + "-api.magicpay.ai"
@@ -225,8 +256,8 @@ class PosOrderFlowTests(unittest.TestCase):
             ("PAVO_BRANCH_ID", "3"),
             ("PAVO_TERMINAL_SERIAL", "OTHER-POS-999"),
             ("PAVO_SOURCE_FINGERPRINT", "other-source"),
-            ("PAVO_PROVIDER_TYPE", "PAVO_CLOUD"),
-            ("PAVO_INTERNAL_GATEWAY_TOKEN", "too-short"),
+            ("PAVO_PROVIDER_TYPE", "PAVO_UNICLOUD"),
+            ("PAVO_GATEWAY_SERVICE_PASSWORD", "too-short"),
         )
         for index, (key, value) in enumerate(invalid_settings):
             with self.subTest(key=key, value=value), patch.dict(os.environ, {key: value}):
@@ -246,8 +277,7 @@ class PosOrderFlowTests(unittest.TestCase):
         mismatches = (
             ("device_branch_id", 999),
             ("device_serial", "OTHER-POS-999"),
-            ("device_provider", "PAVO_CLOUD"),
-            ("device_is_default", False),
+            ("device_provider", "PAVO_UNICLOUD"),
             ("device_fingerprint", "other-project-kiosk"),
         )
         for index, (attribute, value) in enumerate(mismatches):
@@ -260,67 +290,24 @@ class PosOrderFlowTests(unittest.TestCase):
                 self.assertEqual(response.status_code, 503)
                 self.assertNotIn(("POST", "/pavo/payment"), [call[:2] for call in self.gateway_calls])
 
-    def test_pairing_preserves_fingerprint_and_returns_six_digit_code(self):
-        fingerprint = "test1"
-        paired = self.client.post(f"/api/admin/pos/devices/{DEVICE_ID}/pair", json={"fingerprint": fingerprint})
-        self.assertEqual(paired.status_code, 200)
-        self.assertEqual(paired.json()["pairingCode"], "123456")
-        pair_call = next(call for call in self.gateway_calls if call[:2] == ("POST", "/pavo/cloud/pair"))
-        self.assertEqual(pair_call[2]["source_fingerprint"], fingerprint)
-        self.assertEqual(pair_call[2]["application_name"], "MagicCoffee")
-
-        checked = self.client.post(f"/api/admin/pos/devices/{DEVICE_ID}/pair/check", json={"pairingId": 2})
-        self.assertTrue(checked.json()["approved"])
-        self.assertTrue(checked.json()["active"])
-
-    def test_pairing_rejects_wrong_fingerprint_without_pair_request(self):
-        response = self.client.post(
-            f"/api/admin/pos/devices/{DEVICE_ID}/pair",
-            json={"fingerprint": "other-project-kiosk"},
-        )
-
-        self.assertEqual(response.status_code, 422)
-        self.assertNotIn(("POST", "/pavo/cloud/pair"), [call[:2] for call in self.gateway_calls])
-
-    def test_device_create_rejects_non_unicloud_provider_without_gateway_request(self):
-        response = self.client.post("/api/admin/pos/devices", json={
-            "name": "Yanlis POS",
-            "providerType": "PAVO_CLOUD",
-            "serialNumber": "PAV960000010",
-        })
-
-        self.assertEqual(response.status_code, 422)
-        self.assertNotIn(("POST", "/pavo/device"), [call[:2] for call in self.gateway_calls])
-
-    def test_pairing_check_rejects_gateway_fingerprint_mismatch(self):
-        self.pair_response_fingerprint = "other-project-kiosk"
-        response = self.client.post(f"/api/admin/pos/devices/{DEVICE_ID}/pair/check", json={"pairingId": 2})
-
-        self.assertEqual(response.status_code, 503)
-        self.assertNotIn(("POST", "/pavo/cloud/check-status/2"), [call[:2] for call in self.gateway_calls])
-
-    def test_terminal_create_update_refresh_and_delete_contracts(self):
+    def test_terminal_mutations_are_disabled(self):
         created = self.client.post("/api/admin/pos/devices", json={
             "name": "Yeni Coffee POS",
-            "providerType": "PAVO_UNICLOUD",
+            "providerType": "PAVO_CLOUD",
             "serialNumber": "PAV960000010",
             "status": "PASSIVE",
             "isDefault": True,
         })
-        self.assertEqual(created.status_code, 201)
-        self.assertEqual(created.json()["name"], "Yeni Coffee POS")
-        self.assertTrue(created.json()["isDefault"])
-
         updated = self.client.put(f"/api/admin/pos/devices/{DEVICE_ID}", json={
             "name": "Guncel Coffee POS", "status": "MAINTENANCE",
         })
-        self.assertEqual(updated.status_code, 200)
-        self.assertEqual(updated.json()["status"], "MAINTENANCE")
-
         refreshed = self.client.post("/api/admin/pos/devices/refresh-status")
-        self.assertEqual(refreshed.status_code, 200)
         deleted = self.client.delete(f"/api/admin/pos/devices/{DEVICE_ID}")
-        self.assertEqual(deleted.status_code, 204)
+        paired = self.client.post(f"/api/admin/pos/devices/{DEVICE_ID}/pair", json={"fingerprint": "TEST"})
+        checked = self.client.post(f"/api/admin/pos/devices/{DEVICE_ID}/pair/check", json={"pairingId": 2})
+
+        self.assertTrue(all(response.status_code == 405 for response in (created, updated, refreshed, deleted, paired, checked)))
+        self.assertEqual(self.gateway_calls, [])
 
     def test_english_catalog_uses_database_translation_records_with_turkish_fallback(self):
         api.categories[0]["name"] = "Filtre Kahveler"
@@ -354,24 +341,29 @@ class PosOrderFlowTests(unittest.TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["database"], "postgresql")
-        self.assertEqual(response.json()["payment"], {"status": "ready", "provider": "PAVO_UNICLOUD"})
+        self.assertEqual(response.json()["payment"], {"status": "ready", "provider": "PAVO_CLOUD"})
 
     def test_health_reports_payment_disabled_without_complete_configuration(self):
-        with patch.dict(os.environ, {"PAVO_INTERNAL_GATEWAY_TOKEN": ""}):
+        with patch.dict(os.environ, {"PAVO_GATEWAY_SERVICE_PASSWORD": ""}):
             response = self.client.get("/health")
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json()["payment"], {"status": "disabled", "provider": "PAVO_UNICLOUD"})
+        self.assertEqual(response.json()["payment"], {"status": "disabled", "provider": "PAVO_CLOUD"})
 
     def test_database_url_rejects_external_project_identity(self):
         forbidden_marker = "full" + "moon"
         with self.assertRaises(RuntimeError):
             api.validate_database_url(f"postgresql://magiccoffee:secret@{forbidden_marker}-db.example/coffee")
+        with self.assertRaises(RuntimeError):
+            api.validate_database_url("postgresql://magiccoffee:secret@kebo-db.example/kasadb_dev")
 
 
 class PavoGatewayIsolationTests(unittest.IsolatedAsyncioTestCase):
-    async def test_configured_coffee_gateway_receives_internal_token(self):
-        captured = {}
+    def setUp(self):
+        api.clear_pavo_jwt_cache()
+
+    async def test_configured_coffee_gateway_logs_in_and_sends_bearer_token(self):
+        calls = []
 
         class FakeClient:
             async def __aenter__(self):
@@ -381,22 +373,54 @@ class PavoGatewayIsolationTests(unittest.IsolatedAsyncioTestCase):
                 return False
 
             async def request(self, method, url, **kwargs):
-                captured.update(method=method, url=url, kwargs=kwargs)
+                calls.append((method, url, kwargs))
+                if url.endswith("/auth/login"):
+                    return httpx.Response(200, json={"access_token": "jwt-one", "expires_in": 1800})
                 return httpx.Response(200, json={"success": True})
 
         with patch.object(api.httpx, "AsyncClient", return_value=FakeClient()):
             result = await api.pavo_gateway_request("POST", "/pavo/payment", {"amount": 1})
 
         self.assertTrue(result["success"])
-        self.assertEqual(captured["url"], "https://kebo-api-dev.magicpay.ai/api/pavo/payment")
-        self.assertEqual(
-            captured["kwargs"]["headers"]["X-Internal-Gateway-Token"],
-            "test-magiccoffee-token-0000000000000001",
-        )
-        self.assertEqual(captured["kwargs"]["headers"]["X-MagicCoffee-Branch-ID"], "2")
-        self.assertEqual(captured["kwargs"]["headers"]["X-MagicCoffee-Terminal-Serial"], "PAV960000010")
-        self.assertEqual(captured["kwargs"]["headers"]["X-MagicCoffee-Source-Fingerprint"], "test1")
-        self.assertEqual(captured["kwargs"]["headers"]["X-MagicCoffee-Provider"], "PAVO_UNICLOUD")
+        self.assertEqual(len(calls), 2)
+        self.assertEqual(calls[0][1], "https://kebo-api-dev.magicpay.ai/api/auth/login")
+        self.assertEqual(calls[0][2]["json"]["email"], "magiccoffee-service@example.test")
+        payment_call = calls[1]
+        self.assertEqual(payment_call[1], "https://kebo-api-dev.magicpay.ai/api/pavo/payment")
+        self.assertEqual(payment_call[2]["headers"]["Authorization"], "Bearer jwt-one")
+        self.assertEqual(payment_call[2]["headers"]["X-MagicCoffee-Branch-ID"], "2")
+        self.assertEqual(payment_call[2]["headers"]["X-MagicCoffee-Terminal-Serial"], "PAV960000010")
+        self.assertEqual(payment_call[2]["headers"]["X-MagicCoffee-Source-Fingerprint"], "TEST")
+        self.assertEqual(payment_call[2]["headers"]["X-MagicCoffee-Provider"], "PAVO_CLOUD")
+
+    async def test_gateway_reauthenticates_only_once_after_401(self):
+        calls = []
+        payment_attempts = 0
+
+        class FakeClient:
+            async def __aenter__(self):
+                return self
+
+            async def __aexit__(self, exc_type, exc, traceback):
+                return False
+
+            async def request(self, method, url, **kwargs):
+                nonlocal payment_attempts
+                calls.append((method, url, kwargs))
+                if url.endswith("/auth/login"):
+                    login_count = sum(1 for _, target, _ in calls if target.endswith("/auth/login"))
+                    return httpx.Response(200, json={"access_token": f"jwt-{login_count}", "expires_in": 1800})
+                payment_attempts += 1
+                if payment_attempts == 1:
+                    return httpx.Response(401, json={"detail": "expired"})
+                return httpx.Response(200, json={"success": True})
+
+        with patch.object(api.httpx, "AsyncClient", return_value=FakeClient()):
+            result = await api.pavo_gateway_request("POST", "/pavo/payment", {"amount": 1})
+
+        self.assertTrue(result["success"])
+        self.assertEqual(sum(1 for _, url, _ in calls if url.endswith("/auth/login")), 2)
+        self.assertEqual(payment_attempts, 2)
 
 
 if __name__ == "__main__":

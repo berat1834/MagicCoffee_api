@@ -14,6 +14,8 @@ services:
         value: https://magiccoffee-panel.onrender.com,https://magiccoffee-ui.onrender.com,http://localhost:5370,http://127.0.0.1:5370,http://localhost:5371,http://127.0.0.1:5371
       - key: PAVO_GATEWAY_BASE_URL
         sync: false
+      - key: PAVO_GATEWAY_ALLOWED_HOST
+        sync: false
       - key: PAVO_BRANCH_ID
         sync: false
       - key: PAVO_TERMINAL_SERIAL
@@ -22,7 +24,9 @@ services:
         sync: false
       - key: PAVO_PROVIDER_TYPE
         sync: false
-      - key: PAVO_INTERNAL_GATEWAY_TOKEN
+      - key: PAVO_GATEWAY_SERVICE_EMAIL
+        sync: false
+      - key: PAVO_GATEWAY_SERVICE_PASSWORD
         sync: false
       - key: GOOGLE_TRANSLATE_API_KEY
         sync: false
