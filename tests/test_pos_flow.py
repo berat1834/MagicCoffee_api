@@ -354,6 +354,14 @@ class PosOrderFlowTests(unittest.TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["database"], "postgresql")
+        self.assertEqual(response.json()["payment"], {"status": "ready", "provider": "PAVO_UNICLOUD"})
+
+    def test_health_reports_payment_disabled_without_complete_configuration(self):
+        with patch.dict(os.environ, {"PAVO_INTERNAL_GATEWAY_TOKEN": ""}):
+            response = self.client.get("/health")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["payment"], {"status": "disabled", "provider": "PAVO_UNICLOUD"})
 
     def test_database_url_rejects_external_project_identity(self):
         forbidden_marker = "full" + "moon"

@@ -549,10 +549,16 @@ def health():
     if DATABASE_URL:
         with connect_db() as conn:
             conn.execute("SELECT 1").fetchone()
+    try:
+        pavo_gateway_settings()
+        payment_status = "ready"
+    except HTTPException:
+        payment_status = "disabled"
     return {
         "status": "ok",
         "service": "magic-coffee-api",
         "database": "postgresql" if DATABASE_URL else "local-file",
+        "payment": {"status": payment_status, "provider": PAVO_PROVIDER},
         "translation": translation_status(translations),
     }
 
