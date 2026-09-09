@@ -31,6 +31,8 @@ GOOGLE_TRANSLATE_API_KEY=
 
 Gateway URL'si HTTPS olmali ve `PAVO_GATEWAY_ALLOWED_HOST` ile kod seviyesindeki Kebo allowlist'ine birebir uymalidir. Odeme akisi yalnizca `PAVO_CLOUD`, branch `2`, `PAV960000010` ve `TEST` kimligini kabul eder. MagicCoffee API, Kebo servis hesabi ile login olur; JWT yalnizca process belleginde tutulur ve 401 durumunda en fazla bir kez yenilenir. Odeme baslatma ve sorgulama isteklerinde `X-MagicCoffee-Kiosk-Fingerprint` basligi da tanimli source fingerprint ile birebir dogrulanir. Kebo'daki terminal kaydi MagicCoffee paneli ve API'si icin salt okunurdur; olusturma, degistirme, silme ve yeniden eslestirme kapatilmistir. Servis hesabi secret'lari repoya yazilmamalidir. Gecici offline gelistirme icin `ALLOW_LOCAL_FILE_STORE=true` verilebilir; kiosk/panel kullaniminda kapali kalmali.
 
+API, ayni MagicCoffee Aiven veritabanindaki sunucuya ozel `pos_gateway_config` kaydi varsa onu yetkili kaynak olarak kullanir. Boylece Render'da kalmis eski veya kismi environment degerleri odeme rotasini degistiremez. Veritabani kaydi yoksa eksiksiz environment ayarlari kullanilir. Bu tablo API cevaplarinda veya panelde yayinlanmaz.
+
 ## Port
 
 - API: `http://127.0.0.1:8300`

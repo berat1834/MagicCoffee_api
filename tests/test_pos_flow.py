@@ -350,6 +350,75 @@ class PosOrderFlowTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["payment"], {"status": "disabled", "provider": "PAVO_CLOUD"})
 
+    def test_pavo_settings_fall_back_to_server_only_database_record(self):
+        stored = {
+            "base_url": "https://kebo-api-dev.magicpay.ai/api",
+            "allowed_host": "kebo-api-dev.magicpay.ai",
+            "branch_id": 2,
+            "terminal_serial": "PAV960000010",
+            "source_fingerprint": "TEST",
+            "provider_type": "PAVO_CLOUD",
+            "service_email": "magiccoffee-service@example.test",
+            "service_password": "database-service-password",
+        }
+
+        class FakeConnection:
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, traceback):
+                return False
+
+            def execute(self, _query):
+                return self
+
+            def fetchone(self):
+                return stored
+
+        empty_environment = {key: "" for key in PAVO_ENV_KEYS}
+        with patch.dict(os.environ, empty_environment), patch.object(api, "DATABASE_URL", "postgresql://coffee-db"), patch.object(
+            api, "connect_db", return_value=FakeConnection(),
+        ):
+            settings = api.pavo_gateway_settings()
+
+        self.assertEqual(settings[0], stored["base_url"])
+        self.assertEqual(settings[1], stored["branch_id"])
+        self.assertEqual(settings[2], stored["terminal_serial"])
+        self.assertEqual(settings[3], stored["source_fingerprint"])
+        self.assertEqual(settings[4], (stored["service_email"], stored["service_password"]))
+
+    def test_database_record_overrides_stale_partial_environment(self):
+        class FakeConnection:
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, traceback):
+                return False
+
+            def execute(self, _query):
+                return self
+
+            def fetchone(self):
+                return {
+                    "base_url": "https://kebo-api-dev.magicpay.ai/api",
+                    "allowed_host": "kebo-api-dev.magicpay.ai",
+                    "branch_id": 2,
+                    "terminal_serial": "PAV960000010",
+                    "source_fingerprint": "TEST",
+                    "provider_type": "PAVO_CLOUD",
+                    "service_email": "magiccoffee-service@example.test",
+                    "service_password": "database-service-password",
+                }
+
+        empty_environment = {key: "" for key in PAVO_ENV_KEYS}
+        empty_environment["PAVO_TERMINAL_SERIAL"] = "WRONG-TERMINAL"
+        with patch.dict(os.environ, empty_environment), patch.object(api, "DATABASE_URL", "postgresql://coffee-db"), patch.object(
+            api, "connect_db", return_value=FakeConnection(),
+        ):
+            settings = api.pavo_gateway_settings()
+
+        self.assertEqual(settings[2], "PAV960000010")
+
     def test_database_url_rejects_external_project_identity(self):
         forbidden_marker = "full" + "moon"
         with self.assertRaises(RuntimeError):

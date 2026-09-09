@@ -150,6 +150,20 @@ def load_database_state() -> StateTuple | None:
                 updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
             )
         """)
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS pos_gateway_config (
+                id INTEGER PRIMARY KEY CHECK (id = 1),
+                base_url TEXT NOT NULL,
+                allowed_host TEXT NOT NULL,
+                terminal_serial TEXT NOT NULL,
+                branch_id INTEGER NOT NULL,
+                source_fingerprint TEXT NOT NULL,
+                provider_type TEXT NOT NULL,
+                service_email TEXT NOT NULL,
+                service_password TEXT NOT NULL,
+                updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+            )
+        """)
         row = conn.execute("SELECT data FROM app_state WHERE key = %s", (STORE_KEY,)).fetchone()
         if not row:
             categories, products, orders, stock_movements, pos_payments, order_requests, translations = default_state()
@@ -583,14 +597,42 @@ def get_catalog(language: Literal["tr", "en"] = Query(default="tr", alias="lang"
 
 
 def pavo_gateway_settings() -> tuple[str, int, str, str, tuple[str, str]]:
-    base_url = os.getenv("PAVO_GATEWAY_BASE_URL", "").strip().rstrip("/")
-    allowed_host = os.getenv("PAVO_GATEWAY_ALLOWED_HOST", "").strip().lower().rstrip(".")
-    raw_branch_id = os.getenv("PAVO_BRANCH_ID", "").strip()
-    terminal_serial = os.getenv("PAVO_TERMINAL_SERIAL", "").strip()
-    source_fingerprint = os.getenv("PAVO_SOURCE_FINGERPRINT", "").strip()
-    provider_type = os.getenv("PAVO_PROVIDER_TYPE", "").strip()
-    service_email = os.getenv("PAVO_GATEWAY_SERVICE_EMAIL", "").strip().lower()
-    service_password = os.getenv("PAVO_GATEWAY_SERVICE_PASSWORD", "")
+    env_names = {
+        "base_url": "PAVO_GATEWAY_BASE_URL",
+        "allowed_host": "PAVO_GATEWAY_ALLOWED_HOST",
+        "branch_id": "PAVO_BRANCH_ID",
+        "terminal_serial": "PAVO_TERMINAL_SERIAL",
+        "source_fingerprint": "PAVO_SOURCE_FINGERPRINT",
+        "provider_type": "PAVO_PROVIDER_TYPE",
+        "service_email": "PAVO_GATEWAY_SERVICE_EMAIL",
+        "service_password": "PAVO_GATEWAY_SERVICE_PASSWORD",
+    }
+    env_values = {key: os.getenv(name, "").strip() for key, name in env_names.items()}
+    values = dict(env_values)
+    if DATABASE_URL:
+        try:
+            with connect_db() as conn:
+                stored = conn.execute(
+                    """
+                    SELECT base_url, allowed_host, branch_id, terminal_serial,
+                           source_fingerprint, provider_type, service_email, service_password
+                    FROM pos_gateway_config
+                    WHERE id = 1
+                    """
+                ).fetchone()
+        except Exception as error:
+            raise HTTPException(status_code=503, detail="POS odeme yapilandirmasi okunamadi") from error
+        if stored and all(key in stored for key in env_names):
+            values = {key: str(stored[key]).strip() for key in env_names}
+
+    base_url = values["base_url"].rstrip("/")
+    allowed_host = values["allowed_host"].lower().rstrip(".")
+    raw_branch_id = values["branch_id"]
+    terminal_serial = values["terminal_serial"]
+    source_fingerprint = values["source_fingerprint"]
+    provider_type = values["provider_type"]
+    service_email = values["service_email"].lower()
+    service_password = values["service_password"]
     if not all((base_url, allowed_host, raw_branch_id, terminal_serial, source_fingerprint, provider_type, service_email, service_password)):
         raise HTTPException(status_code=503, detail="POS odeme baglantisi yapilandirilmamis")
 
