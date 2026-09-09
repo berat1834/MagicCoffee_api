@@ -75,6 +75,7 @@ STATE_LOCK = RLock()
 SUCCESSFUL_PAYMENT_STATUSES = {"COMPLETED", "PAID", "SUCCESS", "SUCCEEDED"}
 FAILED_PAYMENT_STATUSES = {"FAILED", "ERROR", "CANCELLED", "CANCELED", "DECLINED"}
 PAVO_PROVIDER = "PAVO_UNICLOUD"
+ALLOWED_PAVO_GATEWAY_HOSTS = frozenset({"kebo-api-dev.magicpay.ai"})
 
 ISOLATION_MARKER = "full" + "moon"
 
@@ -565,12 +566,12 @@ def get_catalog(language: Literal["tr", "en"] = Query(default="tr", alias="lang"
 
 def pavo_gateway_settings() -> tuple[str, int, str, str, str]:
     base_url = os.getenv("PAVO_GATEWAY_BASE_URL", "").strip().rstrip("/")
-    allowed_host = os.getenv("PAVO_GATEWAY_ALLOWED_HOST", "").strip().lower().rstrip(".")
     raw_branch_id = os.getenv("PAVO_BRANCH_ID", "").strip()
     terminal_serial = os.getenv("PAVO_TERMINAL_SERIAL", "").strip()
     source_fingerprint = os.getenv("PAVO_SOURCE_FINGERPRINT", "").strip()
+    provider_type = os.getenv("PAVO_PROVIDER_TYPE", "").strip()
     internal_token = os.getenv("PAVO_INTERNAL_GATEWAY_TOKEN", "").strip()
-    if not all((base_url, allowed_host, raw_branch_id, terminal_serial, source_fingerprint, internal_token)):
+    if not all((base_url, raw_branch_id, terminal_serial, source_fingerprint, provider_type, internal_token)):
         raise HTTPException(status_code=503, detail="POS odeme baglantisi yapilandirilmamis")
 
     parsed = urlparse(base_url)
@@ -582,9 +583,8 @@ def pavo_gateway_settings() -> tuple[str, int, str, str, str]:
         or parsed.password
         or parsed.query
         or parsed.fragment
-        or ":" in allowed_host
-        or "/" in allowed_host
-        or hostname != allowed_host
+        or parsed.path.rstrip("/") != "/api"
+        or hostname not in ALLOWED_PAVO_GATEWAY_HOSTS
     ):
         raise HTTPException(status_code=503, detail="POS gateway ayari gecersiz")
     forbidden_host = ("full" + "moon") + "-api.magicpay.ai"
@@ -595,20 +595,32 @@ def pavo_gateway_settings() -> tuple[str, int, str, str, str]:
         branch_id = int(raw_branch_id)
     except ValueError as error:
         raise HTTPException(status_code=503, detail="POS sube ayari gecersiz") from error
-    if branch_id <= 0 or len(internal_token) < 32:
+    if (
+        branch_id != 2
+        or terminal_serial != "PAV960000010"
+        or source_fingerprint != "test1"
+        or provider_type != PAVO_PROVIDER
+        or len(internal_token) < 32
+    ):
         raise HTTPException(status_code=503, detail="POS odeme baglantisi ayarlari gecersiz")
     return base_url, branch_id, terminal_serial, source_fingerprint, internal_token
 
 
 async def pavo_gateway_request(method: str, path: str, payload: dict | None = None) -> dict:
-    base_url, _, _, _, internal_token = pavo_gateway_settings()
+    base_url, branch_id, terminal_serial, source_fingerprint, internal_token = pavo_gateway_settings()
     try:
         async with httpx.AsyncClient(timeout=httpx.Timeout(30.0, connect=10.0)) as client:
             response = await client.request(
                 method,
                 f"{base_url}{path}",
                 json=payload,
-                headers={"X-Internal-Gateway-Token": internal_token},
+                headers={
+                    "X-Internal-Gateway-Token": internal_token,
+                    "X-MagicCoffee-Branch-ID": str(branch_id),
+                    "X-MagicCoffee-Terminal-Serial": terminal_serial,
+                    "X-MagicCoffee-Source-Fingerprint": source_fingerprint,
+                    "X-MagicCoffee-Provider": PAVO_PROVIDER,
+                },
             )
     except httpx.RequestError as error:
         raise HTTPException(status_code=502, detail="POS odeme servisine ulasilamadi") from error
@@ -721,7 +733,7 @@ async def admin_list_pos_devices():
 
 @app.post("/api/admin/pos/devices/refresh-status")
 async def admin_refresh_pos_device_status():
-    _, branch_id, _, _, _ = pavo_gateway_settings()
+    _, branch_id, _, source_fingerprint, _ = pavo_gateway_settings()
     result = await pavo_gateway_request("POST", f"/pavo/cloud/check-status/{branch_id}")
     return {"success": True, "result": result}
 
@@ -820,7 +832,7 @@ async def start_pos_payment(payload: PosPaymentCreate):
     calculated_total, resolved_lines, _ = resolve_order_lines(payload.lines)
     if abs(calculated_total - round(payload.amount, 2)) > 0.01:
         raise HTTPException(status_code=409, detail="Odeme tutari guncel sepet toplamiyla uyusmuyor")
-    _, branch_id, _, _, _ = pavo_gateway_settings()
+    _, branch_id, _, source_fingerprint, _ = pavo_gateway_settings()
     device = await resolve_pavo_device()
     terminal_serial = device.get("serial_number")
     fingerprint = order_fingerprint(payload.paymentMethod, resolved_lines)
@@ -852,6 +864,8 @@ async def start_pos_payment(payload: PosPaymentCreate):
         "amount": calculated_total,
         "external_id": record["externalId"],
         "branch_id": branch_id,
+        "provider_type": PAVO_PROVIDER,
+        "source_fingerprint": source_fingerprint,
         "payment_method": "meal_card" if payload.paymentMethod == "meal-card" else "card",
         "sale_items": [
             {
