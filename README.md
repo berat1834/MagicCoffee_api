@@ -10,20 +10,22 @@ python -m venv .venv
 .\.venv\Scripts\python.exe -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8300
 ```
 
-## Aiven PostgreSQL
+## MagicCoffee PostgreSQL
 
-API, `DATABASE_URL` olmadan local JSON dosyasina dusmez. Bu bilgisayarda calistirmadan once `magicCoffee_api\.env` icine Aiven baglantisini yaz:
+API, `DATABASE_URL` olmadan local JSON dosyasina dusmez. Canli ortamda yalnizca MagicCoffee'ye ayrilmis veritabani ve ayri bir veritabani kullanicisi kullanin. Pavo odemeleri, asagidaki bes ayarin tamami tanimlanana kadar HTTP 503 ile kapali kalir:
 
 ```env
-DATABASE_URL=postgresql://USER:PASSWORD@HOST:PORT/DBNAME?sslmode=require
+DATABASE_URL=
 ALLOWED_ORIGINS=http://127.0.0.1:5370,http://localhost:5370,http://127.0.0.1:5371,http://localhost:5371
-PAVO_GATEWAY_BASE_URL=https://fullmoon-api.magicpay.ai/api
-PAVO_TERMINAL_SERIAL=PAV960000010
-PAVO_BRANCH_ID=173
-GOOGLE_TRANSLATE_API_KEY=your-google-translate-key
+PAVO_GATEWAY_BASE_URL=
+PAVO_BRANCH_ID=
+PAVO_TERMINAL_SERIAL=
+PAVO_SOURCE_FINGERPRINT=
+PAVO_INTERNAL_GATEWAY_TOKEN=
+GOOGLE_TRANSLATE_API_KEY=
 ```
 
-Gecici offline gelistirme icin ayrica `ALLOW_LOCAL_FILE_STORE=true` verilebilir; kiosk/panel kullaniminda kapali kalmali.
+Gateway URL'si HTTPS olmali ve yalnizca MagicCoffee'ye ait Pavo gateway'i gostermelidir. Dahili gateway token'i en az 32 karakter olmali; baska projelerle paylasilmamalidir. Gecici offline gelistirme icin `ALLOW_LOCAL_FILE_STORE=true` verilebilir; kiosk/panel kullaniminda kapali kalmali.
 
 ## Port
 

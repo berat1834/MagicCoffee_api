@@ -2,12 +2,15 @@ import os
 import unittest
 from unittest.mock import patch
 
+import httpx
+
 os.environ["DATABASE_URL"] = ""
 os.environ["ALLOW_LOCAL_FILE_STORE"] = "true"
-os.environ["PAVO_GATEWAY_BASE_URL"] = "https://pos.invalid/api"
-os.environ["PAVO_TERMINAL_SERIAL"] = "PAV960000010"
-os.environ["PAVO_BRANCH_ID"] = "173"
-os.environ["PAVO_PAIRING_ID"] = ""
+os.environ["PAVO_GATEWAY_BASE_URL"] = "https://magiccoffee-pavo.example/api"
+os.environ["PAVO_BRANCH_ID"] = "731"
+os.environ["PAVO_TERMINAL_SERIAL"] = "COFFEE-POS-001"
+os.environ["PAVO_SOURCE_FINGERPRINT"] = "magiccoffee-kiosk-test"
+os.environ["PAVO_INTERNAL_GATEWAY_TOKEN"] = "test-magiccoffee-token-0000000000000001"
 
 from fastapi.testclient import TestClient
 
@@ -16,6 +19,13 @@ import app.main as api
 
 DEVICE_ID = "11111111-1111-4111-8111-111111111111"
 PAYMENT_ID = "22222222-2222-4222-8222-222222222222"
+PAVO_ENV_KEYS = (
+    "PAVO_GATEWAY_BASE_URL",
+    "PAVO_BRANCH_ID",
+    "PAVO_TERMINAL_SERIAL",
+    "PAVO_SOURCE_FINGERPRINT",
+    "PAVO_INTERNAL_GATEWAY_TOKEN",
+)
 
 
 class PosOrderFlowTests(unittest.TestCase):
@@ -43,7 +53,10 @@ class PosOrderFlowTests(unittest.TestCase):
         self.gateway_calls = []
         self.poll_status = "COMPLETED"
         self.include_configured_device = True
-        self.configured_device_paired = True
+        self.device_branch_id = 731
+        self.device_serial = "COFFEE-POS-001"
+        self.device_fingerprint = "magiccoffee-kiosk-test"
+        self.pair_response_fingerprint = "magiccoffee-kiosk-test"
 
         async def fake_gateway(method, path, payload=None):
             self.gateway_calls.append((method, path, payload))
@@ -52,18 +65,19 @@ class PosOrderFlowTests(unittest.TestCase):
                     "id": DEVICE_ID,
                     "name": "Coffee POS",
                     "provider_type": "PAVO_CLOUD",
-                    "serial_number": "PAV960000010",
+                    "branch_id": self.device_branch_id,
+                    "serial_number": self.device_serial,
                     "status": "ACTIVE",
                     "is_default": True,
-                    "cloud_source_fingerprint": "coffee-test" if self.configured_device_paired else None,
-                    "cloud_pairing_id": "pair-1" if self.configured_device_paired else None,
+                    "cloud_source_fingerprint": self.device_fingerprint,
+                    "cloud_pairing_id": "coffee-pair-1",
                 }]
                 if not self.include_configured_device:
                     devices = [{
                         **devices[0],
                         "id": "33333333-3333-4333-8333-333333333333",
                         "name": "Wrong fallback POS",
-                        "serial_number": "PAV210016087",
+                        "serial_number": "OTHER-POS-999",
                         "is_default": True,
                     }]
                 return devices
@@ -71,10 +85,14 @@ class PosOrderFlowTests(unittest.TestCase):
                 return {"id": PAYMENT_ID, "status": "PROCESSING"}
             if method == "POST" and path == "/pavo/device":
                 self.include_configured_device = True
-                self.configured_device_paired = False
                 return {"id": DEVICE_ID, **payload}
             if method == "PUT" and path == f"/pavo/device/{DEVICE_ID}":
-                return {"id": DEVICE_ID, "serial_number": "PAV960000010", **payload}
+                return {
+                    "id": DEVICE_ID,
+                    "branch_id": 731,
+                    "serial_number": "COFFEE-POS-001",
+                    **payload,
+                }
             if method == "DELETE" and path == f"/pavo/device/{DEVICE_ID}":
                 return {}
             if method == "GET" and path == f"/pavo/cloud/poll/{PAYMENT_ID}":
@@ -82,8 +100,12 @@ class PosOrderFlowTests(unittest.TestCase):
             if method == "POST" and path == "/pavo/cloud/pair":
                 return {"Success": True, "Data": {"Id": 2, "PairingCode": "123456"}}
             if method == "POST" and path == "/pavo/cloud/pair/check":
-                self.configured_device_paired = True
-                return {"Success": True, "Data": {"IsApproved": True, "IsActive": True}}
+                return {"Success": True, "Data": {
+                    "IsApproved": True,
+                    "IsActive": True,
+                    "SourceFingerPrint": self.pair_response_fingerprint,
+                    "TargetSerialNo": "COFFEE-POS-001",
+                }}
             if method == "POST" and path.startswith("/pavo/cloud/check-status/"):
                 return {"success": True}
             raise AssertionError(f"Unexpected gateway call: {method} {path}")
@@ -171,19 +193,54 @@ class PosOrderFlowTests(unittest.TestCase):
         self.assertEqual(response.status_code, 503)
         self.assertNotIn(("POST", "/pavo/payment"), [call[:2] for call in self.gateway_calls])
 
-    def test_payment_repairs_missing_configured_terminal_from_approved_pairing(self):
-        self.include_configured_device = False
-        with patch.dict(os.environ, {"PAVO_PAIRING_ID": "2", "PAVO_SOURCE_FINGERPRINT": "coffee-test"}):
-            response = self.client.post("/api/pos/payments", json=self.payment_payload("payment-request-self-heal"))
+    def test_missing_pavo_setting_returns_503_without_gateway_request(self):
+        for key in PAVO_ENV_KEYS:
+            with self.subTest(key=key), patch.dict(os.environ, {key: ""}):
+                self.gateway_calls.clear()
+                response = self.client.post("/api/pos/payments", json=self.payment_payload(f"missing-{key.lower()}"))
+                self.assertEqual(response.status_code, 503)
+                self.assertEqual(self.gateway_calls, [])
 
-        self.assertEqual(response.status_code, 201)
-        self.assertIn(("POST", "/pavo/device"), [call[:2] for call in self.gateway_calls])
-        self.assertIn(("POST", "/pavo/cloud/pair/check"), [call[:2] for call in self.gateway_calls])
-        payment_call = next(call for call in self.gateway_calls if call[:2] == ("POST", "/pavo/payment"))
-        self.assertEqual(payment_call[2]["terminal_serial"], "PAV960000010")
+    def test_forbidden_gateway_host_returns_503_without_gateway_request(self):
+        forbidden_host = ("full" + "moon") + "-api.magicpay.ai"
+        with patch.dict(os.environ, {"PAVO_GATEWAY_BASE_URL": f"https://{forbidden_host}/api"}):
+            response = self.client.post("/api/pos/payments", json=self.payment_payload("forbidden-gateway-host"))
+
+        self.assertEqual(response.status_code, 503)
+        self.assertEqual(self.gateway_calls, [])
+
+    def test_invalid_pavo_setting_returns_503_without_gateway_request(self):
+        invalid_settings = (
+            ("PAVO_GATEWAY_BASE_URL", "http://magiccoffee-pavo.example/api"),
+            ("PAVO_BRANCH_ID", "not-a-number"),
+            ("PAVO_BRANCH_ID", "0"),
+            ("PAVO_INTERNAL_GATEWAY_TOKEN", "too-short"),
+        )
+        for index, (key, value) in enumerate(invalid_settings):
+            with self.subTest(key=key, value=value), patch.dict(os.environ, {key: value}):
+                self.gateway_calls.clear()
+                response = self.client.post("/api/pos/payments", json=self.payment_payload(f"invalid-setting-{index}"))
+                self.assertEqual(response.status_code, 503)
+                self.assertEqual(self.gateway_calls, [])
+
+    def test_wrong_branch_terminal_or_fingerprint_never_starts_payment(self):
+        mismatches = (
+            ("device_branch_id", 999),
+            ("device_serial", "OTHER-POS-999"),
+            ("device_fingerprint", "other-project-kiosk"),
+        )
+        for index, (attribute, value) in enumerate(mismatches):
+            with self.subTest(attribute=attribute):
+                original = getattr(self, attribute)
+                setattr(self, attribute, value)
+                self.gateway_calls.clear()
+                response = self.client.post("/api/pos/payments", json=self.payment_payload(f"wrong-device-{index}"))
+                setattr(self, attribute, original)
+                self.assertEqual(response.status_code, 503)
+                self.assertNotIn(("POST", "/pavo/payment"), [call[:2] for call in self.gateway_calls])
 
     def test_pairing_preserves_fingerprint_and_returns_six_digit_code(self):
-        fingerprint = "  Coffee Fingerprint / 01  "
+        fingerprint = "magiccoffee-kiosk-test"
         paired = self.client.post(f"/api/admin/pos/devices/{DEVICE_ID}/pair", json={"fingerprint": fingerprint})
         self.assertEqual(paired.status_code, 200)
         self.assertEqual(paired.json()["pairingCode"], "123456")
@@ -195,11 +252,27 @@ class PosOrderFlowTests(unittest.TestCase):
         self.assertTrue(checked.json()["approved"])
         self.assertTrue(checked.json()["active"])
 
+    def test_pairing_rejects_wrong_fingerprint_without_pair_request(self):
+        response = self.client.post(
+            f"/api/admin/pos/devices/{DEVICE_ID}/pair",
+            json={"fingerprint": "other-project-kiosk"},
+        )
+
+        self.assertEqual(response.status_code, 422)
+        self.assertNotIn(("POST", "/pavo/cloud/pair"), [call[:2] for call in self.gateway_calls])
+
+    def test_pairing_check_rejects_gateway_fingerprint_mismatch(self):
+        self.pair_response_fingerprint = "other-project-kiosk"
+        response = self.client.post(f"/api/admin/pos/devices/{DEVICE_ID}/pair/check", json={"pairingId": 2})
+
+        self.assertEqual(response.status_code, 503)
+        self.assertNotIn(("POST", "/pavo/cloud/check-status/731"), [call[:2] for call in self.gateway_calls])
+
     def test_terminal_create_update_refresh_and_delete_contracts(self):
         created = self.client.post("/api/admin/pos/devices", json={
             "name": "Yeni Coffee POS",
             "providerType": "PAVO_CLOUD",
-            "serialNumber": "PAV960000010",
+            "serialNumber": "COFFEE-POS-001",
             "status": "PASSIVE",
             "isDefault": True,
         })
@@ -227,6 +300,60 @@ class PosOrderFlowTests(unittest.TestCase):
         self.assertEqual(catalog.json()["language"], "en")
         self.assertEqual(catalog.json()["categories"][0]["name"], "Filter Coffees")
         self.assertEqual(catalog.json()["products"][0]["name"], "Caffe Latte")
+        self.assertTrue(all(product["kind"] == "coffee" for product in catalog.json()["products"]))
+
+    def test_health_reports_magiccoffee_postgresql_online(self):
+        class FakeConnection:
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, traceback):
+                return False
+
+            def execute(self, _query):
+                return self
+
+            def fetchone(self):
+                return {"online": 1}
+
+        with patch.object(api, "DATABASE_URL", "postgresql://magiccoffee_app:secret@coffee-db.example/magiccoffee"), patch.object(
+            api, "connect_db", return_value=FakeConnection(),
+        ):
+            response = self.client.get("/health")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["database"], "postgresql")
+
+    def test_database_url_rejects_external_project_identity(self):
+        forbidden_marker = "full" + "moon"
+        with self.assertRaises(RuntimeError):
+            api.validate_database_url(f"postgresql://magiccoffee:secret@{forbidden_marker}-db.example/coffee")
+
+
+class PavoGatewayIsolationTests(unittest.IsolatedAsyncioTestCase):
+    async def test_configured_coffee_gateway_receives_internal_token(self):
+        captured = {}
+
+        class FakeClient:
+            async def __aenter__(self):
+                return self
+
+            async def __aexit__(self, exc_type, exc, traceback):
+                return False
+
+            async def request(self, method, url, **kwargs):
+                captured.update(method=method, url=url, kwargs=kwargs)
+                return httpx.Response(200, json={"success": True})
+
+        with patch.object(api.httpx, "AsyncClient", return_value=FakeClient()):
+            result = await api.pavo_gateway_request("POST", "/pavo/payment", {"amount": 1})
+
+        self.assertTrue(result["success"])
+        self.assertEqual(captured["url"], "https://magiccoffee-pavo.example/api/pavo/payment")
+        self.assertEqual(
+            captured["kwargs"]["headers"]["X-Internal-Gateway-Token"],
+            "test-magiccoffee-token-0000000000000001",
+        )
 
 
 if __name__ == "__main__":

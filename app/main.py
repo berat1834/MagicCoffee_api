@@ -12,6 +12,7 @@ from itertools import count
 from pathlib import Path
 from threading import RLock
 from typing import Any, Literal
+from urllib.parse import urlparse
 from uuid import uuid4
 
 import httpx
@@ -67,15 +68,28 @@ UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 app.mount("/uploads", StaticFiles(directory=str(UPLOAD_DIR.parent)), name="uploads")
 
 DATA_FILE = Path(__file__).resolve().parent.parent / "data" / "store.json"
-DATABASE_URL = os.getenv("DATABASE_URL")
+DATABASE_URL = os.getenv("DATABASE_URL", "").strip()
 ALLOW_LOCAL_FILE_STORE = os.getenv("ALLOW_LOCAL_FILE_STORE", "").lower() in {"1", "true", "yes"}
 STORE_KEY = "magic-coffee"
 STATE_LOCK = RLock()
 SUCCESSFUL_PAYMENT_STATUSES = {"COMPLETED", "PAID", "SUCCESS", "SUCCEEDED"}
 FAILED_PAYMENT_STATUSES = {"FAILED", "ERROR", "CANCELLED", "CANCELED", "DECLINED"}
 
-if DATABASE_URL and "USER:PASSWORD@HOST:PORT/DBNAME" in DATABASE_URL:
-    raise RuntimeError("Replace magicCoffee_api/.env DATABASE_URL with the real Aiven PostgreSQL connection string.")
+ISOLATION_MARKER = "full" + "moon"
+
+
+def validate_database_url(database_url: str) -> None:
+    if not database_url:
+        return
+    parsed = urlparse(database_url)
+    if parsed.scheme not in {"postgres", "postgresql"} or not parsed.hostname or not parsed.username or parsed.path in {"", "/"}:
+        raise RuntimeError("DATABASE_URL must identify a dedicated MagicCoffee PostgreSQL database and user.")
+    identity = f"{parsed.hostname}/{parsed.username}{parsed.path}".lower()
+    if ISOLATION_MARKER in identity:
+        raise RuntimeError("DATABASE_URL points to a forbidden external project.")
+
+
+validate_database_url(DATABASE_URL)
 
 
 StateTuple = tuple[
@@ -548,23 +562,42 @@ def get_catalog(language: Literal["tr", "en"] = Query(default="tr", alias="lang"
     return active_catalog(language)
 
 
-def pavo_gateway_settings() -> tuple[str, str, int]:
-    base_url = os.getenv("PAVO_GATEWAY_BASE_URL", "https://fullmoon-api.magicpay.ai/api").strip().rstrip("/")
-    terminal_serial = os.getenv("PAVO_TERMINAL_SERIAL", "PAV960000010").strip()
+def pavo_gateway_settings() -> tuple[str, int, str, str, str]:
+    base_url = os.getenv("PAVO_GATEWAY_BASE_URL", "").strip().rstrip("/")
+    raw_branch_id = os.getenv("PAVO_BRANCH_ID", "").strip()
+    terminal_serial = os.getenv("PAVO_TERMINAL_SERIAL", "").strip()
+    source_fingerprint = os.getenv("PAVO_SOURCE_FINGERPRINT", "").strip()
+    internal_token = os.getenv("PAVO_INTERNAL_GATEWAY_TOKEN", "").strip()
+    if not all((base_url, raw_branch_id, terminal_serial, source_fingerprint, internal_token)):
+        raise HTTPException(status_code=503, detail="POS odeme baglantisi yapilandirilmamis")
+
+    parsed = urlparse(base_url)
+    hostname = (parsed.hostname or "").lower()
+    if parsed.scheme != "https" or not hostname or parsed.username or parsed.password or parsed.query or parsed.fragment:
+        raise HTTPException(status_code=503, detail="POS gateway ayari gecersiz")
+    forbidden_host = ("full" + "moon") + "-api.magicpay.ai"
+    if hostname == forbidden_host or hostname.endswith(f".{forbidden_host}") or ISOLATION_MARKER in hostname:
+        raise HTTPException(status_code=503, detail="POS gateway hostuna izin verilmiyor")
+
     try:
-        branch_id = int(os.getenv("PAVO_BRANCH_ID", "173"))
+        branch_id = int(raw_branch_id)
     except ValueError as error:
         raise HTTPException(status_code=503, detail="POS sube ayari gecersiz") from error
-    if not base_url.startswith("https://") or not terminal_serial:
-        raise HTTPException(status_code=503, detail="POS baglantisi yapilandirilmamis")
-    return base_url, terminal_serial, branch_id
+    if branch_id <= 0 or len(internal_token) < 32:
+        raise HTTPException(status_code=503, detail="POS odeme baglantisi ayarlari gecersiz")
+    return base_url, branch_id, terminal_serial, source_fingerprint, internal_token
 
 
 async def pavo_gateway_request(method: str, path: str, payload: dict | None = None) -> dict:
-    base_url, _, _ = pavo_gateway_settings()
+    base_url, _, _, _, internal_token = pavo_gateway_settings()
     try:
         async with httpx.AsyncClient(timeout=httpx.Timeout(30.0, connect=10.0)) as client:
-            response = await client.request(method, f"{base_url}{path}", json=payload)
+            response = await client.request(
+                method,
+                f"{base_url}{path}",
+                json=payload,
+                headers={"X-Internal-Gateway-Token": internal_token},
+            )
     except httpx.RequestError as error:
         raise HTTPException(status_code=502, detail="POS odeme servisine ulasilamadi") from error
     if response.status_code == 204:
@@ -574,10 +607,7 @@ async def pavo_gateway_request(method: str, path: str, payload: dict | None = No
     except ValueError as error:
         raise HTTPException(status_code=502, detail="POS odeme servisinden gecersiz yanit alindi") from error
     if response.is_error:
-        detail = body.get("detail") if isinstance(body, dict) else None
-        if isinstance(detail, dict):
-            detail = detail.get("message") or detail.get("Message")
-        raise HTTPException(status_code=502, detail=detail or "POS odeme istegi basarisiz oldu")
+        raise HTTPException(status_code=502, detail="POS odeme istegi basarisiz oldu")
     return body
 
 
@@ -602,72 +632,28 @@ def pos_device_record(device: dict[str, Any]) -> dict[str, Any]:
 
 
 async def list_pavo_devices(*, only_active: bool = False) -> list[dict[str, Any]]:
-    _, _, branch_id = pavo_gateway_settings()
+    _, branch_id, _, _, _ = pavo_gateway_settings()
     result = await pavo_gateway_request(
         "GET", f"/pavo/devices/{branch_id}?only_active={'true' if only_active else 'false'}",
     )
     return result if isinstance(result, list) else []
 
 
-def configured_pavo_pairing() -> tuple[int | None, str]:
-    raw_pairing_id = os.getenv("PAVO_PAIRING_ID", "8512").strip()
-    fingerprint = os.getenv("PAVO_SOURCE_FINGERPRINT", "Coffee1").strip()
-    if not raw_pairing_id:
-        return None, fingerprint
-    try:
-        pairing_id = int(raw_pairing_id)
-    except ValueError as error:
-        raise HTTPException(status_code=503, detail="POS eslestirme ayari gecersiz") from error
-    if pairing_id <= 0 or not fingerprint:
-        raise HTTPException(status_code=503, detail="POS eslestirme ayari gecersiz")
-    return pairing_id, fingerprint
-
-
-async def reconcile_configured_pavo_device() -> dict[str, Any] | None:
-    _, configured_serial, branch_id = pavo_gateway_settings()
-    pairing_id, _ = configured_pavo_pairing()
-    devices = await list_pavo_devices()
-    device = next((item for item in devices if item.get("serial_number") == configured_serial), None)
-
-    if not device and pairing_id:
-        try:
-            await pavo_gateway_request("POST", "/pavo/device", {
-                "branch_id": branch_id,
-                "name": "fullmoon",
-                "provider_type": "PAVO_CLOUD",
-                "serial_number": configured_serial,
-                "port": 4567,
-                "status": "ACTIVE",
-                "is_default": True,
-            })
-        except HTTPException:
-            # A concurrent request may already have recreated the unique serial.
-            pass
-        devices = await list_pavo_devices()
-        device = next((item for item in devices if item.get("serial_number") == configured_serial), None)
-
-    if device and pairing_id and not (
-        device.get("status") == "ACTIVE"
-        and device.get("cloud_source_fingerprint")
-        and device.get("cloud_pairing_id")
-    ):
-        result = await pavo_gateway_request("POST", "/pavo/cloud/pair/check", {
-            "pairing_id": pairing_id,
-            "target_serial_no": configured_serial,
-        })
-        data = result.get("Data", {}) if isinstance(result, dict) else {}
-        if data.get("IsApproved") and data.get("IsActive"):
-            devices = await list_pavo_devices()
-            device = next((item for item in devices if item.get("serial_number") == configured_serial), None)
-
-    return device
-
-
 async def resolve_pavo_device() -> dict[str, Any]:
-    device = await reconcile_configured_pavo_device()
+    _, branch_id, configured_serial, source_fingerprint, _ = pavo_gateway_settings()
+    devices = await list_pavo_devices(only_active=True)
+    device = next(
+        (
+            item for item in devices
+            if item.get("serial_number") == configured_serial
+            and item.get("branch_id") == branch_id
+        ),
+        None,
+    )
     if not device or not (
         device.get("status") == "ACTIVE"
-        and device.get("cloud_source_fingerprint")
+        and device.get("provider_type") == "PAVO_CLOUD"
+        and device.get("cloud_source_fingerprint") == source_fingerprint
         and device.get("cloud_pairing_id")
     ):
         raise HTTPException(
@@ -687,7 +673,7 @@ def pos_device_gateway_payload(payload: PosDeviceCreate | PosDeviceUpdate, *, in
     }
     result = {field_map.get(key, key): value for key, value in data.items()}
     if include_branch:
-        _, _, branch_id = pavo_gateway_settings()
+        _, branch_id, _, _, _ = pavo_gateway_settings()
         result["branch_id"] = branch_id
     return result
 
@@ -695,7 +681,16 @@ def pos_device_gateway_payload(payload: PosDeviceCreate | PosDeviceUpdate, *, in
 async def find_pavo_device(device_id: str) -> dict[str, Any]:
     if not re.fullmatch(r"[0-9a-fA-F-]{32,36}", device_id):
         raise HTTPException(status_code=400, detail="Gecersiz terminal kimligi")
-    device = next((item for item in await list_pavo_devices() if str(item.get("id")) == device_id), None)
+    _, branch_id, configured_serial, _, _ = pavo_gateway_settings()
+    device = next(
+        (
+            item for item in await list_pavo_devices()
+            if str(item.get("id")) == device_id
+            and item.get("branch_id") == branch_id
+            and item.get("serial_number") == configured_serial
+        ),
+        None,
+    )
     if not device:
         raise HTTPException(status_code=404, detail="POS terminali bulunamadi")
     return device
@@ -703,21 +698,26 @@ async def find_pavo_device(device_id: str) -> dict[str, Any]:
 
 @app.get("/api/admin/pos/devices")
 async def admin_list_pos_devices():
-    await reconcile_configured_pavo_device()
-    return [pos_device_record(device) for device in await list_pavo_devices()]
+    _, branch_id, configured_serial, _, _ = pavo_gateway_settings()
+    return [
+        pos_device_record(device)
+        for device in await list_pavo_devices()
+        if device.get("branch_id") == branch_id and device.get("serial_number") == configured_serial
+    ]
 
 
 @app.post("/api/admin/pos/devices/refresh-status")
 async def admin_refresh_pos_device_status():
-    _, _, branch_id = pavo_gateway_settings()
+    _, branch_id, _, _, _ = pavo_gateway_settings()
     result = await pavo_gateway_request("POST", f"/pavo/cloud/check-status/{branch_id}")
     return {"success": True, "result": result}
 
 
 @app.post("/api/admin/pos/devices", status_code=201)
 async def admin_create_pos_device(payload: PosDeviceCreate):
-    if payload.providerType == "PAVO_CLOUD" and not payload.serialNumber:
-        raise HTTPException(status_code=422, detail="Pavo Cloud icin terminal seri numarasi gerekli")
+    _, _, configured_serial, _, _ = pavo_gateway_settings()
+    if payload.providerType != "PAVO_CLOUD" or payload.serialNumber != configured_serial:
+        raise HTTPException(status_code=422, detail="Yalnizca yapilandirilmis Coffee terminali eklenebilir")
     result = await pavo_gateway_request(
         "POST", "/pavo/device", pos_device_gateway_payload(payload, include_branch=True),
     )
@@ -727,6 +727,9 @@ async def admin_create_pos_device(payload: PosDeviceCreate):
 @app.put("/api/admin/pos/devices/{device_id}")
 async def admin_update_pos_device(device_id: str, payload: PosDeviceUpdate):
     await find_pavo_device(device_id)
+    _, _, configured_serial, _, _ = pavo_gateway_settings()
+    if payload.providerType not in {None, "PAVO_CLOUD"} or payload.serialNumber not in {None, configured_serial}:
+        raise HTTPException(status_code=422, detail="Terminal kimligi yapilandirma ile uyusmuyor")
     result = await pavo_gateway_request(
         "PUT", f"/pavo/device/{device_id}", pos_device_gateway_payload(payload, include_branch=False),
     )
@@ -742,13 +745,14 @@ async def admin_delete_pos_device(device_id: str):
 @app.post("/api/admin/pos/devices/{device_id}/pair")
 async def admin_pair_pos_device(device_id: str, payload: PosPairStart):
     device = await find_pavo_device(device_id)
+    _, _, configured_serial, source_fingerprint, _ = pavo_gateway_settings()
     serial_number = device.get("serial_number")
-    if device.get("provider_type") != "PAVO_CLOUD" or not serial_number:
+    if device.get("provider_type") != "PAVO_CLOUD" or serial_number != configured_serial:
         raise HTTPException(status_code=422, detail="Yalnizca seri numarasi tanimli Pavo Cloud cihazlari eslestirilebilir")
-    if not payload.fingerprint.strip():
-        raise HTTPException(status_code=422, detail="Parmak izi (fingerprint) gerekli")
+    if payload.fingerprint != source_fingerprint:
+        raise HTTPException(status_code=422, detail="Terminal parmak izi yapilandirma ile uyusmuyor")
     result = await pavo_gateway_request("POST", "/pavo/cloud/pair", {
-        "source_fingerprint": payload.fingerprint,
+        "source_fingerprint": source_fingerprint,
         "target_serial_no": serial_number,
         "application_name": "MagicCoffee",
     })
@@ -764,14 +768,19 @@ async def admin_pair_pos_device(device_id: str, payload: PosPairStart):
 @app.post("/api/admin/pos/devices/{device_id}/pair/check")
 async def admin_check_pos_pairing(device_id: str, payload: PosPairCheck):
     device = await find_pavo_device(device_id)
+    _, branch_id, configured_serial, source_fingerprint, _ = pavo_gateway_settings()
     result = await pavo_gateway_request("POST", "/pavo/cloud/pair/check", {
         "pairing_id": payload.pairingId,
         "target_serial_no": device.get("serial_number"),
     })
     data = result.get("Data", {}) if isinstance(result, dict) else {}
+    if data.get("IsApproved") and (
+        data.get("TargetSerialNo") != configured_serial
+        or data.get("SourceFingerPrint") != source_fingerprint
+    ):
+        raise HTTPException(status_code=503, detail="POS eslestirme kimligi yapilandirma ile uyusmuyor")
     if data.get("IsApproved"):
         try:
-            _, _, branch_id = pavo_gateway_settings()
             await pavo_gateway_request("POST", f"/pavo/cloud/check-status/{branch_id}")
         except HTTPException:
             pass
@@ -798,7 +807,7 @@ async def start_pos_payment(payload: PosPaymentCreate):
     calculated_total, resolved_lines, _ = resolve_order_lines(payload.lines)
     if abs(calculated_total - round(payload.amount, 2)) > 0.01:
         raise HTTPException(status_code=409, detail="Odeme tutari guncel sepet toplamiyla uyusmuyor")
-    _, _, branch_id = pavo_gateway_settings()
+    _, branch_id, _, _, _ = pavo_gateway_settings()
     device = await resolve_pavo_device()
     terminal_serial = device.get("serial_number")
     fingerprint = order_fingerprint(payload.paymentMethod, resolved_lines)
