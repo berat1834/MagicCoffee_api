@@ -16,6 +16,7 @@ API, `DATABASE_URL` olmadan local JSON dosyasina dusmez. Canli ortamda yalnizca 
 
 ```env
 DATABASE_URL=
+DATABASE_ALLOWED_HOST=pg-39595717-beratbaylan123-9802.j.aivencloud.com
 ALLOWED_ORIGINS=http://127.0.0.1:5370,http://localhost:5370,http://127.0.0.1:5371,http://localhost:5371
 PAVO_GATEWAY_BASE_URL=
 PAVO_GATEWAY_ALLOWED_HOST=

@@ -72,6 +72,7 @@ app.mount("/uploads", StaticFiles(directory=str(UPLOAD_DIR.parent)), name="uploa
 
 DATA_FILE = Path(__file__).resolve().parent.parent / "data" / "store.json"
 DATABASE_URL = os.getenv("DATABASE_URL", "").strip()
+DATABASE_ALLOWED_HOST = os.getenv("DATABASE_ALLOWED_HOST", "").strip().lower().rstrip(".")
 ALLOW_LOCAL_FILE_STORE = os.getenv("ALLOW_LOCAL_FILE_STORE", "").lower() in {"1", "true", "yes"}
 STORE_KEY = "magic-coffee"
 STATE_LOCK = RLock()
@@ -98,6 +99,8 @@ def validate_database_url(database_url: str) -> None:
     identity = f"{parsed.hostname}/{parsed.username}{parsed.path}".lower()
     if any(marker in identity for marker in FORBIDDEN_DATABASE_MARKERS):
         raise RuntimeError("DATABASE_URL points to a forbidden external project.")
+    if DATABASE_ALLOWED_HOST and parsed.hostname.lower().rstrip(".") != DATABASE_ALLOWED_HOST:
+        raise RuntimeError("DATABASE_URL does not point to the approved MagicCoffee database host.")
 
 
 validate_database_url(DATABASE_URL)

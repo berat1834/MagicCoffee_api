@@ -357,6 +357,12 @@ class PosOrderFlowTests(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             api.validate_database_url("postgresql://magiccoffee:secret@kebo-db.example/kasadb_dev")
 
+    def test_database_url_rejects_unapproved_host_when_allowlist_is_set(self):
+        with patch.object(api, "DATABASE_ALLOWED_HOST", "coffee-db.example"):
+            api.validate_database_url("postgresql://magiccoffee:secret@coffee-db.example/magiccoffee")
+            with self.assertRaises(RuntimeError):
+                api.validate_database_url("postgresql://magiccoffee:secret@other-db.example/magiccoffee")
+
 
 class PavoGatewayIsolationTests(unittest.IsolatedAsyncioTestCase):
     def setUp(self):
