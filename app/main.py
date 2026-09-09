@@ -74,6 +74,7 @@ STORE_KEY = "magic-coffee"
 STATE_LOCK = RLock()
 SUCCESSFUL_PAYMENT_STATUSES = {"COMPLETED", "PAID", "SUCCESS", "SUCCEEDED"}
 FAILED_PAYMENT_STATUSES = {"FAILED", "ERROR", "CANCELLED", "CANCELED", "DECLINED"}
+PAVO_PROVIDER = "PAVO_UNICLOUD"
 
 ISOLATION_MARKER = "full" + "moon"
 
@@ -246,7 +247,7 @@ class PosPaymentCreate(BaseModel):
 
 class PosDeviceCreate(BaseModel):
     name: str = Field(min_length=2, max_length=120)
-    providerType: Literal["PAVO_CLOUD", "PAVO_REST", "MAGICBOSS"] = "PAVO_CLOUD"
+    providerType: Literal["PAVO_UNICLOUD"] = "PAVO_UNICLOUD"
     serialNumber: str | None = Field(default=None, max_length=120)
     ipAddress: str | None = Field(default=None, max_length=80)
     port: int | None = Field(default=None, ge=1, le=65535)
@@ -256,7 +257,7 @@ class PosDeviceCreate(BaseModel):
 
 class PosDeviceUpdate(BaseModel):
     name: str | None = Field(default=None, min_length=2, max_length=120)
-    providerType: Literal["PAVO_CLOUD", "PAVO_REST", "MAGICBOSS"] | None = None
+    providerType: Literal["PAVO_UNICLOUD"] | None = None
     serialNumber: str | None = Field(default=None, max_length=120)
     ipAddress: str | None = Field(default=None, max_length=80)
     port: int | None = Field(default=None, ge=1, le=65535)
@@ -564,16 +565,27 @@ def get_catalog(language: Literal["tr", "en"] = Query(default="tr", alias="lang"
 
 def pavo_gateway_settings() -> tuple[str, int, str, str, str]:
     base_url = os.getenv("PAVO_GATEWAY_BASE_URL", "").strip().rstrip("/")
+    allowed_host = os.getenv("PAVO_GATEWAY_ALLOWED_HOST", "").strip().lower().rstrip(".")
     raw_branch_id = os.getenv("PAVO_BRANCH_ID", "").strip()
     terminal_serial = os.getenv("PAVO_TERMINAL_SERIAL", "").strip()
     source_fingerprint = os.getenv("PAVO_SOURCE_FINGERPRINT", "").strip()
     internal_token = os.getenv("PAVO_INTERNAL_GATEWAY_TOKEN", "").strip()
-    if not all((base_url, raw_branch_id, terminal_serial, source_fingerprint, internal_token)):
+    if not all((base_url, allowed_host, raw_branch_id, terminal_serial, source_fingerprint, internal_token)):
         raise HTTPException(status_code=503, detail="POS odeme baglantisi yapilandirilmamis")
 
     parsed = urlparse(base_url)
     hostname = (parsed.hostname or "").lower()
-    if parsed.scheme != "https" or not hostname or parsed.username or parsed.password or parsed.query or parsed.fragment:
+    if (
+        parsed.scheme != "https"
+        or not hostname
+        or parsed.username
+        or parsed.password
+        or parsed.query
+        or parsed.fragment
+        or ":" in allowed_host
+        or "/" in allowed_host
+        or hostname != allowed_host
+    ):
         raise HTTPException(status_code=503, detail="POS gateway ayari gecersiz")
     forbidden_host = ("full" + "moon") + "-api.magicpay.ai"
     if hostname == forbidden_host or hostname.endswith(f".{forbidden_host}") or ISOLATION_MARKER in hostname:
@@ -615,7 +627,7 @@ def pos_device_record(device: dict[str, Any]) -> dict[str, Any]:
     return {
         "id": str(device.get("id", "")),
         "name": device.get("name") or "POS Terminali",
-        "providerType": device.get("provider_type") or "PAVO_CLOUD",
+        "providerType": device.get("provider_type") or PAVO_PROVIDER,
         "serialNumber": device.get("serial_number"),
         "ipAddress": device.get("ip_address"),
         "port": device.get("port"),
@@ -652,13 +664,14 @@ async def resolve_pavo_device() -> dict[str, Any]:
     )
     if not device or not (
         device.get("status") == "ACTIVE"
-        and device.get("provider_type") == "PAVO_CLOUD"
+        and device.get("provider_type") == PAVO_PROVIDER
+        and device.get("is_default") is True
         and device.get("cloud_source_fingerprint") == source_fingerprint
         and device.get("cloud_pairing_id")
     ):
         raise HTTPException(
             status_code=503,
-            detail="Yapilandirilmis POS terminali aktif veya eslesmis degil",
+            detail="Yapilandirilmis POS terminali aktif, varsayilan veya eslesmis degil",
         )
     return device
 
@@ -716,7 +729,7 @@ async def admin_refresh_pos_device_status():
 @app.post("/api/admin/pos/devices", status_code=201)
 async def admin_create_pos_device(payload: PosDeviceCreate):
     _, _, configured_serial, _, _ = pavo_gateway_settings()
-    if payload.providerType != "PAVO_CLOUD" or payload.serialNumber != configured_serial:
+    if payload.providerType != PAVO_PROVIDER or payload.serialNumber != configured_serial:
         raise HTTPException(status_code=422, detail="Yalnizca yapilandirilmis Coffee terminali eklenebilir")
     result = await pavo_gateway_request(
         "POST", "/pavo/device", pos_device_gateway_payload(payload, include_branch=True),
@@ -728,7 +741,7 @@ async def admin_create_pos_device(payload: PosDeviceCreate):
 async def admin_update_pos_device(device_id: str, payload: PosDeviceUpdate):
     await find_pavo_device(device_id)
     _, _, configured_serial, _, _ = pavo_gateway_settings()
-    if payload.providerType not in {None, "PAVO_CLOUD"} or payload.serialNumber not in {None, configured_serial}:
+    if payload.providerType not in {None, PAVO_PROVIDER} or payload.serialNumber not in {None, configured_serial}:
         raise HTTPException(status_code=422, detail="Terminal kimligi yapilandirma ile uyusmuyor")
     result = await pavo_gateway_request(
         "PUT", f"/pavo/device/{device_id}", pos_device_gateway_payload(payload, include_branch=False),
@@ -747,7 +760,7 @@ async def admin_pair_pos_device(device_id: str, payload: PosPairStart):
     device = await find_pavo_device(device_id)
     _, _, configured_serial, source_fingerprint, _ = pavo_gateway_settings()
     serial_number = device.get("serial_number")
-    if device.get("provider_type") != "PAVO_CLOUD" or serial_number != configured_serial:
+    if device.get("provider_type") != PAVO_PROVIDER or serial_number != configured_serial:
         raise HTTPException(status_code=422, detail="Yalnizca seri numarasi tanimli Pavo Cloud cihazlari eslestirilebilir")
     if payload.fingerprint != source_fingerprint:
         raise HTTPException(status_code=422, detail="Terminal parmak izi yapilandirma ile uyusmuyor")

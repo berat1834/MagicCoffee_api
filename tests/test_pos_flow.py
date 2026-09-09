@@ -7,6 +7,7 @@ import httpx
 os.environ["DATABASE_URL"] = ""
 os.environ["ALLOW_LOCAL_FILE_STORE"] = "true"
 os.environ["PAVO_GATEWAY_BASE_URL"] = "https://magiccoffee-pavo.example/api"
+os.environ["PAVO_GATEWAY_ALLOWED_HOST"] = "magiccoffee-pavo.example"
 os.environ["PAVO_BRANCH_ID"] = "731"
 os.environ["PAVO_TERMINAL_SERIAL"] = "COFFEE-POS-001"
 os.environ["PAVO_SOURCE_FINGERPRINT"] = "magiccoffee-kiosk-test"
@@ -21,6 +22,7 @@ DEVICE_ID = "11111111-1111-4111-8111-111111111111"
 PAYMENT_ID = "22222222-2222-4222-8222-222222222222"
 PAVO_ENV_KEYS = (
     "PAVO_GATEWAY_BASE_URL",
+    "PAVO_GATEWAY_ALLOWED_HOST",
     "PAVO_BRANCH_ID",
     "PAVO_TERMINAL_SERIAL",
     "PAVO_SOURCE_FINGERPRINT",
@@ -55,6 +57,8 @@ class PosOrderFlowTests(unittest.TestCase):
         self.include_configured_device = True
         self.device_branch_id = 731
         self.device_serial = "COFFEE-POS-001"
+        self.device_provider = "PAVO_UNICLOUD"
+        self.device_is_default = True
         self.device_fingerprint = "magiccoffee-kiosk-test"
         self.pair_response_fingerprint = "magiccoffee-kiosk-test"
 
@@ -64,11 +68,11 @@ class PosOrderFlowTests(unittest.TestCase):
                 devices = [{
                     "id": DEVICE_ID,
                     "name": "Coffee POS",
-                    "provider_type": "PAVO_CLOUD",
+                    "provider_type": self.device_provider,
                     "branch_id": self.device_branch_id,
                     "serial_number": self.device_serial,
                     "status": "ACTIVE",
-                    "is_default": True,
+                    "is_default": self.device_is_default,
                     "cloud_source_fingerprint": self.device_fingerprint,
                     "cloud_pairing_id": "coffee-pair-1",
                 }]
@@ -223,10 +227,19 @@ class PosOrderFlowTests(unittest.TestCase):
                 self.assertEqual(response.status_code, 503)
                 self.assertEqual(self.gateway_calls, [])
 
-    def test_wrong_branch_terminal_or_fingerprint_never_starts_payment(self):
+    def test_gateway_host_must_exactly_match_allowlist_without_gateway_request(self):
+        with patch.dict(os.environ, {"PAVO_GATEWAY_BASE_URL": "https://other.example/api"}):
+            response = self.client.post("/api/pos/payments", json=self.payment_payload("wrong-allowed-host"))
+
+        self.assertEqual(response.status_code, 503)
+        self.assertEqual(self.gateway_calls, [])
+
+    def test_wrong_device_identity_never_starts_payment(self):
         mismatches = (
             ("device_branch_id", 999),
             ("device_serial", "OTHER-POS-999"),
+            ("device_provider", "PAVO_CLOUD"),
+            ("device_is_default", False),
             ("device_fingerprint", "other-project-kiosk"),
         )
         for index, (attribute, value) in enumerate(mismatches):
@@ -261,6 +274,16 @@ class PosOrderFlowTests(unittest.TestCase):
         self.assertEqual(response.status_code, 422)
         self.assertNotIn(("POST", "/pavo/cloud/pair"), [call[:2] for call in self.gateway_calls])
 
+    def test_device_create_rejects_non_unicloud_provider_without_gateway_request(self):
+        response = self.client.post("/api/admin/pos/devices", json={
+            "name": "Yanlis POS",
+            "providerType": "PAVO_CLOUD",
+            "serialNumber": "COFFEE-POS-001",
+        })
+
+        self.assertEqual(response.status_code, 422)
+        self.assertNotIn(("POST", "/pavo/device"), [call[:2] for call in self.gateway_calls])
+
     def test_pairing_check_rejects_gateway_fingerprint_mismatch(self):
         self.pair_response_fingerprint = "other-project-kiosk"
         response = self.client.post(f"/api/admin/pos/devices/{DEVICE_ID}/pair/check", json={"pairingId": 2})
@@ -271,7 +294,7 @@ class PosOrderFlowTests(unittest.TestCase):
     def test_terminal_create_update_refresh_and_delete_contracts(self):
         created = self.client.post("/api/admin/pos/devices", json={
             "name": "Yeni Coffee POS",
-            "providerType": "PAVO_CLOUD",
+            "providerType": "PAVO_UNICLOUD",
             "serialNumber": "COFFEE-POS-001",
             "status": "PASSIVE",
             "isDefault": True,

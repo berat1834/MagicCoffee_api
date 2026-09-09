@@ -12,12 +12,13 @@ python -m venv .venv
 
 ## MagicCoffee PostgreSQL
 
-API, `DATABASE_URL` olmadan local JSON dosyasina dusmez. Canli ortamda yalnizca MagicCoffee'ye ayrilmis veritabani ve ayri bir veritabani kullanicisi kullanin. Pavo odemeleri, asagidaki bes ayarin tamami tanimlanana kadar HTTP 503 ile kapali kalir:
+API, `DATABASE_URL` olmadan local JSON dosyasina dusmez. Canli ortamda yalnizca MagicCoffee'ye ayrilmis veritabani ve ayri bir veritabani kullanicisi kullanin. Pavo odemeleri, asagidaki Pavo ayarlarinin tamami tanimlanana kadar HTTP 503 ile kapali kalir:
 
 ```env
 DATABASE_URL=
 ALLOWED_ORIGINS=http://127.0.0.1:5370,http://localhost:5370,http://127.0.0.1:5371,http://localhost:5371
 PAVO_GATEWAY_BASE_URL=
+PAVO_GATEWAY_ALLOWED_HOST=
 PAVO_BRANCH_ID=
 PAVO_TERMINAL_SERIAL=
 PAVO_SOURCE_FINGERPRINT=
@@ -25,7 +26,7 @@ PAVO_INTERNAL_GATEWAY_TOKEN=
 GOOGLE_TRANSLATE_API_KEY=
 ```
 
-Gateway URL'si HTTPS olmali ve yalnizca MagicCoffee'ye ait Pavo gateway'i gostermelidir. Dahili gateway token'i en az 32 karakter olmali; baska projelerle paylasilmamalidir. Gecici offline gelistirme icin `ALLOW_LOCAL_FILE_STORE=true` verilebilir; kiosk/panel kullaniminda kapali kalmali.
+Gateway URL'si HTTPS olmali; hostname degeri `PAVO_GATEWAY_ALLOWED_HOST` ile birebir eslesmelidir. Gateway yalnizca `PAVO_UNICLOUD` saglayicisini, yapilandirilan sube/terminal/fingerprint uclusunu kabul eder. Dahili gateway token'i en az 32 karakter olmali ve baska projelerle paylasilmamalidir. Gecici offline gelistirme icin `ALLOW_LOCAL_FILE_STORE=true` verilebilir; kiosk/panel kullaniminda kapali kalmali.
 
 ## Port
 
