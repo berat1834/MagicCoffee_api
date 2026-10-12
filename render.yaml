@@ -30,5 +30,11 @@ services:
         value: magiccoffee-pos@internal.magicpay.ai
       - key: PAVO_GATEWAY_SERVICE_PASSWORD
         sync: false
+      - key: MAGICBOSS_API_URL
+        sync: false
+      - key: MAGICBOSS_API_KEY
+        sync: false
+      - key: MAGICBOSS_TERMINAL_SERIAL
+        sync: false
       - key: GOOGLE_TRANSLATE_API_KEY
         sync: false

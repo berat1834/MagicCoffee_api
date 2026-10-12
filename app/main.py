@@ -10,6 +10,7 @@ import re
 import time
 from collections import defaultdict, deque
 from copy import deepcopy
+from dataclasses import dataclass
 from datetime import date, datetime, timezone
 from itertools import count
 from pathlib import Path
@@ -22,7 +23,7 @@ import httpx
 from fastapi import BackgroundTasks, FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 import psycopg
 from psycopg.rows import dict_row
 
@@ -164,6 +165,15 @@ def load_database_state() -> StateTuple | None:
                 updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
             )
         """)
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS castles_devices (
+                serial TEXT PRIMARY KEY,
+                name TEXT NOT NULL,
+                active BOOLEAN NOT NULL DEFAULT TRUE,
+                created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+                updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+            )
+        """)
         row = conn.execute("SELECT data FROM app_state WHERE key = %s", (STORE_KEY,)).fetchone()
         if not row:
             categories, products, orders, stock_movements, pos_payments, order_requests, translations = default_state()
@@ -200,10 +210,30 @@ categories, products, orders, stock_movements, pos_payments, order_requests, tra
 stock_ids = count(1)
 
 
+def load_local_castles_devices() -> list[dict[str, Any]]:
+    # PostgreSQL modunda Castles cihazlari castles_devices tablosunda tutulur;
+    # yalnizca yerel dosya modunda JSON durumundaki "castlesDevices" listesi kullanilir.
+    if DATABASE_URL or not DATA_FILE.exists():
+        return []
+    data = json.loads(DATA_FILE.read_text(encoding="utf-8-sig"))
+    devices = data.get("castlesDevices", [])
+    return devices if isinstance(devices, list) else []
+
+
+castles_devices: list[dict[str, Any]] = load_local_castles_devices()
+
+
 def next_order_seed() -> int:
     numbers = []
-    for order_number in orders:
-        match = re.fullmatch(r"MC-(\d+)", order_number)
+    # Castles odemeleri siparis numarasini odeme baslarken ayirir; yeniden baslatmada
+    # ayrilmis numaralar tekrar kullanilmasin diye onlar da hesaba katilir.
+    reserved_numbers = [
+        payment.get("reservedOrderNumber")
+        for payment in pos_payments.values()
+        if isinstance(payment, dict)
+    ]
+    for order_number in [*orders, *reserved_numbers]:
+        match = re.fullmatch(r"MC-(\d+)", order_number or "")
         if match:
             numbers.append(int(match.group(1)))
     return max(numbers, default=300) + 1
@@ -222,6 +252,8 @@ def save_state():
         "orderRequests": order_requests,
         "translations": translations,
     }
+    if not DATABASE_URL:
+        state["castlesDevices"] = castles_devices
     with STATE_LOCK:
         if DATABASE_URL:
             with connect_db() as conn:
@@ -260,8 +292,9 @@ class OrderCreate(BaseModel):
     paymentMethod: Literal["card", "meal-card"]
     total: float = Field(gt=0, le=100_000)
     lines: list[OrderLine] = Field(min_length=1)
-    paymentReference: str = Field(min_length=8, max_length=160)
-    posTransactionId: str = Field(min_length=8, max_length=160)
+    # Castles islem kimlikleri "mb-<journal_id>" bicimindedir ve 8 karakterden kisa olabilir.
+    paymentReference: str = Field(min_length=4, max_length=160)
+    posTransactionId: str = Field(min_length=4, max_length=160)
     language: Literal["tr", "en"] = "tr"
 
 
@@ -270,6 +303,28 @@ class PosPaymentCreate(BaseModel):
     paymentMethod: Literal["card", "meal-card"]
     amount: float = Field(gt=0, le=100_000)
     lines: list[OrderLine] = Field(min_length=1)
+    terminalSerial: str | None = Field(default=None, max_length=64)
+
+
+class CastlesDeviceCreate(BaseModel):
+    serial: str = Field(min_length=4, max_length=64, pattern=r"^[A-Za-z0-9]+$")
+    name: str = Field(min_length=2, max_length=120)
+    active: bool = True
+
+    @field_validator("serial", "name", mode="before")
+    @classmethod
+    def strip_text(cls, value):
+        return value.strip() if isinstance(value, str) else value
+
+
+class CastlesDeviceUpdate(BaseModel):
+    name: str | None = Field(default=None, min_length=2, max_length=120)
+    active: bool | None = None
+
+    @field_validator("name", mode="before")
+    @classmethod
+    def strip_text(cls, value):
+        return value.strip() if isinstance(value, str) else value
 
 
 class PosDeviceCreate(BaseModel):
@@ -575,6 +630,19 @@ def health():
     if DATABASE_URL:
         with connect_db() as conn:
             conn.execute("SELECT 1").fetchone()
+    magicboss = magicboss_settings()
+    if magicboss:
+        return {
+            "status": "ok",
+            "service": "magic-coffee-api",
+            "database": "postgresql" if DATABASE_URL else "local-file",
+            "payment": {
+                "status": "ready",
+                "provider": MAGICBOSS_PROVIDER,
+                "defaultSerial": magicboss.terminal_serial or None,
+            },
+            "translation": translation_status(translations),
+        }
     try:
         pavo_gateway_settings()
         payment_status = "ready"
@@ -689,6 +757,380 @@ def require_kiosk_identity(request: Request, source_fingerprint: str) -> None:
     supplied_fingerprint = request.headers.get("X-MagicCoffee-Kiosk-Fingerprint", "").strip()
     if not supplied_fingerprint or not hmac.compare_digest(supplied_fingerprint, source_fingerprint):
         raise HTTPException(status_code=401, detail="Kiosk kimligi dogrulanamadi")
+
+
+def expected_kiosk_fingerprint() -> str:
+    """Kiosk kimligini Pavo ile ayni kaynaktan okur, Pavo host/sube/seri dogrulamasi yapmaz."""
+    fingerprint = ""
+    if DATABASE_URL:
+        try:
+            with connect_db() as conn:
+                stored = conn.execute(
+                    "SELECT source_fingerprint FROM pos_gateway_config WHERE id = 1"
+                ).fetchone()
+        except Exception as error:
+            raise HTTPException(status_code=503, detail="Kiosk kimlik yapilandirmasi okunamadi") from error
+        if stored and stored.get("source_fingerprint"):
+            fingerprint = str(stored["source_fingerprint"]).strip()
+    if not fingerprint:
+        fingerprint = os.getenv("PAVO_SOURCE_FINGERPRINT", "").strip()
+    if not fingerprint:
+        raise HTTPException(status_code=503, detail="Kiosk kimligi yapilandirilmamis")
+    return fingerprint
+
+
+@dataclass(frozen=True)
+class MagicBossSettings:
+    base_url: str
+    api_key: str
+    terminal_serial: str
+
+
+MAGICBOSS_PROVIDER = "MAGICBOSS"
+MAGICBOSS_TRANSACTION_PREFIX = "mb-"
+MAGICBOSS_TRANSACTION_PATTERN = re.compile(r"mb-\d{1,18}")
+MAGICBOSS_STATUS_MAP = {
+    "APPROVED": "COMPLETED",
+    "DECLINED": "FAILED",
+    "ERROR": "FAILED",
+    "TIMEOUT": "FAILED",
+    "CANCELLED": "CANCELLED",
+}
+MAGICBOSS_DEFAULT_MESSAGES = {
+    "DECLINED": "Ödeme POS cihazında reddedildi.",
+    "ERROR": "Castles POS cihazında ödeme hatası oluştu.",
+    "TIMEOUT": "Ödeme POS cihazında zaman aşımına uğradı.",
+    "CANCELLED": "Ödeme POS cihazında iptal edildi.",
+}
+
+
+def magicboss_settings() -> MagicBossSettings | None:
+    """MAGICBOSS_API_URL tanimliysa odemeler Pavo yerine dogrudan Castles'a gider."""
+    base_url = os.getenv("MAGICBOSS_API_URL", "").strip().rstrip("/")
+    if not base_url:
+        return None
+    # Seri numarasi istege baglidir: kiosk kendi cihazini panelde tanimli listeden secer,
+    # env'deki seri yalnizca secim yapilmamis kiosklar icin varsayilandir.
+    return MagicBossSettings(
+        base_url=base_url,
+        api_key=os.getenv("MAGICBOSS_API_KEY", "").strip(),
+        terminal_serial=os.getenv("MAGICBOSS_TERMINAL_SERIAL", "").strip(),
+    )
+
+
+async def magicboss_request(settings: MagicBossSettings, method: str, path: str, **kwargs) -> dict:
+    headers = {"Accept": "application/json"}
+    if settings.api_key:
+        headers["X-API-Key"] = settings.api_key
+    try:
+        async with httpx.AsyncClient(timeout=15.0) as client:
+            response = await client.request(method, f"{settings.base_url}{path}", headers=headers, **kwargs)
+    except httpx.HTTPError as error:
+        raise HTTPException(status_code=503, detail="Castles POS servisine ulaşılamadı") from error
+    try:
+        body = response.json() if response.content else {}
+    except ValueError:
+        # Proxy/HTML hata sayfalari JSON degildir; mesaji kisaltip tasi.
+        body = {"detail": response.text[:200]}
+    if response.status_code >= 400:
+        detail = body.get("detail") if isinstance(body, dict) else None
+        raise HTTPException(status_code=502, detail=f"Castles POS isteği başarısız: {detail or response.status_code}")
+    return body if isinstance(body, dict) else {}
+
+
+def utc_now_iso() -> str:
+    return datetime.now(timezone.utc).isoformat()
+
+
+def castles_device_record(row: dict[str, Any]) -> dict[str, Any]:
+    def as_text(value: Any) -> Any:
+        return value.isoformat() if isinstance(value, datetime) else value
+
+    return {
+        "serial": row["serial"],
+        "name": row["name"],
+        "active": bool(row["active"]),
+        "createdAt": as_text(row.get("created_at")),
+        "updatedAt": as_text(row.get("updated_at")),
+    }
+
+
+def castles_db_error() -> HTTPException:
+    return HTTPException(status_code=503, detail="Castles cihaz listesine erisilemedi")
+
+
+def list_castles_devices(*, only_active: bool = False) -> list[dict[str, Any]]:
+    if DATABASE_URL:
+        query = "SELECT serial, name, active, created_at, updated_at FROM castles_devices"
+        if only_active:
+            query += " WHERE active"
+        query += " ORDER BY name, serial"
+        try:
+            with connect_db() as conn:
+                rows = conn.execute(query).fetchall()
+        except psycopg.Error as error:
+            raise castles_db_error() from error
+        return [castles_device_record(row) for row in rows]
+    with STATE_LOCK:
+        rows = [deepcopy(item) for item in castles_devices if item.get("active") or not only_active]
+    return [castles_device_record(row) for row in sorted(rows, key=lambda item: (item["name"], item["serial"]))]
+
+
+def find_castles_device(serial: str) -> dict[str, Any] | None:
+    if DATABASE_URL:
+        try:
+            with connect_db() as conn:
+                row = conn.execute(
+                    "SELECT serial, name, active, created_at, updated_at FROM castles_devices WHERE serial = %s",
+                    (serial,),
+                ).fetchone()
+        except psycopg.Error as error:
+            raise castles_db_error() from error
+        return castles_device_record(row) if row else None
+    with STATE_LOCK:
+        row = next((item for item in castles_devices if item.get("serial") == serial), None)
+        return castles_device_record(row) if row else None
+
+
+def resolve_castles_serial(settings: MagicBossSettings, requested_serial: str | None) -> str:
+    serial = (requested_serial or "").strip()
+    if serial:
+        device = find_castles_device(serial)
+        if not device or not device["active"]:
+            raise HTTPException(status_code=400, detail="Seçilen Castles cihazı tanımlı değil")
+        return serial
+    if settings.terminal_serial:
+        return settings.terminal_serial
+    raise HTTPException(status_code=503, detail="Castles POS cihazı seçilmedi")
+
+
+@app.get("/api/admin/castles/devices")
+def admin_list_castles_devices():
+    return list_castles_devices()
+
+
+@app.post("/api/admin/castles/devices", status_code=201)
+def admin_create_castles_device(payload: CastlesDeviceCreate):
+    duplicate = HTTPException(status_code=409, detail="Bu seri numarasıyla kayıtlı bir Castles cihazı zaten var")
+    if DATABASE_URL:
+        try:
+            with connect_db() as conn:
+                row = conn.execute(
+                    """
+                    INSERT INTO castles_devices (serial, name, active)
+                    VALUES (%s, %s, %s)
+                    ON CONFLICT (serial) DO NOTHING
+                    RETURNING serial, name, active, created_at, updated_at
+                    """,
+                    (payload.serial, payload.name, payload.active),
+                ).fetchone()
+        except psycopg.Error as error:
+            raise castles_db_error() from error
+        if not row:
+            raise duplicate
+        return castles_device_record(row)
+    with STATE_LOCK:
+        if any(item.get("serial") == payload.serial for item in castles_devices):
+            raise duplicate
+        now = utc_now_iso()
+        row = {"serial": payload.serial, "name": payload.name, "active": payload.active, "created_at": now, "updated_at": now}
+        castles_devices.append(row)
+        save_state()
+        return castles_device_record(row)
+
+
+@app.put("/api/admin/castles/devices/{serial}")
+def admin_update_castles_device(serial: str, payload: CastlesDeviceUpdate):
+    values = {key: value for key, value in payload.model_dump(exclude_unset=True).items() if value is not None}
+    if not values:
+        raise HTTPException(status_code=400, detail="Değişiklik bulunamadı")
+    not_found = HTTPException(status_code=404, detail="Castles cihazı bulunamadı")
+    if DATABASE_URL:
+        assignments = [f"{key} = %s" for key in values]
+        parameters: list[Any] = [*values.values(), serial]
+        try:
+            with connect_db() as conn:
+                row = conn.execute(
+                    f"UPDATE castles_devices SET {', '.join(assignments)}, updated_at = now() "
+                    "WHERE serial = %s RETURNING serial, name, active, created_at, updated_at",
+                    parameters,
+                ).fetchone()
+        except psycopg.Error as error:
+            raise castles_db_error() from error
+        if not row:
+            raise not_found
+        return castles_device_record(row)
+    with STATE_LOCK:
+        row = next((item for item in castles_devices if item.get("serial") == serial), None)
+        if not row:
+            raise not_found
+        row.update(values)
+        row["updated_at"] = utc_now_iso()
+        save_state()
+        return castles_device_record(row)
+
+
+@app.delete("/api/admin/castles/devices/{serial}", status_code=204)
+def admin_delete_castles_device(serial: str):
+    not_found = HTTPException(status_code=404, detail="Castles cihazı bulunamadı")
+    if DATABASE_URL:
+        try:
+            with connect_db() as conn:
+                result = conn.execute("DELETE FROM castles_devices WHERE serial = %s", (serial,))
+        except psycopg.Error as error:
+            raise castles_db_error() from error
+        if result.rowcount == 0:
+            raise not_found
+        return
+    with STATE_LOCK:
+        remaining = [item for item in castles_devices if item.get("serial") != serial]
+        if len(remaining) == len(castles_devices):
+            raise not_found
+        castles_devices[:] = remaining
+        save_state()
+
+
+@app.get("/api/pos/castles/devices")
+def list_active_castles_devices():
+    return [{"serial": item["serial"], "name": item["name"]} for item in list_castles_devices(only_active=True)]
+
+
+def find_pos_payment(transaction_id: str) -> dict[str, Any] | None:
+    with STATE_LOCK:
+        return next(
+            (
+                item for item in pos_payments.values()
+                if item.get("transactionId") == transaction_id or item.get("externalId") == transaction_id
+            ),
+            None,
+        )
+
+
+async def start_magicboss_payment(settings: MagicBossSettings, payload: PosPaymentCreate, request: Request) -> dict:
+    require_kiosk_identity(request, expected_kiosk_fingerprint())
+    calculated_total, resolved_lines, _ = resolve_order_lines(payload.lines)
+    if abs(calculated_total - round(payload.amount, 2)) > 0.01:
+        raise HTTPException(status_code=409, detail="Odeme tutari guncel sepet toplamiyla uyusmuyor")
+    enforce_payment_rate_limit(request)
+    fingerprint = order_fingerprint(payload.paymentMethod, resolved_lines)
+
+    def existing_response() -> dict | None:
+        existing = pos_payments.get(payload.clientRequestId)
+        if not existing:
+            return None
+        if existing.get("cartFingerprint") != fingerprint:
+            raise HTTPException(status_code=409, detail="Odeme istek anahtari farkli bir sepet icin kullanilmis")
+        return payment_response(existing)
+
+    with STATE_LOCK:
+        cached = existing_response()
+    if cached:
+        return cached
+    terminal_serial = resolve_castles_serial(settings, payload.terminalSerial)
+    with STATE_LOCK:
+        cached = existing_response()
+        if cached:
+            return cached
+        # Siparis numarasi odeme onayindan once ayrilir; POS fisine basilir ve
+        # odeme tamamlaninca siparis ayni numarayla olusturulur.
+        reserved_order_number = f"MC-{next(order_numbers):03d}"
+        now = utc_now_iso()
+        record = {
+            "clientRequestId": payload.clientRequestId,
+            "externalId": None,
+            "transactionId": None,
+            "status": "STARTING",
+            "message": None,
+            "amount": calculated_total,
+            "paymentMethod": payload.paymentMethod,
+            "cartFingerprint": fingerprint,
+            "provider": MAGICBOSS_PROVIDER,
+            "reservedOrderNumber": reserved_order_number,
+            "terminalSerial": terminal_serial,
+            "createdAt": now,
+            "updatedAt": now,
+        }
+        pos_payments[payload.clientRequestId] = record
+        save_state()
+
+    try:
+        result = await magicboss_request(
+            settings,
+            "POST",
+            "/number",
+            json={
+                "number": calculated_total,
+                "serial_number": terminal_serial,
+                "brand": "MAGICCOFFEE",
+                "order_no": reserved_order_number,
+            },
+        )
+    except HTTPException as error:
+        with STATE_LOCK:
+            record.update({"status": "FAILED", "message": str(error.detail), "updatedAt": utc_now_iso()})
+            save_state()
+        raise
+    journal_id = result.get("journal_id")
+    # MagicBoss cihaz cevrimdisiyken de "success" doner; tutar ancak sent_to >= 1 ise cihazdadir.
+    try:
+        sent_to = int(result.get("sent_to") or 0)
+    except (TypeError, ValueError):
+        sent_to = 0
+    accepted = bool(journal_id) and str(result.get("status", "")).lower() == "success" and sent_to >= 1
+    with STATE_LOCK:
+        if accepted:
+            transaction_id = f"{MAGICBOSS_TRANSACTION_PREFIX}{journal_id}"
+            record.update({
+                "transactionId": transaction_id,
+                "externalId": transaction_id,
+                "providerTransactionId": str(journal_id),
+                "status": "PROCESSING",
+                "message": None,
+                "updatedAt": utc_now_iso(),
+            })
+        else:
+            record.update({
+                "status": "FAILED",
+                "message": "Castles POS cihazı çevrimdışı; ödeme gönderilemedi.",
+                "updatedAt": utc_now_iso(),
+            })
+        save_state()
+    return payment_response(record)
+
+
+async def poll_magicboss_payment(transaction_id: str, request: Request) -> dict:
+    require_kiosk_identity(request, expected_kiosk_fingerprint())
+    record = find_pos_payment(transaction_id)
+    if not record:
+        raise HTTPException(status_code=404, detail="POS islemi bulunamadi")
+    if record.get("status") in SUCCESSFUL_PAYMENT_STATUSES | FAILED_PAYMENT_STATUSES:
+        return payment_response(record)
+    journal_id = record.get("providerTransactionId")
+    if not journal_id:
+        raise HTTPException(status_code=409, detail="POS islemi henuz baslatiliyor")
+    settings = magicboss_settings()
+    if not settings:
+        raise HTTPException(status_code=503, detail="Castles POS yapılandırılmamış")
+    # Castles islem sonucunu journal kaydina yazar; kart okutulana kadar durum INITIATED kalir.
+    # Gecici ag/HTTP hatalari odemeyi dusurmez: tutar cihazda yasiyor olabilir.
+    try:
+        result = await magicboss_request(settings, "GET", f"/journal/{journal_id}")
+    except HTTPException as error:
+        return {
+            **payment_response(record),
+            "status": "PROCESSING",
+            "message": f"Castles cihaz yanıtı bekleniyor ({error.detail}).",
+        }
+    device_status = str(result.get("status", "")).upper()
+    status = MAGICBOSS_STATUS_MAP.get(device_status, "PROCESSING")
+    message = None
+    if status != "PROCESSING":
+        message = result.get("declineReason") or MAGICBOSS_DEFAULT_MESSAGES.get(device_status)
+    with STATE_LOCK:
+        if record.get("status") != status or record.get("message") != message:
+            record.update({"status": status, "message": message, "updatedAt": utc_now_iso()})
+            save_state()
+    return payment_response(record)
 
 
 async def pavo_gateway_login(
@@ -890,6 +1332,15 @@ async def admin_check_pos_pairing(device_id: str, payload: PosPairCheck):
 
 @app.get("/api/pos/device")
 async def get_pos_device():
+    magicboss = magicboss_settings()
+    if magicboss:
+        return {
+            "name": "Castles POS",
+            "provider": MAGICBOSS_PROVIDER,
+            "serialNumber": magicboss.terminal_serial or None,
+            "defaultSerial": magicboss.terminal_serial or None,
+            "status": "ACTIVE",
+        }
     device = await resolve_pavo_device()
     return {
         "name": device.get("name") or "Pavo N96",
@@ -901,6 +1352,9 @@ async def get_pos_device():
 
 @app.post("/api/pos/payments", status_code=201)
 async def start_pos_payment(payload: PosPaymentCreate, request: Request):
+    magicboss = magicboss_settings()
+    if magicboss:
+        return await start_magicboss_payment(magicboss, payload, request)
     _, branch_id, _, source_fingerprint, _ = pavo_gateway_settings()
     require_kiosk_identity(request, source_fingerprint)
     calculated_total, resolved_lines, _ = resolve_order_lines(payload.lines)
@@ -975,6 +1429,11 @@ async def start_pos_payment(payload: PosPaymentCreate, request: Request):
 
 @app.get("/api/pos/payments/{transaction_id}")
 async def poll_pos_payment(transaction_id: str, request: Request):
+    if MAGICBOSS_TRANSACTION_PATTERN.fullmatch(transaction_id):
+        return await poll_magicboss_payment(transaction_id, request)
+    castles_record = find_pos_payment(transaction_id)
+    if castles_record and castles_record.get("provider") == MAGICBOSS_PROVIDER:
+        return await poll_magicboss_payment(transaction_id, request)
     _, _, _, source_fingerprint, _ = pavo_gateway_settings()
     require_kiosk_identity(request, source_fingerprint)
     with STATE_LOCK:
@@ -1050,7 +1509,11 @@ def create_order(payload: OrderCreate):
                 product["stockQuantity"] = after
                 record_stock(product, before, after, -line["quantity"], "Sipariş sonrası stok düşümü")
 
-        number = f"MC-{next(order_numbers):03d}"
+        reserved_number = payment.get("reservedOrderNumber")
+        if reserved_number and reserved_number not in orders:
+            number = reserved_number
+        else:
+            number = f"MC-{next(order_numbers):03d}"
         order = {
             "number": number,
             "status": "preparing",
