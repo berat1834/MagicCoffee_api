@@ -5,13 +5,14 @@ import asyncio
 import hashlib
 import hmac
 import json
+import logging
 import os
 import re
 import time
 from collections import defaultdict, deque
 from copy import deepcopy
-from dataclasses import dataclass
 from datetime import date, datetime, timezone
+from decimal import Decimal
 from itertools import count
 from pathlib import Path
 from threading import RLock
@@ -27,6 +28,8 @@ from pydantic import BaseModel, Field, field_validator
 import psycopg
 from psycopg.rows import dict_row
 
+from . import caspro
+from .caspro import CasProDeviceOffline, CasProError, CasProSettings, CasProUnavailable, caspro_settings, normalize_caspro_serial
 from .catalog import CATEGORIES, PRODUCTS
 from .translation import (
     localized_text,
@@ -292,7 +295,7 @@ class OrderCreate(BaseModel):
     paymentMethod: Literal["card", "meal-card"]
     total: float = Field(gt=0, le=100_000)
     lines: list[OrderLine] = Field(min_length=1)
-    # Castles islem kimlikleri "mb-<journal_id>" bicimindedir ve 8 karakterden kisa olabilir.
+    # Castles (CasPro) islem kimlikleri "cp-<24 hex>" bicimindedir.
     paymentReference: str = Field(min_length=4, max_length=160)
     posTransactionId: str = Field(min_length=4, max_length=160)
     language: Literal["tr", "en"] = "tr"
@@ -630,16 +633,16 @@ def health():
     if DATABASE_URL:
         with connect_db() as conn:
             conn.execute("SELECT 1").fetchone()
-    magicboss = magicboss_settings()
-    if magicboss:
+    caspro_config = caspro_settings()
+    if caspro_config:
         return {
             "status": "ok",
             "service": "magic-coffee-api",
             "database": "postgresql" if DATABASE_URL else "local-file",
             "payment": {
                 "status": "ready",
-                "provider": MAGICBOSS_PROVIDER,
-                "defaultSerial": magicboss.terminal_serial or None,
+                "provider": CASPRO_PROVIDER,
+                "defaultSerial": caspro_config.terminal_serial or None,
             },
             "translation": translation_status(translations),
         }
@@ -779,63 +782,17 @@ def expected_kiosk_fingerprint() -> str:
     return fingerprint
 
 
-@dataclass(frozen=True)
-class MagicBossSettings:
-    base_url: str
-    api_key: str
-    terminal_serial: str
-
-
-MAGICBOSS_PROVIDER = "MAGICBOSS"
-MAGICBOSS_TRANSACTION_PREFIX = "mb-"
-MAGICBOSS_TRANSACTION_PATTERN = re.compile(r"mb-\d{1,18}")
-MAGICBOSS_STATUS_MAP = {
-    "APPROVED": "COMPLETED",
-    "DECLINED": "FAILED",
-    "ERROR": "FAILED",
-    "TIMEOUT": "FAILED",
-    "CANCELLED": "CANCELLED",
-}
-MAGICBOSS_DEFAULT_MESSAGES = {
-    "DECLINED": "Ödeme POS cihazında reddedildi.",
-    "ERROR": "Castles POS cihazında ödeme hatası oluştu.",
-    "TIMEOUT": "Ödeme POS cihazında zaman aşımına uğradı.",
-    "CANCELLED": "Ödeme POS cihazında iptal edildi.",
-}
-
-
-def magicboss_settings() -> MagicBossSettings | None:
-    """MAGICBOSS_API_URL tanimliysa odemeler Pavo yerine dogrudan Castles'a gider."""
-    base_url = os.getenv("MAGICBOSS_API_URL", "").strip().rstrip("/")
-    if not base_url:
-        return None
-    # Seri numarasi istege baglidir: kiosk kendi cihazini panelde tanimli listeden secer,
-    # env'deki seri yalnizca secim yapilmamis kiosklar icin varsayilandir.
-    return MagicBossSettings(
-        base_url=base_url,
-        api_key=os.getenv("MAGICBOSS_API_KEY", "").strip(),
-        terminal_serial=os.getenv("MAGICBOSS_TERMINAL_SERIAL", "").strip(),
-    )
-
-
-async def magicboss_request(settings: MagicBossSettings, method: str, path: str, **kwargs) -> dict:
-    headers = {"Accept": "application/json"}
-    if settings.api_key:
-        headers["X-API-Key"] = settings.api_key
-    try:
-        async with httpx.AsyncClient(timeout=15.0) as client:
-            response = await client.request(method, f"{settings.base_url}{path}", headers=headers, **kwargs)
-    except httpx.HTTPError as error:
-        raise HTTPException(status_code=503, detail="Castles POS servisine ulaşılamadı") from error
-    try:
-        body = response.json() if response.content else {}
-    except ValueError:
-        # Proxy/HTML hata sayfalari JSON degildir; mesaji kisaltip tasi.
-        body = {"detail": response.text[:200]}
-    if response.status_code >= 400:
-        detail = body.get("detail") if isinstance(body, dict) else None
-        raise HTTPException(status_code=502, detail=f"Castles POS isteği başarısız: {detail or response.status_code}")
-    return body if isinstance(body, dict) else {}
+CASPRO_PROVIDER = "CASPRO"
+CASPRO_TRANSACTION_PATTERN = caspro.TRANSACTION_PATTERN
+# Kurtarma dongusunde QueryTransaction araligi ve poll tarafinin sorgu esigi (saniye).
+CASPRO_RECOVERY_INTERVAL_SECONDS = 3.0
+CASPRO_POLL_QUERY_GRACE_SECONDS = 10.0
+# Baslat istegi, bulutun aninda dondugu "cihaz bagli degil" (404) yanitini yakalamak icin
+# arka plan gorevini en fazla bu kadar bekler; sonra PROCESSING ile doner.
+CASPRO_OFFLINE_GRACE_SECONDS = 1.5
+CASPRO_PRINT_HEADER = "MAGIC COFFEE"
+# Surec icinde yasayan satis gorevleri; poll tarafi gorev kaybolduysa QueryTransaction ile sonucu arar.
+CASPRO_TASKS: dict[str, asyncio.Task] = {}
 
 
 def utc_now_iso() -> str:
@@ -892,15 +849,22 @@ def find_castles_device(serial: str) -> dict[str, Any] | None:
         return castles_device_record(row) if row else None
 
 
-def resolve_castles_serial(settings: MagicBossSettings, requested_serial: str | None) -> str:
+def resolve_castles_serial(settings: CasProSettings, requested_serial: str | None) -> str:
+    """Secilen/varsayilan cihazin serisini CasPro'nun bekledigi 12 haneli bicime cevirir."""
     serial = (requested_serial or "").strip()
     if serial:
         device = find_castles_device(serial)
         if not device or not device["active"]:
             raise HTTPException(status_code=400, detail="Seçilen Castles cihazı tanımlı değil")
-        return serial
+        normalized = normalize_caspro_serial(serial)
+        if len(normalized) != 12:
+            raise HTTPException(status_code=400, detail="Seçilen Castles cihazının seri numarası geçersiz")
+        return normalized
     if settings.terminal_serial:
-        return settings.terminal_serial
+        normalized = normalize_caspro_serial(settings.terminal_serial)
+        if len(normalized) != 12:
+            raise HTTPException(status_code=503, detail="Varsayılan Castles cihaz seri numarası geçersiz")
+        return normalized
     raise HTTPException(status_code=503, detail="Castles POS cihazı seçilmedi")
 
 
@@ -1006,7 +970,114 @@ def find_pos_payment(transaction_id: str) -> dict[str, Any] | None:
         )
 
 
-async def start_magicboss_payment(settings: MagicBossSettings, payload: PosPaymentCreate, request: Request) -> dict:
+def caspro_record_age_seconds(record: dict[str, Any]) -> float:
+    try:
+        created = datetime.fromisoformat(str(record.get("createdAt")))
+    except (TypeError, ValueError):
+        return 0.0
+    if created.tzinfo is None:
+        created = created.replace(tzinfo=timezone.utc)
+    return max(0.0, (datetime.now(timezone.utc) - created).total_seconds())
+
+
+def finalize_caspro_payment(record: dict[str, Any], status: str, message: str | None, details: dict[str, Any] | None = None) -> bool:
+    """Nihai sonucu kayda yazar. Yalnizca PROCESSING kayit guncellenir; onaylanan satis (para cekildi)
+    kullanici iptalinin ustune de yazilir."""
+    with STATE_LOCK:
+        current = record.get("status")
+        if current == status and status != "COMPLETED":
+            return False
+        if current in SUCCESSFUL_PAYMENT_STATUSES:
+            return False
+        if current != "PROCESSING" and status != "COMPLETED":
+            return False
+        record.update({"status": status, "message": message, "updatedAt": utc_now_iso()})
+        if details:
+            record.update({key: value for key, value in details.items() if value is not None})
+        save_state()
+    return True
+
+
+def apply_caspro_result(record: dict[str, Any], result: tuple[str, str | None, dict[str, Any]] | None) -> bool:
+    if not result:
+        return False
+    status, message, details = result
+    return finalize_caspro_payment(record, status, message, details)
+
+
+async def caspro_cancel_quietly(settings: CasProSettings, terminal_serial: str) -> bool:
+    try:
+        response = await caspro.send_command(settings, caspro.build_cancel(terminal_serial), caspro.COMMAND_TIMEOUT_SECONDS)
+    except CasProError:
+        return False
+    return bool(response.get("status"))
+
+
+async def query_caspro_result(settings: CasProSettings, record: dict[str, Any]) -> bool:
+    """Tek QueryTransaction denemesi; nihai sonuc geldiyse kayda yazar ve True doner."""
+    try:
+        response = await caspro.send_command(
+            settings,
+            caspro.build_query(record["terminalSerial"], record["externalId"]),
+            caspro.COMMAND_TIMEOUT_SECONDS,
+        )
+    except CasProError:
+        return False
+    return apply_caspro_result(record, caspro.interpret_query_response(response))
+
+
+async def recover_caspro_payment(settings: CasProSettings, record: dict[str, Any]) -> None:
+    """Transaction yaniti alinamadiysa CASPRO_RESULT_TIMEOUT_SECONDS boyunca 3 s araliklarla
+    QueryTransaction dener; sonuc gelmezse CancelTransaction gonderip kaydi FAILED yapar."""
+    while record.get("status") == "PROCESSING":
+        if caspro_record_age_seconds(record) >= settings.result_timeout:
+            await caspro_cancel_quietly(settings, record["terminalSerial"])
+            finalize_caspro_payment(record, "FAILED", caspro.TIMEOUT_MESSAGE)
+            return
+        if await query_caspro_result(settings, record):
+            return
+        await asyncio.sleep(CASPRO_RECOVERY_INTERVAL_SECONDS)
+
+
+async def run_caspro_sale(transaction_id: str) -> None:
+    record = find_pos_payment(transaction_id)
+    settings = caspro_settings()
+    if not record or not settings:
+        return
+    try:
+        amount_kurus = caspro.to_kurus(Decimal(str(record.get("amount") or 0)))
+        payload = caspro.build_sale(
+            record["terminalSerial"],
+            amount_kurus,
+            record["externalId"],
+            [CASPRO_PRINT_HEADER, f"Siparis No: {record.get('reservedOrderNumber') or ''}"],
+        )
+        try:
+            response = await caspro.send_command(settings, payload, settings.transaction_timeout)
+        except CasProDeviceOffline:
+            finalize_caspro_payment(record, "FAILED", caspro.DEVICE_OFFLINE_MESSAGE)
+            return
+        except CasProUnavailable:
+            # Istek cihaza ulasmis olabilir; sonucu QueryTransaction ile ara.
+            await recover_caspro_payment(settings, record)
+            return
+        if not apply_caspro_result(record, caspro.interpret_transaction_response(response)):
+            await recover_caspro_payment(settings, record)
+    except asyncio.CancelledError:
+        raise
+    except Exception:  # noqa: BLE001 - arka plan gorevi sessizce olmemeli
+        logging.getLogger("caspro").exception("CasPro satis gorevi beklenmeyen hata ile bitti")
+        finalize_caspro_payment(record, "FAILED", "Castles POS cihazında ödeme hatası oluştu.")
+
+
+def spawn_caspro_sale(transaction_id: str) -> asyncio.Task:
+    task = asyncio.create_task(run_caspro_sale(transaction_id))
+    CASPRO_TASKS[transaction_id] = task
+    task.add_done_callback(lambda done: CASPRO_TASKS.pop(transaction_id, None) if CASPRO_TASKS.get(transaction_id) is done else None)
+    return task
+
+
+async def start_caspro_payment(settings: CasProSettings, payload: PosPaymentCreate, request: Request) -> dict:
     require_kiosk_identity(request, expected_kiosk_fingerprint())
     calculated_total, resolved_lines, _ = resolve_order_lines(payload.lines)
     if abs(calculated_total - round(payload.amount, 2)) > 0.01:
@@ -1034,17 +1105,18 @@ async def start_magicboss_payment(settings: MagicBossSettings, payload: PosPayme
         # Siparis numarasi odeme onayindan once ayrilir; POS fisine basilir ve
         # odeme tamamlaninca siparis ayni numarayla olusturulur.
         reserved_order_number = f"MC-{next(order_numbers):03d}"
+        transaction_id = caspro.new_transaction_id()
         now = utc_now_iso()
         record = {
             "clientRequestId": payload.clientRequestId,
-            "externalId": None,
-            "transactionId": None,
-            "status": "STARTING",
+            "externalId": transaction_id,
+            "transactionId": transaction_id,
+            "status": "PROCESSING",
             "message": None,
             "amount": calculated_total,
             "paymentMethod": payload.paymentMethod,
             "cartFingerprint": fingerprint,
-            "provider": MAGICBOSS_PROVIDER,
+            "provider": CASPRO_PROVIDER,
             "reservedOrderNumber": reserved_order_number,
             "terminalSerial": terminal_serial,
             "createdAt": now,
@@ -1053,84 +1125,64 @@ async def start_magicboss_payment(settings: MagicBossSettings, payload: PosPayme
         pos_payments[payload.clientRequestId] = record
         save_state()
 
-    try:
-        result = await magicboss_request(
-            settings,
-            "POST",
-            "/number",
-            json={
-                "number": calculated_total,
-                "serial_number": terminal_serial,
-                "brand": "MAGICCOFFEE",
-                "order_no": reserved_order_number,
-            },
-        )
-    except HTTPException as error:
-        with STATE_LOCK:
-            record.update({"status": "FAILED", "message": str(error.detail), "updatedAt": utc_now_iso()})
-            save_state()
-        raise
-    journal_id = result.get("journal_id")
-    # MagicBoss cihaz cevrimdisiyken de "success" doner; tutar ancak sent_to >= 1 ise cihazdadir.
-    try:
-        sent_to = int(result.get("sent_to") or 0)
-    except (TypeError, ValueError):
-        sent_to = 0
-    accepted = bool(journal_id) and str(result.get("status", "")).lower() == "success" and sent_to >= 1
-    with STATE_LOCK:
-        if accepted:
-            transaction_id = f"{MAGICBOSS_TRANSACTION_PREFIX}{journal_id}"
-            record.update({
-                "transactionId": transaction_id,
-                "externalId": transaction_id,
-                "providerTransactionId": str(journal_id),
-                "status": "PROCESSING",
-                "message": None,
-                "updatedAt": utc_now_iso(),
-            })
-        else:
-            record.update({
-                "status": "FAILED",
-                "message": "Castles POS cihazı çevrimdışı; ödeme gönderilemedi.",
-                "updatedAt": utc_now_iso(),
-            })
-        save_state()
+    # Transaction/Sale banka yaniti gelene kadar surebilir; arka planda calisir.
+    task = spawn_caspro_sale(transaction_id)
+    # Cihaz bagli degilse bulut aninda 404 doner; bunu yakalayip FAILED ile donmek icin kisa sure beklenir.
+    await asyncio.wait({task}, timeout=CASPRO_OFFLINE_GRACE_SECONDS)
     return payment_response(record)
 
 
-async def poll_magicboss_payment(transaction_id: str, request: Request) -> dict:
+async def poll_caspro_payment(transaction_id: str, request: Request) -> dict:
     require_kiosk_identity(request, expected_kiosk_fingerprint())
     record = find_pos_payment(transaction_id)
     if not record:
         raise HTTPException(status_code=404, detail="POS islemi bulunamadi")
     if record.get("status") in SUCCESSFUL_PAYMENT_STATUSES | FAILED_PAYMENT_STATUSES:
         return payment_response(record)
-    journal_id = record.get("providerTransactionId")
-    if not journal_id:
+    if not record.get("externalId"):
         raise HTTPException(status_code=409, detail="POS islemi henuz baslatiliyor")
-    settings = magicboss_settings()
+    settings = caspro_settings()
     if not settings:
         raise HTTPException(status_code=503, detail="Castles POS yapılandırılmamış")
-    # Castles islem sonucunu journal kaydina yazar; kart okutulana kadar durum INITIATED kalir.
-    # Gecici ag/HTTP hatalari odemeyi dusurmez: tutar cihazda yasiyor olabilir.
-    try:
-        result = await magicboss_request(settings, "GET", f"/journal/{journal_id}")
-    except HTTPException as error:
-        return {
-            **payment_response(record),
-            "status": "PROCESSING",
-            "message": f"Castles cihaz yanıtı bekleniyor ({error.detail}).",
-        }
-    device_status = str(result.get("status", "")).upper()
-    status = MAGICBOSS_STATUS_MAP.get(device_status, "PROCESSING")
-    message = None
-    if status != "PROCESSING":
-        message = result.get("declineReason") or MAGICBOSS_DEFAULT_MESSAGES.get(device_status)
-    with STATE_LOCK:
-        if record.get("status") != status or record.get("message") != message:
-            record.update({"status": status, "message": message, "updatedAt": utc_now_iso()})
-            save_state()
+    task = CASPRO_TASKS.get(record["externalId"])
+    if task is not None and not task.done():
+        return payment_response(record)
+    # Arka plan gorevi yok (surec yeniden basladi): sonucu buluttan sor.
+    age = caspro_record_age_seconds(record)
+    if age >= settings.result_timeout:
+        finalize_caspro_payment(record, "FAILED", caspro.TIMEOUT_MESSAGE)
+    elif age >= CASPRO_POLL_QUERY_GRACE_SECONDS:
+        await query_caspro_result(settings, record)
     return payment_response(record)
+
+
+@app.post("/api/pos/payments/{transaction_id}/cancel")
+async def cancel_pos_payment(transaction_id: str, request: Request):
+    require_kiosk_identity(request, expected_kiosk_fingerprint())
+    record = find_pos_payment(transaction_id)
+    if not record or record.get("provider") != CASPRO_PROVIDER:
+        raise HTTPException(status_code=404, detail="POS islemi bulunamadi")
+    settings = caspro_settings()
+    if not settings:
+        raise HTTPException(status_code=503, detail="Castles POS yapılandırılmamış")
+    if record.get("status") == "PROCESSING":
+        # Onaylanmis satisi geri almaz; yalnizca bekleyen islemi kapatip cihazi bosa dondurur.
+        # Cihaz iptali onaylamazsa kart hala bekleniyor olabilir: kayit PROCESSING kalir,
+        # sonucu Transaction yaniti belirler (musteri kart okutursa odeme kaybolmaz).
+        accepted = await caspro_cancel_quietly(settings, record["terminalSerial"])
+        if not accepted:
+            return {"status": "PROCESSING", "message": "Cihaz iptali onaylamadı; POS'ta kart bekleniyor."}
+        with STATE_LOCK:
+            if record.get("status") == "PROCESSING":
+                record.update({
+                    "status": "CANCELLED",
+                    "message": caspro.CANCELLED_MESSAGE,
+                    "releasedOrderNumber": record.get("reservedOrderNumber"),
+                    "reservedOrderNumber": None,
+                    "updatedAt": utc_now_iso(),
+                })
+                save_state()
+    return {"status": record.get("status"), "message": record.get("message")}
 
 
 async def pavo_gateway_login(
@@ -1332,13 +1384,13 @@ async def admin_check_pos_pairing(device_id: str, payload: PosPairCheck):
 
 @app.get("/api/pos/device")
 async def get_pos_device():
-    magicboss = magicboss_settings()
-    if magicboss:
+    caspro_config = caspro_settings()
+    if caspro_config:
         return {
             "name": "Castles POS",
-            "provider": MAGICBOSS_PROVIDER,
-            "serialNumber": magicboss.terminal_serial or None,
-            "defaultSerial": magicboss.terminal_serial or None,
+            "provider": CASPRO_PROVIDER,
+            "serialNumber": caspro_config.terminal_serial or None,
+            "defaultSerial": caspro_config.terminal_serial or None,
             "status": "ACTIVE",
         }
     device = await resolve_pavo_device()
@@ -1352,9 +1404,9 @@ async def get_pos_device():
 
 @app.post("/api/pos/payments", status_code=201)
 async def start_pos_payment(payload: PosPaymentCreate, request: Request):
-    magicboss = magicboss_settings()
-    if magicboss:
-        return await start_magicboss_payment(magicboss, payload, request)
+    caspro_config = caspro_settings()
+    if caspro_config:
+        return await start_caspro_payment(caspro_config, payload, request)
     _, branch_id, _, source_fingerprint, _ = pavo_gateway_settings()
     require_kiosk_identity(request, source_fingerprint)
     calculated_total, resolved_lines, _ = resolve_order_lines(payload.lines)
@@ -1429,11 +1481,11 @@ async def start_pos_payment(payload: PosPaymentCreate, request: Request):
 
 @app.get("/api/pos/payments/{transaction_id}")
 async def poll_pos_payment(transaction_id: str, request: Request):
-    if MAGICBOSS_TRANSACTION_PATTERN.fullmatch(transaction_id):
-        return await poll_magicboss_payment(transaction_id, request)
+    if CASPRO_TRANSACTION_PATTERN.fullmatch(transaction_id):
+        return await poll_caspro_payment(transaction_id, request)
     castles_record = find_pos_payment(transaction_id)
-    if castles_record and castles_record.get("provider") == MAGICBOSS_PROVIDER:
-        return await poll_magicboss_payment(transaction_id, request)
+    if castles_record and castles_record.get("provider") == CASPRO_PROVIDER:
+        return await poll_caspro_payment(transaction_id, request)
     _, _, _, source_fingerprint, _ = pavo_gateway_settings()
     require_kiosk_identity(request, source_fingerprint)
     with STATE_LOCK:

@@ -46,7 +46,7 @@ spec:
           ports:
             - containerPort: 8080
           envFrom:
-            # DATABASE_URL ve MAGICBOSS_API_KEY; repoda tutulmaz, kümede elle oluşturulur.
+            # DATABASE_URL ve CASPRO_API_KEY; repoda tutulmaz, kümede elle oluşturulur.
             - secretRef:
                 name: magiccoffee-api-secrets
           env:
@@ -54,10 +54,10 @@ spec:
               value: "10.90.44.11"
             - name: ALLOWED_ORIGINS
               value: "https://magiccoffee-panel.magicpay.ai"
-            - name: MAGICBOSS_API_URL
-              value: "https://magicboss-test.magicpay.ai"
-            - name: MAGICBOSS_TERMINAL_SERIAL
-              value: "0000136250609467"
+            - name: CASPRO_API_URL
+              value: "https://external-system-api.tur.castlestech.cloud:6443"
+            - name: CASPRO_TERMINAL_SERIAL
+              value: "573234898609"
             - name: PAVO_GATEWAY_BASE_URL
               value: "https://kebo-api-dev.magicpay.ai/api"
             - name: PAVO_GATEWAY_ALLOWED_HOST

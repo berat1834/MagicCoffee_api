@@ -30,11 +30,15 @@ services:
         value: magiccoffee-pos@internal.magicpay.ai
       - key: PAVO_GATEWAY_SERVICE_PASSWORD
         sync: false
-      - key: MAGICBOSS_API_URL
+      - key: CASPRO_API_URL
         sync: false
-      - key: MAGICBOSS_API_KEY
+      - key: CASPRO_API_KEY
         sync: false
-      - key: MAGICBOSS_TERMINAL_SERIAL
+      - key: CASPRO_TERMINAL_SERIAL
         sync: false
+      - key: CASPRO_TRANSACTION_TIMEOUT_SECONDS
+        value: "150"
+      - key: CASPRO_RESULT_TIMEOUT_SECONDS
+        value: "180"
       - key: GOOGLE_TRANSLATE_API_KEY
         sync: false

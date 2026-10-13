@@ -83,7 +83,7 @@ jobs:
             --docker-username="${{ secrets.DOCKERHUB_USERNAME }}" \
             --docker-password="${{ secrets.DOCKERHUB_TOKEN }}" \
             --dry-run=client -o yaml | kubectl apply -f -
-          # DATABASE_URL ve MAGICBOSS_API_KEY kümede elle tutulur; yoksa kurulum durur.
+          # DATABASE_URL ve CASPRO_API_KEY kümede elle tutulur; yoksa kurulum durur.
           kubectl get secret magiccoffee-api-secrets -n "$NAMESPACE" >/dev/null
 
       - name: Deploy
