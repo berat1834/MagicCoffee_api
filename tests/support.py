@@ -120,6 +120,7 @@ class PlatformTestCase(unittest.TestCase):
             item.start()
         api.PAYMENT_ATTEMPTS.clear()
         api.KIOSK_SEEN.clear()
+        api.PIN_FAILURES.clear()
         api.CASPRO_TASKS.clear()
         self.prepare_database()
         # Arka plan satis gorevlerinin yasamasi icin istemci baglam olarak acilir (kalici event loop, lifespan).

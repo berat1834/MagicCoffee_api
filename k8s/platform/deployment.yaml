@@ -67,6 +67,9 @@ spec:
               value: "300"
             - name: DB_POOL_MAX_LIFETIME
               value: "1800"
+            # Kiosk kurulum ekranında POS seri numarası atamak için PIN.
+            - name: KIOSK_ADMIN_PIN
+              value: "1907"
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true

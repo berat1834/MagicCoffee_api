@@ -3,6 +3,7 @@ from __future__ import annotations
 import asyncio
 import base64
 import hashlib
+import hmac
 import json
 import logging
 import os
@@ -698,6 +699,10 @@ def kiosk_config(
     language: Literal["tr", "en"] = Query(default="tr", alias="lang"),
     kiosk: dict[str, Any] = Depends(current_kiosk),
 ):
+    return build_kiosk_config(kiosk, language)
+
+
+def build_kiosk_config(kiosk: dict[str, Any], language: str = "tr") -> dict[str, Any]:
     with db.connect() as conn:
         sections = fetch_sections(conn)
         categories = fetch_categories(conn)
@@ -724,6 +729,100 @@ def kiosk_config(
         "language": language,
         "sections": section_list,
     }
+
+
+# ---- kiosk kurulum ekrani: POS seri numarasi -------------------------------------------
+
+KIOSK_PIN_HEADER = "X-Kiosk-Admin-Pin"
+PIN_RATE_LIMIT = 5
+PIN_RATE_WINDOW_SECONDS = 60
+PIN_FAILURES: dict[str, deque[float]] = defaultdict(deque)
+PIN_FAILURES_LOCK = threading.Lock()
+
+
+class KioskPosUpdate(BaseModel):
+    posSerial: str | None = Field(default=None, max_length=64)
+
+
+def kiosk_admin_pin() -> str:
+    return os.getenv("KIOSK_ADMIN_PIN", "").strip() or "1907"
+
+
+def kiosk_number_label(kiosk_id: str) -> str:
+    digits = re.sub(r"\D", "", kiosk_id)
+    return f"Kiosk {digits.zfill(2)} POS" if digits else f"{kiosk_id} POS"
+
+
+def check_kiosk_pin(request: Request, kiosk_id: str) -> None:
+    client = request.client.host if request.client else "unknown"
+    key = f"{client}|{kiosk_id}"
+    now = time.monotonic()
+    with PIN_FAILURES_LOCK:
+        failures = PIN_FAILURES[key]
+        while failures and now - failures[0] >= PIN_RATE_WINDOW_SECONDS:
+            failures.popleft()
+        if len(failures) >= PIN_RATE_LIMIT:
+            raise HTTPException(status_code=429, detail="Çok fazla deneme, lütfen 1 dakika bekleyin.")
+        supplied = request.headers.get(KIOSK_PIN_HEADER, "").strip()
+        if not supplied or not hmac.compare_digest(supplied.encode("utf-8"), kiosk_admin_pin().encode("utf-8")):
+            failures.append(now)
+            raise HTTPException(status_code=403, detail="PIN hatalı.")
+
+
+@app.get("/api/kiosk/profiles")
+def kiosk_profiles():
+    """Kurulum ekrani icin kiosk listesi; seri numarasinin yalnizca son 4 hanesi doner."""
+    with db.connect() as conn:
+        rows = conn.execute(KIOSK_SELECT + " ORDER BY k.id").fetchall()
+    return [
+        {
+            "id": row["id"],
+            "name": row["name"],
+            "featuredSectionId": row["featured_section_id"],
+            "active": bool(row.get("active")),
+            "posConfigured": bool(row.get("pos_serial")),
+            "posSerialLast4": (row.get("pos_serial") or "")[-4:] or None,
+        }
+        for row in rows
+    ]
+
+
+@app.put("/api/kiosk/pos")
+def kiosk_set_pos(payload: KioskPosUpdate, request: Request, kiosk: dict[str, Any] = Depends(current_kiosk)):
+    kiosk_id = kiosk["id"]
+    check_kiosk_pin(request, kiosk_id)
+    serial = None
+    if payload.posSerial and payload.posSerial.strip():
+        serial = normalize_caspro_serial(payload.posSerial)
+        if len(serial) != 12:
+            raise HTTPException(status_code=400, detail="POS seri numarası 12 haneli olmalı.")
+    try:
+        with db.connect(write=True) as conn:
+            if serial:
+                other = conn.execute(
+                    "SELECT id, name FROM mk_kiosks WHERE pos_serial = %s AND id <> %s", (serial, kiosk_id),
+                ).fetchone()
+                if other:
+                    raise HTTPException(status_code=409, detail=f"Bu POS cihazı {other['name']} kioskuna atanmış.")
+                device = find_castles_device_by_serial(conn, serial)
+                now = utc_now_iso()
+                if device is None:
+                    conn.execute(
+                        "INSERT INTO mk_castles_devices (serial, name, active, created_at, updated_at) VALUES (%s, %s, %s, %s, %s) "
+                        "ON CONFLICT (serial) DO NOTHING",
+                        (serial, kiosk_number_label(kiosk_id), True, now, now),
+                    )
+                elif not device.get("active"):
+                    conn.execute(
+                        "UPDATE mk_castles_devices SET active = %s, updated_at = %s WHERE serial = %s",
+                        (True, now, device["serial"]),
+                    )
+            conn.execute("UPDATE mk_kiosks SET pos_serial = %s WHERE id = %s", (serial, kiosk_id))
+            updated = fetch_kiosk(conn, kiosk_id)
+    except INTEGRITY_ERRORS as error:
+        raise HTTPException(status_code=409, detail="Bu POS cihazı başka bir kioska atanmış.") from error
+    logger.info("Kiosk %s POS seri numarasi kurulum ekranindan %s", kiosk_id, "atandi" if serial else "kaldirildi")
+    return build_kiosk_config(updated)
 
 
 @app.get("/api/catalog")

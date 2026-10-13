@@ -211,15 +211,15 @@ class AdminTests(PlatformTestCase):
         mismatch = self.client.post("/api/admin/products", json={"sectionId": "burger", "categoryId": "pizza-klasik", "name": "X", "price": 1})
         self.assertEqual(mismatch.status_code, 400)
         pizza_categories = self.client.get("/api/admin/categories?section=pizza").json()
-        self.assertEqual([item["id"] for item in pizza_categories], ["pizza-klasik", "pizza-ozel", "pizza-yan-lezzetler"])
+        self.assertEqual([item["id"] for item in pizza_categories], ["pizza-klasik", "pizza-ozel", "pizza-yan-lezzetler", "pizza-pideler", "pizza-tatli-icecek"])
         self.assertTrue(all(item["productCount"] > 0 for item in pizza_categories))
         products = self.client.get("/api/admin/products?section=pizza").json()
-        self.assertEqual(len(products), 8)
+        self.assertEqual(len(products), 24)
         updated = self.client.put("/api/admin/products/pizza-margarita", json={"price": 259, "categoryId": "pizza-ozel"})
         self.assertEqual(updated.json()["price"], 259)
         self.assertEqual(updated.json()["categoryId"], "pizza-ozel")
         self.assertEqual(updated.json()["sectionId"], "pizza")
-        self.assertEqual(len(self.client.get("/api/admin/stock?section=pizza").json()), 8)
+        self.assertEqual(len(self.client.get("/api/admin/stock?section=pizza").json()), 24)
         adjusted = self.client.post("/api/admin/stock/pizza-margarita/adjust", json={"mode": "add", "quantity": 5, "note": "Teslimat"})
         self.assertEqual(adjusted.json()["stockQuantity"], 55)
         movements = self.client.get("/api/admin/stock/movements?section=pizza").json()
@@ -249,10 +249,10 @@ class AdminTests(PlatformTestCase):
         body = self.client.get("/api/admin/dashboard").json()
         self.assertEqual(len(body["kiosks"]), 17)
         self.assertEqual(len(body["sections"]), 17)
-        self.assertEqual(body["stats"]["product_count"], 173)
+        self.assertEqual(body["stats"]["product_count"], 39 + 385)
         filtered = self.client.get("/api/admin/dashboard?kiosk=k03&section=pizza").json()
         self.assertEqual([row["kioskId"] for row in filtered["kiosks"]], ["k03"])
-        self.assertEqual(filtered["stats"]["product_count"], 8)
+        self.assertEqual(filtered["stats"]["product_count"], 24)
 
 
 class MigrationTests(PlatformTestCase):
@@ -273,10 +273,10 @@ class MigrationTests(PlatformTestCase):
         self.assertTrue(all(row["pos_serial"] is None and row["order_seq"] == 0 for row in kiosks))
         for row in per_section:
             if row["section_id"] != "kahve":
-                self.assertTrue(6 <= row["n"] <= 10, row)
+                self.assertTrue(22 <= row["n"] <= 28, row)
         for row in per_category:
             if row["section_id"] != "kahve":
-                self.assertTrue(2 <= row["n"] <= 4, row)
+                self.assertTrue(4 <= row["n"] <= 5, row)
 
     def test_migrations_are_idempotent(self):
         before = {table: self.count(table) for table in ("mk_sections", "mk_kiosks", "mk_categories", "mk_products", "mk_translations")}

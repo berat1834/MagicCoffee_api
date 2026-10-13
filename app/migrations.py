@@ -17,7 +17,7 @@ from .seed_catalog import SECTIONS, build_section_catalog, kiosk_rows
 
 logger = logging.getLogger("migrations")
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 COFFEE_SECTION_ID = "kahve"
 LEGACY_STORE_KEY = "magic-coffee"
 DATA_FILE = Path(__file__).resolve().parent.parent / "data" / "store.json"
@@ -293,33 +293,56 @@ def import_coffee_section(conn: Conn) -> int:
     return imported
 
 
-def seed_other_sections(conn: Conn) -> None:
+def _max_positions(conn: Conn, table: str) -> dict[str, int]:
+    rows = conn.execute(f"SELECT section_id, MAX(position) AS position FROM {table} GROUP BY section_id").fetchall()
+    return {row["section_id"]: int(row["position"]) for row in rows if row["position"] is not None}
+
+
+def seed_missing_catalog(conn: Conn) -> dict[str, int]:
+    """Kahve disindaki kategorilerin eksik alt kategori/urun/cevirilerini kimlige gore ekler.
+
+    Var olan satirlara (panelden duzenlenmis olabilir) dokunmaz (ON CONFLICT DO NOTHING); silinmis
+    ana kategorilere ve kahve kategorisine urun eklemez. Ilk kurulumda (v1) ve v2 yukseltmesinde calisir.
+    """
     categories, products, translations = build_section_catalog()
-    seeded_sections: set[str] = set()
+    sections = {row["id"] for row in conn.execute("SELECT id FROM mk_sections").fetchall()}
+    category_offsets = _max_positions(conn, "mk_categories")
+    product_offsets = _max_positions(conn, "mk_products")
+    existing_categories = {row["id"] for row in conn.execute("SELECT id FROM mk_categories").fetchall()}
+    existing_products = {row["id"] for row in conn.execute("SELECT id FROM mk_products").fetchall()}
+    inserted = {"categories": 0, "products": 0}
     for category in categories:
         section_id = category["section_id"]
-        if section_id not in seeded_sections:
-            exists = conn.execute("SELECT COUNT(*) AS n FROM mk_categories WHERE section_id = %s", (section_id,)).fetchone()["n"]
-            if exists:
-                continue
-        seeded_sections.add(section_id)
-        conn.execute(
-            "INSERT INTO mk_categories (id, section_id, name, eyebrow, position, active) VALUES (%s, %s, %s, %s, %s, %s)",
-            (category["id"], section_id, category["name"], category["eyebrow"], category["position"], True),
-        )
-    seeded_categories = {item["id"] for item in categories if item["section_id"] in seeded_sections}
-    for product in products:
-        if product["category_id"] not in seeded_categories:
+        if section_id == COFFEE_SECTION_ID or section_id not in sections or category["id"] in existing_categories:
             continue
-        conn.execute(
-            "INSERT INTO mk_products (id, section_id, category_id, position, active, data) VALUES (%s, %s, %s, %s, %s, %s)",
-            (product["id"], product["section_id"], product["category_id"], product["position"], True,
-             json.dumps(product["data"], ensure_ascii=False)),
+        offset = category_offsets[section_id] + 1 if section_id in category_offsets else 0
+        result = conn.execute(
+            "INSERT INTO mk_categories (id, section_id, name, eyebrow, position, active) VALUES (%s, %s, %s, %s, %s, %s) "
+            "ON CONFLICT (id) DO NOTHING",
+            (category["id"], section_id, category["name"], category["eyebrow"], offset + category["position"], True),
         )
-    seeded_products = {item["id"] for item in products if item["category_id"] in seeded_categories}
+        if result.rowcount:
+            existing_categories.add(category["id"])
+            inserted["categories"] += 1
+    new_products: set[str] = set()
+    for product in products:
+        section_id = product["section_id"]
+        if section_id == COFFEE_SECTION_ID or product["id"] in existing_products or product["category_id"] not in existing_categories:
+            continue
+        offset = product_offsets[section_id] + 1 if section_id in product_offsets else 0
+        data = {**product["data"], "position": offset + product["position"]}
+        result = conn.execute(
+            "INSERT INTO mk_products (id, section_id, category_id, position, active, data) VALUES (%s, %s, %s, %s, %s, %s) "
+            "ON CONFLICT (id) DO NOTHING",
+            (product["id"], section_id, product["category_id"], data["position"], True, json.dumps(data, ensure_ascii=False)),
+        )
+        if result.rowcount:
+            new_products.add(product["id"])
+            inserted["products"] += 1
     for entity_type, entity_id, field, source, value in translations:
-        if entity_id in seeded_categories or entity_id in seeded_products:
+        if entity_id in existing_categories or entity_id in existing_products or entity_id in new_products:
             upsert_translation(conn, entity_type, entity_id, field, source, value)
+    return inserted
 
 
 def copy_castles_devices(conn: Conn) -> int:
@@ -349,12 +372,17 @@ def run_migrations(database: Database) -> None:
         if conn.is_postgres:
             conn.execute("SELECT pg_advisory_xact_lock(%s)", (MIGRATION_LOCK_ID,))
         create_schema(conn)
-        if current_version(conn) >= SCHEMA_VERSION:
+        version = current_version(conn)
+        if version >= SCHEMA_VERSION:
             return
-        seed_sections(conn)
-        seed_kiosks(conn)
-        import_coffee_section(conn)
-        seed_other_sections(conn)
-        copy_castles_devices(conn)
+        if version < 1:
+            seed_sections(conn)
+            seed_kiosks(conn)
+            import_coffee_section(conn)
+            copy_castles_devices(conn)
+        if version < 2:
+            # v2: genisletilmis katalog; yalnizca eksik alt kategori/urun/ceviriler eklenir.
+            inserted = seed_missing_catalog(conn)
+            logger.info("Katalog tohumu tamamlandi: %s", inserted)
         conn.execute("DELETE FROM mk_schema_version")
         conn.execute("INSERT INTO mk_schema_version (version) VALUES (%s)", (SCHEMA_VERSION,))
