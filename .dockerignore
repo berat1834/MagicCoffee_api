@@ -1,0 +1,12 @@
+.git
+.github
+.venv
+.pytest_cache
+__pycache__
+*.pyc
+.env
+.env.*
+data
+tests
+k8s
+render.yaml

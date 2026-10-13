@@ -1,0 +1,84 @@
+name: Deploy to K8s
+
+# Yalnızca magiccoffee namespace'ine dokunur.
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: magiccoffee-api-deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  NAMESPACE: magiccoffee
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run tests
+        run: |
+          pip install -r requirements.txt pytest
+          python -m pytest -q
+
+  build-and-deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set image name
+        run: echo "IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/magiccoffee-api:${GITHUB_SHA::12}" >> "$GITHUB_ENV"
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ env.IMAGE }}
+
+      - uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.29.0'
+
+      - name: Set up kubeconfig
+        run: |
+          mkdir -p "$HOME/.kube"
+          echo "${{ secrets.KUBECONFIG }}" > "$HOME/.kube/config"
+          chmod 600 "$HOME/.kube/config"
+
+      - name: Ensure namespace, pull secret and app secret
+        run: |
+          kubectl get ns "$NAMESPACE" || kubectl create ns "$NAMESPACE"
+          kubectl create secret docker-registry dockerhub -n "$NAMESPACE" \
+            --docker-server=https://index.docker.io/v1/ \
+            --docker-username="${{ secrets.DOCKERHUB_USERNAME }}" \
+            --docker-password="${{ secrets.DOCKERHUB_TOKEN }}" \
+            --dry-run=client -o yaml | kubectl apply -f -
+          # DATABASE_URL ve MAGICBOSS_API_KEY kümede elle tutulur; yoksa kurulum durur.
+          kubectl get secret magiccoffee-api-secrets -n "$NAMESPACE" >/dev/null
+
+      - name: Deploy
+        run: |
+          kubectl apply -n "$NAMESPACE" -f k8s/prod/pvc.yaml
+          kubectl apply -n "$NAMESPACE" -f k8s/prod/networkpolicy.yaml
+          kubectl apply -n "$NAMESPACE" -f k8s/prod/service.yaml
+          kubectl apply -n "$NAMESPACE" -f k8s/prod/ingress.yaml
+          sed "s|IMAGE_PLACEHOLDER|${IMAGE}|g" k8s/prod/deployment.yaml | kubectl apply -n "$NAMESPACE" -f -
+          kubectl rollout status -n "$NAMESPACE" deployment/magiccoffee-api --timeout=240s

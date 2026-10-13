@@ -1,0 +1,59 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: magiccoffee-api
+  namespace: magiccoffee
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-dns01
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/hsts: "true"
+    nginx.ingress.kubernetes.io/hsts-max-age: "31536000"
+    nginx.ingress.kubernetes.io/limit-rps: "20"
+    nginx.ingress.kubernetes.io/limit-burst-multiplier: "5"
+    nginx.ingress.kubernetes.io/proxy-body-size: "1m"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - magiccoffee-api.magicpay.ai
+      secretName: magiccoffee-api-tls
+  rules:
+    - host: magiccoffee-api.magicpay.ai
+      http:
+        # Yalnızca kioskun kullandığı yollar dışarı açıktır; /api/admin yalnızca panel üzerinden erişilir.
+        paths:
+          - path: /health
+            pathType: Exact
+            backend:
+              service:
+                name: magiccoffee-api
+                port:
+                  number: 80
+          - path: /api/catalog
+            pathType: Prefix
+            backend:
+              service:
+                name: magiccoffee-api
+                port:
+                  number: 80
+          - path: /api/pos
+            pathType: Prefix
+            backend:
+              service:
+                name: magiccoffee-api
+                port:
+                  number: 80
+          - path: /api/orders
+            pathType: Prefix
+            backend:
+              service:
+                name: magiccoffee-api
+                port:
+                  number: 80
+          - path: /uploads
+            pathType: Prefix
+            backend:
+              service:
+                name: magiccoffee-api
+                port:
+                  number: 80

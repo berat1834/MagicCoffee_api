@@ -1,0 +1,108 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: magiccoffee-api
+  namespace: magiccoffee
+spec:
+  replicas: 1
+  # Durum bellekte tutulup DB'ye yazıldığı için tek pod çalışır.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: magiccoffee-api
+  template:
+    metadata:
+      labels:
+        app: magiccoffee-api
+    spec:
+      imagePullSecrets:
+        - name: dockerhub
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+        seccompProfile:
+          type: RuntimeDefault
+      initContainers:
+        # Repodaki ürün görselleri kalıcı diskte yoksa kopyalanır; panelden yüklenenler korunur.
+        - name: seed-uploads
+          image: IMAGE_PLACEHOLDER
+          command: ["sh", "-c", "mkdir -p /app/uploads/products && cp -rn /opt/seed-uploads/. /app/uploads/"]
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: uploads
+              mountPath: /app/uploads
+      containers:
+        - name: api
+          image: IMAGE_PLACEHOLDER
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          envFrom:
+            # DATABASE_URL ve MAGICBOSS_API_KEY; repoda tutulmaz, kümede elle oluşturulur.
+            - secretRef:
+                name: magiccoffee-api-secrets
+          env:
+            - name: DATABASE_ALLOWED_HOST
+              value: "10.90.44.11"
+            - name: ALLOWED_ORIGINS
+              value: "https://magiccoffee-panel.magicpay.ai"
+            - name: MAGICBOSS_API_URL
+              value: "https://magicboss-test.magicpay.ai"
+            - name: MAGICBOSS_TERMINAL_SERIAL
+              value: "0000136250609467"
+            - name: PAVO_GATEWAY_BASE_URL
+              value: "https://kebo-api-dev.magicpay.ai/api"
+            - name: PAVO_GATEWAY_ALLOWED_HOST
+              value: "kebo-api-dev.magicpay.ai"
+            - name: PAVO_BRANCH_ID
+              value: "2"
+            - name: PAVO_TERMINAL_SERIAL
+              value: "PAV960000010"
+            - name: PAVO_SOURCE_FINGERPRINT
+              value: "TEST"
+            - name: PAVO_PROVIDER_TYPE
+              value: "PAVO_CLOUD"
+            - name: PAVO_GATEWAY_SERVICE_EMAIL
+              value: "magiccoffee-pos@internal.magicpay.ai"
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              memory: 512Mi
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            timeoutSeconds: 5
+          livenessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 20
+          volumeMounts:
+            - name: uploads
+              mountPath: /app/uploads
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: uploads
+          persistentVolumeClaim:
+            claimName: magiccoffee-uploads
+        - name: tmp
+          emptyDir: {}

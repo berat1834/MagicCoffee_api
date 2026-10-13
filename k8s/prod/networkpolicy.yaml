@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: magiccoffee-api-ingress
+  namespace: magiccoffee
+spec:
+  podSelector:
+    matchLabels:
+      app: magiccoffee-api
+  policyTypes:
+    - Ingress
+  ingress:
+    # Yalnızca ingress-nginx ve panel podu API'ye ulaşabilir.
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+        - podSelector:
+            matchLabels:
+              app: magiccoffee-panel
+      ports:
+        - protocol: TCP
+          port: 8080
