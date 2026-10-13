@@ -1,0 +1,220 @@
+{
+  "section": "ayakkabi",
+  "images": [
+    {
+      "productId": "beyaz-sneaker",
+      "file": "beyaz-sneaker.webp",
+      "title": "File:White Sneakers - Coach (49688016318).jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:White_Sneakers_-_Coach_(49688016318).jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/32/White_Sneakers_-_Coach_%2849688016318%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Ajay Suresh from New York, NY, USA",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    },
+    {
+      "productId": "kosu-ayakkabisi",
+      "file": "kosu-ayakkabisi.webp",
+      "title": "My hideous running shoes",
+      "sourceUrl": "https://www.flickr.com/photos/63051956@N00/3769610224",
+      "imageUrl": "https://live.staticflickr.com/2610/3769610224_18245a968a_b.jpg",
+      "author": "minorissues",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "kanvas-ayakkabi",
+      "file": "kanvas-ayakkabi.webp",
+      "title": "VINTAGE NIKE CANVAS SHOES 17",
+      "sourceUrl": "https://www.flickr.com/photos/85835212@N00/4203391220",
+      "imageUrl": "https://live.staticflickr.com/2577/4203391220_1218e24016_b.jpg",
+      "author": "BIG TOE",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "basketbol-ayakkabisi",
+      "file": "basketbol-ayakkabisi.webp",
+      "title": "Floris van Bommel High-Top Sneaker 10655 schwarz (2)",
+      "sourceUrl": "https://www.flickr.com/photos/130010866@N02/16578486726",
+      "imageUrl": "https://live.staticflickr.com/8603/16578486726_e256fcb5d9_b.jpg",
+      "author": "spera.de",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "yuruyus-ayakkabisi",
+      "file": "yuruyus-ayakkabisi.webp",
+      "title": "Discarded Nike trainers",
+      "sourceUrl": "https://www.flickr.com/photos/39839593@N00/3461273258",
+      "imageUrl": "https://live.staticflickr.com/3624/3461273258_1c869299d8_b.jpg",
+      "author": "Michiel2005",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "slip-on",
+      "file": "slip-on.webp",
+      "title": "File:Leguano Barefoot Slip-On Shoes - Top View.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Leguano_Barefoot_Slip-On_Shoes_-_Top_View.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/8/88/Leguano_Barefoot_Slip-On_Shoes_-_Top_View.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Wiki.cullin",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    },
+    {
+      "productId": "ev-terligi",
+      "file": "ev-terligi.webp",
+      "title": "#slippers #house #slipper",
+      "sourceUrl": "https://www.flickr.com/photos/9995567@N06/48946839098",
+      "imageUrl": "https://live.staticflickr.com/65535/48946839098_dd5e167925_b.jpg",
+      "author": "acotie",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "plaj-terligi",
+      "file": "plaj-terligi.webp",
+      "title": "File:Green flip flops on red background.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Green_flip_flops_on_red_background.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/f/f3/Green_flip_flops_on_red_background.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Steve Johnson from Valparaiso Indiana, USA",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    },
+    {
+      "productId": "sandalet",
+      "file": "sandalet.webp",
+      "title": "New blackish double layer leather sandals from fabfootwears",
+      "sourceUrl": "https://www.flickr.com/photos/152037626@N06/37138756006",
+      "imageUrl": "https://live.staticflickr.com/4363/37138756006_6b2428d1b9_b.jpg",
+      "author": "Fabfootwear",
+      "license": "Public Domain Mark 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/"
+    },
+    {
+      "productId": "ortopedik-terlik",
+      "file": "ortopedik-terlik.webp",
+      "title": "Slippers",
+      "sourceUrl": "https://www.flickr.com/photos/17293359@N07/2377414400",
+      "imageUrl": "https://live.staticflickr.com/2400/2377414400_6d5192438f_b.jpg",
+      "author": "ingermaaike2",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "sirt-cantasi",
+      "file": "sirt-cantasi.webp",
+      "title": "File:Plecak Hiker 50 L HiMountain.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Plecak_Hiker_50_L_HiMountain.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Plecak_Hiker_50_L_HiMountain.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "WrS.tm.pl",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    },
+    {
+      "productId": "bel-cantasi",
+      "file": "bel-cantasi.webp",
+      "title": "My Childhood Fanny Packs. No kidding!",
+      "sourceUrl": "https://www.flickr.com/photos/11165134@N03/2327542233",
+      "imageUrl": "https://live.staticflickr.com/2088/2327542233_a7733cbd7b_b.jpg",
+      "author": "exousiavampira",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "bez-canta",
+      "file": "bez-canta.webp",
+      "title": "File:Baghashtag-Kanvas-Bez-Canta.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Baghashtag-Kanvas-Bez-Canta.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/b/bd/Baghashtag-Kanvas-Bez-Canta.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Efkanakbiyik",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    },
+    {
+      "productId": "laptop-cantasi",
+      "file": "laptop-cantasi.webp",
+      "title": "For sale: Targus leather padded laptop case",
+      "sourceUrl": "https://www.flickr.com/photos/10014440@N06/3799249657",
+      "imageUrl": "https://live.staticflickr.com/3561/3799249657_d36c60f4de_b.jpg",
+      "author": "松林Ｌ",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "chelsea-bot",
+      "file": "chelsea-bot.webp",
+      "title": "Boss Boss Tailored T-Purien Chelsea-Boot 50273890 Veloursleder braun (2)",
+      "sourceUrl": "https://www.flickr.com/photos/130010866@N02/16295029330",
+      "imageUrl": "https://live.staticflickr.com/7349/16295029330_892bece19c_b.jpg",
+      "author": "spera.de",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "trekking-bot",
+      "file": "trekking-bot.webp",
+      "title": "File:Hiking Boots (51079648778).jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hiking_Boots_(51079648778).jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/32/Hiking_Boots_%2851079648778%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "ajay_suresh",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    },
+    {
+      "productId": "klasik-ayakkabi",
+      "file": "klasik-ayakkabi.webp",
+      "title": "Calzoleria Toscana Brown",
+      "sourceUrl": "https://www.flickr.com/photos/85546319@N04/11402236633",
+      "imageUrl": "https://live.staticflickr.com/7375/11402236633_c18348c220_b.jpg",
+      "author": "Menswear Market",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "loafer",
+      "file": "loafer.webp",
+      "title": "File:Presidio Loafer.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Presidio_Loafer.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/53/Presidio_Loafer.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Robert  Sheie from Minneapolis, USA",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    },
+    {
+      "productId": "tabanlik",
+      "file": "tabanlik.webp",
+      "title": "Fizik Road Shoe Insole",
+      "sourceUrl": "https://www.flickr.com/photos/29558127@N06/6068667771",
+      "imageUrl": "https://live.staticflickr.com/6196/6068667771_9d5a237b71_b.jpg",
+      "author": "Glory Cycles",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "bakim-seti",
+      "file": "bakim-seti.webp",
+      "title": "An Old Cobbler",
+      "sourceUrl": "https://www.flickr.com/photos/53407121@N07/20717121900",
+      "imageUrl": "https://live.staticflickr.com/729/20717121900_2ed57e93f9_b.jpg",
+      "author": "ViniSocram",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "bagcik",
+      "file": "bagcik.webp",
+      "title": "File:Shoelaces 20050719 001.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Shoelaces_20050719_001.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/37/Shoelaces_20050719_001.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Jonas Bergsten",
+      "license": "Public domain",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/"
+    }
+  ],
+  "missing": [
+    "spor-terlik",
+    "spor-canta",
+    "spor-corap"
+  ]
+}

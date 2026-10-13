@@ -1,0 +1,238 @@
+{
+  "section": "elektronik",
+  "images": [
+    {
+      "productId": "20w-adaptor",
+      "file": "20w-adaptor.webp",
+      "title": "2009/365/246 The $29 Apple Plug",
+      "sourceUrl": "https://www.flickr.com/photos/37996646802@N01/3885641487",
+      "imageUrl": "https://live.staticflickr.com/2517/3885641487_08a3536c1b_b.jpg",
+      "author": "cogdogblog",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    {
+      "productId": "usb-c-kablo",
+      "file": "usb-c-kablo.webp",
+      "title": "File:USB-C cable 2017 A.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:USB-C_cable_2017_A.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c3/USB-C_cable_2017_A.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Fructibus",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    },
+    {
+      "productId": "lightning-kablo",
+      "file": "lightning-kablo.webp",
+      "title": "Lightning Cable",
+      "sourceUrl": "https://www.flickr.com/photos/26782864@N00/11729396666",
+      "imageUrl": "https://live.staticflickr.com/3818/11729396666_f65c777d71_b.jpg",
+      "author": "wwarby",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "powerbank",
+      "file": "powerbank.webp",
+      "title": "モバイルバッテリー ANKER Power Bank 4,500mAh",
+      "sourceUrl": "https://www.flickr.com/photos/78077658@N02/9720052690",
+      "imageUrl": "https://live.staticflickr.com/3745/9720052690_733188bb62_b.jpg",
+      "author": "Tranpan23",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "kablosuz-sarj",
+      "file": "kablosuz-sarj.webp",
+      "title": "File:Smartphone induction charger.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Smartphone_induction_charger.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c0/Smartphone_induction_charger.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "WrS.tm.pl",
+      "license": "Public domain",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/"
+    },
+    {
+      "productId": "arac-sarj",
+      "file": "arac-sarj.webp",
+      "title": "USB Car Charger - 5V, 2.4A",
+      "sourceUrl": "https://www.flickr.com/photos/41898857@N04/50379383676",
+      "imageUrl": "https://live.staticflickr.com/65535/50379383676_2271dd4c22.jpg",
+      "author": "SparkFunElectronics",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "kablosuz-kulaklik",
+      "file": "kablosuz-kulaklik.webp",
+      "title": "superb savers wireless earbuds",
+      "sourceUrl": "https://www.flickr.com/photos/195657162@N08/52063601444",
+      "imageUrl": "https://live.staticflickr.com/65535/52063601444_87d8b1d840.jpg",
+      "author": "superbsavers",
+      "license": "Public Domain Mark 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/"
+    },
+    {
+      "productId": "kablolu-kulaklik",
+      "file": "kablolu-kulaklik.webp",
+      "title": "Earphones",
+      "sourceUrl": "https://www.flickr.com/photos/26037046@N00/4290196586",
+      "imageUrl": "https://live.staticflickr.com/4048/4290196586_0dd174c320_b.jpg",
+      "author": "Khrl Zhfr",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "bluetooth-hoparlor",
+      "file": "bluetooth-hoparlor.webp",
+      "title": "YAMAHA MCR-042 and VTIN Punker Portable Speaker",
+      "sourceUrl": "https://www.flickr.com/photos/64097751@N00/25691720938",
+      "imageUrl": "https://live.staticflickr.com/4647/25691720938_06afee3888_b.jpg",
+      "author": "Dominic's pics",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "kulak-ustu",
+      "file": "kulak-ustu.webp",
+      "title": "File:Black brown headphones wired.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Black_brown_headphones_wired.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Black_brown_headphones_wired.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Marcus-richardson",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+    },
+    {
+      "productId": "oyuncu-kulakligi",
+      "file": "oyuncu-kulakligi.webp",
+      "title": "BUTFULAKE Xbox One Headset, Gaming Headset for Xbox One, Xbox One S, PS4, PC, Nintendo Switch, Laptop, Mac, Computer, 3.5mm Wired Over-Ear Gaming Headphones with LED Light & Noise Cancelling Mic, Blue",
+      "sourceUrl": "https://www.flickr.com/photos/185514373@N06/49063985346",
+      "imageUrl": "https://live.staticflickr.com/65535/49063985346_7895cbd92a.jpg",
+      "author": "shop8447",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    {
+      "productId": "telefon-tutucu",
+      "file": "telefon-tutucu.webp",
+      "title": "File:Bicycle mount and smartphone holder.png",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bicycle_mount_and_smartphone_holder.png",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Bicycle_mount_and_smartphone_holder.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Tiia Monto",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+    },
+    {
+      "productId": "ekran-koruyucu",
+      "file": "ekran-koruyucu.webp",
+      "title": "OnePlus One",
+      "sourceUrl": "https://www.flickr.com/photos/63926521@N03/14702994046",
+      "imageUrl": "https://live.staticflickr.com/2925/14702994046_ee0fa4c318_b.jpg",
+      "author": "HishMFaz",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "telefon-kilifi",
+      "file": "telefon-kilifi.webp",
+      "title": "File:PhoneSpinner Image.png",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:PhoneSpinner_Image.png",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/9/90/PhoneSpinner_Image.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Rexbye",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    },
+    {
+      "productId": "selfie-cubugu",
+      "file": "selfie-cubugu.webp",
+      "title": "Rode VideoMic Me",
+      "sourceUrl": "https://www.flickr.com/photos/68132273@N00/24385306410",
+      "imageUrl": "https://live.staticflickr.com/1614/24385306410_e7c4b5a199_b.jpg",
+      "author": "sridgway",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "kablosuz-mouse",
+      "file": "kablosuz-mouse.webp",
+      "title": "File:Hoco-gm29-wireless-3.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hoco-gm29-wireless-3.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/57/Hoco-gm29-wireless-3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "I13Robin",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    },
+    {
+      "productId": "bluetooth-klavye",
+      "file": "bluetooth-klavye.webp",
+      "title": "Bluetooth KeyBoard 無線キーボード",
+      "sourceUrl": "https://www.flickr.com/photos/57389791@N03/14288524675",
+      "imageUrl": "https://live.staticflickr.com/2906/14288524675_71c7817263_b.jpg",
+      "author": "Laineema",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "usb-bellek",
+      "file": "usb-bellek.webp",
+      "title": "USB Flash Drive",
+      "sourceUrl": "https://www.flickr.com/photos/49749999@N00/345356294",
+      "imageUrl": "https://live.staticflickr.com/140/345356294_b0464e1203_b.jpg",
+      "author": "Ambuj Saxena",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "usb-c-hub",
+      "file": "usb-c-hub.webp",
+      "title": "File:TUNEWEAR-ALMIGHTY-DOCK-nano1 03.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:TUNEWEAR-ALMIGHTY-DOCK-nano1_03.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/25/TUNEWEAR-ALMIGHTY-DOCK-nano1_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "RuinDig/Yuki Uchida",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+    },
+    {
+      "productId": "akilli-saat",
+      "file": "akilli-saat.webp",
+      "title": "File:PineTime smartwatch.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:PineTime_smartwatch.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/6/6c/PineTime_smartwatch.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Unnerving duck",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    },
+    {
+      "productId": "akilli-bileklik",
+      "file": "akilli-bileklik.webp",
+      "title": "File:Samsung Galaxy Fit2.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Samsung_Galaxy_Fit2.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/f/f2/Samsung_Galaxy_Fit2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Kulawik.pl",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+    },
+    {
+      "productId": "takip-cihazi",
+      "file": "takip-cihazi.webp",
+      "title": "File:Keyfinder001.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Keyfinder001.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/9/9c/Keyfinder001.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Moovie",
+      "license": "Public domain",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/"
+    },
+    {
+      "productId": "akilli-priz",
+      "file": "akilli-priz.webp",
+      "title": "File:EDP-redy-Plug.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:EDP-redy-Plug.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0a/EDP-redy-Plug.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "MarcoTangerino",
+      "license": "Public domain",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/"
+    }
+  ],
+  "missing": [
+    "telefon-yuzugu"
+  ]
+}

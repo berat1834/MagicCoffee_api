@@ -1,0 +1,248 @@
+{
+  "section": "oyuncak",
+  "images": [
+    {
+      "productId": "yapboz",
+      "file": "yapboz.webp",
+      "title": "File:Red jigsaw puzzle pieces 2.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Red_jigsaw_puzzle_pieces_2.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c3/Red_jigsaw_puzzle_pieces_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Profpcde",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    },
+    {
+      "productId": "oyuncak-araba",
+      "file": "oyuncak-araba.webp",
+      "title": "File:Toy car (AM 1996.165.108-2).jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Toy_car_(AM_1996.165.108-2).jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/32/Toy_car_%28AM_1996.165.108-2%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Fun Ho! Toy Company",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+    },
+    {
+      "productId": "zeka-kupu",
+      "file": "zeka-kupu.webp",
+      "title": "File:Speedcube MoYu 3.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Speedcube_MoYu_3.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/c/cd/Speedcube_MoYu_3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "多多123",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+    },
+    {
+      "productId": "yapi-seti",
+      "file": "yapi-seti.webp",
+      "title": "Lego Bricks Yard Sale",
+      "sourceUrl": "https://www.flickr.com/photos/39160147@N03/12722868335",
+      "imageUrl": "https://live.staticflickr.com/3779/12722868335_5083acc521_b.jpg",
+      "author": "JeepersMedia",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "kumandali-araba",
+      "file": "kumandali-araba.webp",
+      "title": "RC CAR IN MOTION #2",
+      "sourceUrl": "https://www.flickr.com/photos/8764954@N08/5312292347",
+      "imageUrl": "https://live.staticflickr.com/5009/5312292347_5613e921b5_b.jpg",
+      "author": "bamyers4az",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "oyun-hamuru",
+      "file": "oyun-hamuru.webp",
+      "title": "Travel craft kit made for my niece's 5th birthday. Contains: washi tape, googly eyes, buttons, sparkly pipe cleaners, jewelled flower stickers, feathers, foam stickers, balloons, modelling clay, fabric flower stickers.",
+      "sourceUrl": "https://www.flickr.com/photos/76614238@N00/14426799710",
+      "imageUrl": "https://live.staticflickr.com/5496/14426799710_90ae3ea58a.jpg",
+      "author": "jfeuchter",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "pelus-ayi",
+      "file": "pelus-ayi.webp",
+      "title": "Teddy bears, pre-tossing",
+      "sourceUrl": "https://www.flickr.com/photos/26416016@N02/4207552952",
+      "imageUrl": "https://live.staticflickr.com/4028/4207552952_9727ef86f5_b.jpg",
+      "author": "scazon",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "pelus-tavsan",
+      "file": "pelus-tavsan.webp",
+      "title": "A cute plush bunny with wide teal eyes and white fur wears a blue checkered dress with stars and pom-poms",
+      "sourceUrl": "https://wordpress.org/photos/photo/826a0bf593/",
+      "imageUrl": "https://pd.w.org/2026/05/826a0bf5933bc937.19445961-1640x2048.jpeg",
+      "author": "Manjil Aryal",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    {
+      "productId": "pelus-panda",
+      "file": "pelus-panda.webp",
+      "title": "Panda Plush",
+      "sourceUrl": "https://www.flickr.com/photos/12508217@N08/51832149402",
+      "imageUrl": "https://live.staticflickr.com/65535/51832149402_4b43f8c208_b.jpg",
+      "author": "Sam Howzit",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "pelus-dinozor",
+      "file": "pelus-dinozor.webp",
+      "title": "Shhhhh Do Not Tell Felix",
+      "sourceUrl": "https://www.flickr.com/photos/37996646802@N01/54544963527",
+      "imageUrl": "https://live.staticflickr.com/65535/54544963527_e391e43165_b.jpg",
+      "author": "cogdogblog",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    {
+      "productId": "anahtarlik",
+      "file": "anahtarlik.webp",
+      "title": "artwork_glass_Nazar_eye_bead_Turkey_003",
+      "sourceUrl": "https://www.flickr.com/photos/96541566@N06/52577399701",
+      "imageUrl": "https://live.staticflickr.com/65535/52577399701_49718ce6c0_b.jpg",
+      "author": "Juhele_CZ",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    {
+      "productId": "magnet",
+      "file": "magnet.webp",
+      "title": "File:Refrigerator magnets 1.JPG",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Refrigerator_magnets_1.JPG",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Refrigerator_magnets_1.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Rumensz",
+      "license": "Public domain",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/"
+    },
+    {
+      "productId": "kupa",
+      "file": "kupa.webp",
+      "title": "Giftgarden Coffee Mugs Best Love Gift Music Violin Notes Holds Tea Coffee Milk Ceramic Mug",
+      "sourceUrl": "https://www.flickr.com/photos/147778363@N07/32903357261",
+      "imageUrl": "https://live.staticflickr.com/707/32903357261_7c3d83b8dd_b.jpg",
+      "author": "favorli",
+      "license": "Public Domain Mark 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/"
+    },
+    {
+      "productId": "kar-kuresi",
+      "file": "kar-kuresi.webp",
+      "title": "File:Kołobrzeg snow globe.JPG",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ko%C5%82obrzeg_snow_globe.JPG",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Ko%C5%82obrzeg_snow_globe.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Krzys Pe",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    },
+    {
+      "productId": "nazar-bileklik",
+      "file": "nazar-bileklik.webp",
+      "title": "File:Zamonaviy bilakuzuk01.png",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Zamonaviy_bilakuzuk01.png",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/7/76/Zamonaviy_bilakuzuk01.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "AIDEPCUL",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+    },
+    {
+      "productId": "kartpostal",
+      "file": "kartpostal.webp",
+      "title": "File:Reeder Family Postcards 1905-91.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Reeder_Family_Postcards_1905-91.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/36/Reeder_Family_Postcards_1905-91.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "rich701",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    },
+    {
+      "productId": "tavla",
+      "file": "tavla.webp",
+      "title": "File:Persian Backgammon board made in Khatam technique.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Persian_Backgammon_board_made_in_Khatam_technique.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/58/Persian_Backgammon_board_made_in_Khatam_technique.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Nikos Kitsakis",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+    },
+    {
+      "productId": "satranc",
+      "file": "satranc.webp",
+      "title": "File:Chess game Staunton No. 6 perfil view 8.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Chess_game_Staunton_No._6_perfil_view_8.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/4/40/Chess_game_Staunton_No._6_perfil_view_8.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Wilfredor",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    },
+    {
+      "productId": "kart-oyunu",
+      "file": "kart-oyunu.webp",
+      "title": "retro-style ford deck of cards",
+      "sourceUrl": "https://www.flickr.com/photos/54891040@N04/5981087950",
+      "imageUrl": "https://live.staticflickr.com/6149/5981087950_d91a1dbdff_b.jpg",
+      "author": "granada_turnier",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "okey",
+      "file": "okey.webp",
+      "title": "File:Rummikub non-starter (3053418303).jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Rummikub_non-starter_(3053418303).jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/7/74/Rummikub_non-starter_%283053418303%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Kai Hendry from Singapore, Malaysia",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    },
+    {
+      "productId": "dis-kasiyici",
+      "file": "dis-kasiyici.webp",
+      "title": "Baby Banana Infant Toothbrush",
+      "sourceUrl": "https://www.flickr.com/photos/156498286@N05/42866209660",
+      "imageUrl": "https://live.staticflickr.com/1866/42866209660_793466da90_b.jpg",
+      "author": "electricteeth",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "cingirak",
+      "file": "cingirak.webp",
+      "title": "2010-030",
+      "sourceUrl": "https://www.flickr.com/photos/94006243@N08/15414944588",
+      "imageUrl": "https://live.staticflickr.com/5600/15414944588_1fc6783235_b.jpg",
+      "author": "STUDIO ALIJN",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    {
+      "productId": "banyo-oyuncagi",
+      "file": "banyo-oyuncagi.webp",
+      "title": "Rubber ducks",
+      "sourceUrl": "https://www.flickr.com/photos/11121568@N06/2378525120",
+      "imageUrl": "https://live.staticflickr.com/2272/2378525120_8580014c98_b.jpg",
+      "author": "Alan Cleaver",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "bultak",
+      "file": "bultak.webp",
+      "title": "Shape sorter",
+      "sourceUrl": "https://www.flickr.com/photos/71832042@N00/21317939451",
+      "imageUrl": "https://live.staticflickr.com/720/21317939451_7b99092e0a_b.jpg",
+      "author": "thelazydba",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    }
+  ],
+  "missing": [
+    "pelus-kedi"
+  ]
+}
