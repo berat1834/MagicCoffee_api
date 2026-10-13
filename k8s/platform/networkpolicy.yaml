@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: magickiosk-api-ingress
+  namespace: magickiosk
+spec:
+  podSelector:
+    matchLabels:
+      app: magickiosk-api
+  policyTypes:
+    - Ingress
+  ingress:
+    # Yalnızca ingress-nginx ve panel podu API'ye ulaşabilir.
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+        - podSelector:
+            matchLabels:
+              app: magickiosk-panel
+      ports:
+        - protocol: TCP
+          port: 8080

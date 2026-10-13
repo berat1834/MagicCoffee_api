@@ -10,3 +10,4 @@ data
 tests
 k8s
 render.yaml
+!data/store.json

@@ -1,0 +1,103 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: magickiosk-api
+  namespace: magickiosk
+spec:
+  replicas: 1
+  # Durum DB'de tutulur; CasPro arka plan satış görevleri süreç içinde yaşadığından tek pod çalışır.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: magickiosk-api
+  template:
+    metadata:
+      labels:
+        app: magickiosk-api
+    spec:
+      imagePullSecrets:
+        - name: dockerhub
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+        seccompProfile:
+          type: RuntimeDefault
+      initContainers:
+        # Repodaki ürün görselleri kalıcı diskte yoksa kopyalanır; panelden yüklenenler korunur.
+        - name: seed-uploads
+          image: IMAGE_PLACEHOLDER
+          command: ["sh", "-c", "mkdir -p /app/uploads/products && cp -rn /opt/seed-uploads/. /app/uploads/"]
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: uploads
+              mountPath: /app/uploads
+      containers:
+        - name: api
+          image: IMAGE_PLACEHOLDER
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          envFrom:
+            # DATABASE_URL ve CASPRO_API_KEY (ops. GOOGLE_TRANSLATE_API_KEY); repoda tutulmaz, kümede elle oluşturulur.
+            - secretRef:
+                name: magickiosk-api-secrets
+          env:
+            - name: DATABASE_ALLOWED_HOST
+              value: "10.90.44.11"
+            - name: ALLOWED_ORIGINS
+              value: "https://magickiosk-panel.magicpay.ai"
+            - name: CASPRO_API_URL
+              value: "https://external-system-api.tur.castlestech.cloud:6443"
+            # Bağlantı havuzu (psycopg_pool); pod başına en fazla 5 bağlantı.
+            - name: DB_POOL_MIN_SIZE
+              value: "1"
+            - name: DB_POOL_MAX_SIZE
+              value: "5"
+            - name: DB_POOL_TIMEOUT
+              value: "10"
+            - name: DB_POOL_MAX_IDLE
+              value: "300"
+            - name: DB_POOL_MAX_LIFETIME
+              value: "1800"
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              memory: 512Mi
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            timeoutSeconds: 5
+          livenessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 20
+          volumeMounts:
+            - name: uploads
+              mountPath: /app/uploads
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: uploads
+          persistentVolumeClaim:
+            claimName: magickiosk-uploads
+        - name: tmp
+          emptyDir: {}

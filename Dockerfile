@@ -10,6 +10,8 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY app ./app
+# Kahve menüsü tohumu: app_state bulunamazsa ilk migrasyonda buradan taşınır.
+COPY data/store.json ./data/store.json
 COPY uploads ./uploads
 # Repodaki ürün görselleri ilk kurulumda kalıcı diske kopyalanmak üzere ayrıca saklanır.
 RUN cp -r uploads /opt/seed-uploads \
