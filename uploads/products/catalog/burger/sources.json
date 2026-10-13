@@ -1,0 +1,246 @@
+{
+  "section": "burger",
+  "images": [
+    {
+      "productId": "klasik-burger",
+      "file": "klasik-burger.webp",
+      "title": "Best Burger Hamburger",
+      "sourceUrl": "https://www.flickr.com/photos/18244673@N00/416698521",
+      "imageUrl": "https://live.staticflickr.com/160/416698521_0bef9b9cd0_b.jpg",
+      "author": "pointnshoot",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "cheeseburger",
+      "file": "cheeseburger.webp",
+      "title": "Cheeseburger.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cheeseburger.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/4/4d/Cheeseburger.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Renee Comet (photographer)",
+      "license": "Public domain",
+      "licenseUrl": ""
+    },
+    {
+      "productId": "double-burger",
+      "file": "double-burger.webp",
+      "title": "#superbowl #bacon #double #cheeseburger",
+      "sourceUrl": "https://www.flickr.com/photos/90037546@N00/6825605009",
+      "imageUrl": "https://live.staticflickr.com/7034/6825605009_b69ea48345.jpg",
+      "author": "SimonDoggett",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "mantarli-burger",
+      "file": "mantarli-burger.webp",
+      "title": "Mmm... Mushroom Swiss Burger",
+      "sourceUrl": "https://www.flickr.com/photos/7927684@N03/22068658583",
+      "imageUrl": "https://live.staticflickr.com/5823/22068658583_c422b31e66_b.jpg",
+      "author": "jeffreyw",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "bbq-burger",
+      "file": "bbq-burger.webp",
+      "title": "Mmm... cheeseburger with provolone, onion rings, and bbq sauce",
+      "sourceUrl": "https://www.flickr.com/photos/7927684@N03/22018355986",
+      "imageUrl": "https://live.staticflickr.com/5724/22018355986_e4b679fb1b_b.jpg",
+      "author": "jeffreyw",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "truflu-burger",
+      "file": "truflu-burger.webp",
+      "title": "Giant mushroom burger from Gourmet Burger Kitchen",
+      "sourceUrl": "https://www.flickr.com/photos/60179301@N00/4970260463",
+      "imageUrl": "https://live.staticflickr.com/4084/4970260463_989e5d2aeb_b.jpg",
+      "author": "Ben Sutherland",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "smash-burger",
+      "file": "smash-burger.webp",
+      "title": "Smash Burger, Wednesbury",
+      "sourceUrl": "https://www.flickr.com/photos/7831824@N04/51799984634",
+      "imageUrl": "https://live.staticflickr.com/65535/51799984634_d059be20ff_b.jpg",
+      "author": "Bex.Walton",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "crispy-tavuk-burger",
+      "file": "crispy-tavuk-burger.webp",
+      "title": "Pièce De Résistance. Fried Chicken Sandwich, Sunchoke Hot Sauce, Chamomile Mayo",
+      "sourceUrl": "https://www.flickr.com/photos/63311602@N08/29401208003",
+      "imageUrl": "https://live.staticflickr.com/8400/29401208003_b4bb2dde47_b.jpg",
+      "author": "loustejskal.com",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "acili-tavuk-burger",
+      "file": "acili-tavuk-burger.webp",
+      "title": "Fried chicken sandwich, spicy b&b pickle slaw, rooster aioli",
+      "sourceUrl": "https://www.flickr.com/photos/68147320@N02/8432364906",
+      "imageUrl": "https://live.staticflickr.com/8466/8432364906_562eea282b_b.jpg",
+      "author": "T.Tseng",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "schnitzel-burger",
+      "file": "schnitzel-burger.webp",
+      "title": "KO Pies chicken schnitzel burger",
+      "sourceUrl": "https://www.flickr.com/photos/91873384@N04/8903633214",
+      "imageUrl": "https://live.staticflickr.com/8271/8903633214_d44f49d5a6_b.jpg",
+      "author": "dalecruse",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "balli-hardalli-tavuk",
+      "file": "balli-hardalli-tavuk.webp",
+      "title": "Grilled Chicken Sandwich - Two Georges Restaurant - Boynton Beach, FL",
+      "sourceUrl": "https://www.flickr.com/photos/77161127@N00/14989539075",
+      "imageUrl": "https://live.staticflickr.com/3926/14989539075_63b98e8753_b.jpg",
+      "author": "shelnew19",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "tavuk-wrap",
+      "file": "tavuk-wrap.webp",
+      "title": "Crispy Chicken Wrap (1)",
+      "sourceUrl": "https://www.flickr.com/photos/47854142@N04/5573152776",
+      "imageUrl": "https://live.staticflickr.com/5140/5573152776_6965b3601a_b.jpg",
+      "author": "TheHungryDudes",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "patates-kizartmasi",
+      "file": "patates-kizartmasi.webp",
+      "title": "Chips / French Fries / Frites / Pommes / Sglodion / Patatas Fritas",
+      "sourceUrl": "https://www.flickr.com/photos/16287002@N00/7433812616",
+      "imageUrl": "https://live.staticflickr.com/7134/7433812616_b79ba18585_b.jpg",
+      "author": "Richard Allaway",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "sogan-halkasi",
+      "file": "sogan-halkasi.webp",
+      "title": "Mmm... the best onion rings ever",
+      "sourceUrl": "https://www.flickr.com/photos/7927684@N03/5640780810",
+      "imageUrl": "https://live.staticflickr.com/5226/5640780810_3676ed7236_b.jpg",
+      "author": "jeffreyw",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "cheddar-patates",
+      "file": "cheddar-patates.webp",
+      "title": "shake shack cheese fries",
+      "sourceUrl": "https://www.flickr.com/photos/49215102@N00/3864013284",
+      "imageUrl": "https://live.staticflickr.com/3075/3864013284_2e3425ced7_b.jpg",
+      "author": "goodiesfirst",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "tavuk-nugget",
+      "file": "tavuk-nugget.webp",
+      "title": "Impossible chicken nuggets 2.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Impossible_chicken_nuggets_2.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/6/6a/Impossible_chicken_nuggets_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Mx. Granger",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    },
+    {
+      "productId": "coleslaw",
+      "file": "coleslaw.webp",
+      "title": "Coleslaw",
+      "sourceUrl": "https://www.flickr.com/photos/58246614@N00/3173259085",
+      "imageUrl": "https://live.staticflickr.com/3098/3173259085_6762b32432_b.jpg",
+      "author": "mdid",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "vanilyali-milkshake",
+      "file": "vanilyali-milkshake.webp",
+      "title": "Vanilla milkshake at Lunchbox Laboratories.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Vanilla_milkshake_at_Lunchbox_Laboratories.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/56/Vanilla_milkshake_at_Lunchbox_Laboratories.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "jencu from bay area, usa",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    },
+    {
+      "productId": "vegan-burger",
+      "file": "vegan-burger.webp",
+      "title": "Vegan Burger (5841255378).jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Vegan_Burger_(5841255378).jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/af/Vegan_Burger_%285841255378%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Jennifer from Vancouver, Canada",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    },
+    {
+      "productId": "hellim-burger",
+      "file": "hellim-burger.webp",
+      "title": "Veggie Patch, Halloumi Burger",
+      "sourceUrl": "https://www.flickr.com/photos/104327456@N07/14166363158",
+      "imageUrl": "https://live.staticflickr.com/3910/14166363158_630b06c031_b.jpg",
+      "author": "Sidneiensis",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "falafel-burger",
+      "file": "falafel-burger.webp",
+      "title": "Falafel Burger with Fries (3389411458).jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Falafel_Burger_with_Fries_(3389411458).jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/21/Falafel_Burger_with_Fries_%283389411458%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Vegan Feast Catering",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    },
+    {
+      "productId": "klasik-menu",
+      "file": "klasik-menu.webp",
+      "title": "California Whopper",
+      "sourceUrl": "https://www.flickr.com/photos/37238219@N00/4933735272",
+      "imageUrl": "https://live.staticflickr.com/4093/4933735272_fa07ba8df9_b.jpg",
+      "author": "joo0ey",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "tavuk-menu",
+      "file": "tavuk-menu.webp",
+      "title": "Poutine burger at the Tap and Barrel",
+      "sourceUrl": "https://www.flickr.com/photos/95142644@N00/9735828017",
+      "imageUrl": "https://live.staticflickr.com/7299/9735828017_859b41ea23_b.jpg",
+      "author": "Ruth and Dave",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "cocuk-menu",
+      "file": "cocuk-menu.webp",
+      "title": "Mini Waygu Sliders.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mini_Waygu_Sliders.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3d/Mini_Waygu_Sliders.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "HarshLight",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    }
+  ],
+  "missing": []
+}

@@ -1,0 +1,246 @@
+{
+  "section": "tatli",
+  "images": [
+    {
+      "productId": "cikolatali-pasta",
+      "file": "cikolatali-pasta.webp",
+      "title": "Double Chocolate Cake slice photo by Cindy Kurman",
+      "sourceUrl": "https://www.flickr.com/photos/62558987@N07/50409691977",
+      "imageUrl": "https://live.staticflickr.com/65535/50409691977_39c2d1e95d_b.jpg",
+      "author": "kurmanstaff",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "frambuazli-pasta",
+      "file": "frambuazli-pasta.webp",
+      "title": "Barb's Chocolate Raspberry Cake 15July06 - 1",
+      "sourceUrl": "https://www.flickr.com/photos/35034347371@N01/191496968",
+      "imageUrl": "https://live.staticflickr.com/46/191496968_a7f3b1adac_b.jpg",
+      "author": "roland",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    {
+      "productId": "tiramisu",
+      "file": "tiramisu.webp",
+      "title": "Tiramisu dessert at an Italian restaurant",
+      "sourceUrl": "https://wordpress.org/photos/photo/514632a8d0/",
+      "imageUrl": "https://pd.w.org/2022/09/514632a8d03222554.67030706-2048x1536.jpg",
+      "author": "ChrisEdwardsCE",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    {
+      "productId": "karamelli-pasta",
+      "file": "karamelli-pasta.webp",
+      "title": "Caramel Cake.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Caramel_Cake.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/f/f6/Caramel_Cake.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Goose Green Photography",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+    },
+    {
+      "productId": "havuclu-kek",
+      "file": "havuclu-kek.webp",
+      "title": "Carrot Cake",
+      "sourceUrl": "https://www.flickr.com/photos/42602676@N00/4991062521",
+      "imageUrl": "https://live.staticflickr.com/4130/4991062521_b62889a20b_b.jpg",
+      "author": "feserc",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "red-velvet",
+      "file": "red-velvet.webp",
+      "title": "Red velvet cake slice.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Red_velvet_cake_slice.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/13/Red_velvet_cake_slice.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Flickr user ~Twon~ : https://www.flickr.com/photos/twon/",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    },
+    {
+      "productId": "san-sebastian",
+      "file": "san-sebastian.webp",
+      "title": "Basque Cheesecake",
+      "sourceUrl": "https://www.flickr.com/photos/7633518@N08/52309764559",
+      "imageUrl": "https://live.staticflickr.com/65535/52309764559_6869b3222d_b.jpg",
+      "author": "sarahstierch",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "limonlu-cheesecake",
+      "file": "limonlu-cheesecake.webp",
+      "title": "Amalfi Lemon Cheesecake - Tavola Di Famiglia 2026-02-27.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Amalfi_Lemon_Cheesecake_-_Tavola_Di_Famiglia_2026-02-27.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/12/Amalfi_Lemon_Cheesecake_-_Tavola_Di_Famiglia_2026-02-27.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Andy Li",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    },
+    {
+      "productId": "frambuazli-cheesecake",
+      "file": "frambuazli-cheesecake.webp",
+      "title": "Raspberry Cheesecake",
+      "sourceUrl": "https://www.flickr.com/photos/58003213@N00/45551900601",
+      "imageUrl": "https://live.staticflickr.com/1945/45551900601_8eb4a4a9ea_b.jpg",
+      "author": "Key West Wedding Photography",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "oreo-cheesecake",
+      "file": "oreo-cheesecake.webp",
+      "title": "Oreo Cheesecake @ Cheesecake Factory",
+      "sourceUrl": "https://www.flickr.com/photos/39908901@N06/8494056288",
+      "imageUrl": "https://live.staticflickr.com/8512/8494056288_1c94a089fe_b.jpg",
+      "author": "m01229",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "lotus-cheesecake",
+      "file": "lotus-cheesecake.webp",
+      "title": "Cheesecake spéculooscafé SpeculoosCoffee cheesecake.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cheesecake_sp%C3%A9culooscaf%C3%A9_SpeculoosCoffee_cheesecake.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/6/62/Cheesecake_sp%C3%A9culooscaf%C3%A9_SpeculoosCoffee_cheesecake.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Isabelle Palatin",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+    },
+    {
+      "productId": "sutlac",
+      "file": "sutlac.webp",
+      "title": "Baked Rice Pudding 11.06.2025.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Baked_Rice_Pudding_11.06.2025.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3e/Baked_Rice_Pudding_11.06.2025.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Wiki leylek",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+    },
+    {
+      "productId": "kazandibi",
+      "file": "kazandibi.webp",
+      "title": "Kazandibi Dessert.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kazandibi_Dessert.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0c/Kazandibi_Dessert.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Garrett Ziegler",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    },
+    {
+      "productId": "profiterol",
+      "file": "profiterol.webp",
+      "title": "Profiteroles",
+      "sourceUrl": "https://www.flickr.com/photos/92269745@N00/16412094846",
+      "imageUrl": "https://live.staticflickr.com/7360/16412094846_257d202435_b.jpg",
+      "author": "ralph and jenny",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "supangle",
+      "file": "supangle.webp",
+      "title": "Supangle 1.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Supangle_1.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/af/Supangle_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Lemon tart",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    },
+    {
+      "productId": "keskul",
+      "file": "keskul.webp",
+      "title": "Turkish keşkül.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Turkish_ke%C5%9Fk%C3%BCl.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/b/bd/Turkish_ke%C5%9Fk%C3%BCl.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "E4024",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    },
+    {
+      "productId": "baklava",
+      "file": "baklava.webp",
+      "title": "Pistachio baklava",
+      "sourceUrl": "https://www.flickr.com/photos/132064637@N04/22635940560",
+      "imageUrl": "https://live.staticflickr.com/568/22635940560_4e8bb1fab5_b.jpg",
+      "author": "garofalo.christina",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "kunefe",
+      "file": "kunefe.webp",
+      "title": "20250206 Künefe in Tarsus.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:20250206_K%C3%BCnefe_in_Tarsus.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/2f/20250206_K%C3%BCnefe_in_Tarsus.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Basak",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    },
+    {
+      "productId": "sobiyet",
+      "file": "sobiyet.webp",
+      "title": "Şöbiyet Baklava.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:%C5%9E%C3%B6biyet_Baklava.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/f/f1/%C5%9E%C3%B6biyet_Baklava.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Garrett Ziegler",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    },
+    {
+      "productId": "kadayif",
+      "file": "kadayif.webp",
+      "title": "Pistachio Kadayif (Unsplash).jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pistachio_Kadayif_(Unsplash).jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/d/da/Pistachio_Kadayif_%28Unsplash%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Malicki Beser whoismalickibeser",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    },
+    {
+      "productId": "brownie",
+      "file": "brownie.webp",
+      "title": "brownies...yawn...boooring",
+      "sourceUrl": "https://www.flickr.com/photos/7927684@N03/4448807631",
+      "imageUrl": "https://live.staticflickr.com/4025/4448807631_a4c3e85aac_b.jpg",
+      "author": "jeffreyw",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "cookie",
+      "file": "cookie.webp",
+      "title": "Choc-Chip-Cookie.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Choc-Chip-Cookie.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/16/Choc-Chip-Cookie.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Evan-Amos",
+      "license": "Public domain",
+      "licenseUrl": ""
+    },
+    {
+      "productId": "muffin",
+      "file": "muffin.webp",
+      "title": "Muffin NIH.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Muffin_NIH.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/8/8a/Muffin_NIH.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "National Cancer Institute, Renee Comet (photographer)",
+      "license": "Public domain",
+      "licenseUrl": ""
+    },
+    {
+      "productId": "makaron",
+      "file": "makaron.webp",
+      "title": "macaron",
+      "sourceUrl": "https://www.flickr.com/photos/40802894@N02/6435589453",
+      "imageUrl": "https://live.staticflickr.com/7003/6435589453_71f41f42c1_b.jpg",
+      "author": "kubotake",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    }
+  ],
+  "missing": []
+}

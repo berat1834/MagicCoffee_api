@@ -1,0 +1,246 @@
+{
+  "section": "salata",
+  "images": [
+    {
+      "productId": "sezar",
+      "file": "sezar.webp",
+      "title": "Chicken Caesar salad - Auckland, New Zealand.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Chicken_Caesar_salad_-_Auckland,_New_Zealand.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/11/Chicken_Caesar_salad_-_Auckland%2C_New_Zealand.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Daderot",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    },
+    {
+      "productId": "ton-balikli",
+      "file": "ton-balikli.webp",
+      "title": "Corn, chicken, tuna, and bell peppers on mixed greens, with garlic olive oil, vinegar, and black pepper - Massachusetts.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Corn,_chicken,_tuna,_and_bell_peppers_on_mixed_greens,_with_garlic_olive_oil,_vinegar,_and_black_pepper_-_Massachusetts.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e9/Corn%2C_chicken%2C_tuna%2C_and_bell_peppers_on_mixed_greens%2C_with_garlic_olive_oil%2C_vinegar%2C_and_black_pepper_-_Massachusetts.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Daderot",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    },
+    {
+      "productId": "akdeniz",
+      "file": "akdeniz.webp",
+      "title": "greek salad",
+      "sourceUrl": "https://www.flickr.com/photos/35735307@N00/5863586770",
+      "imageUrl": "https://live.staticflickr.com/2685/5863586770_309bbfd5cb_b.jpg",
+      "author": "ozmafan",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "hellim",
+      "file": "hellim.webp",
+      "title": "halloumi salad-3",
+      "sourceUrl": "https://www.flickr.com/photos/58367355@N00/14061889473",
+      "imageUrl": "https://live.staticflickr.com/7215/14061889473_6a7bf5a700_b.jpg",
+      "author": "jules:stonesoup",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "coban",
+      "file": "coban.webp",
+      "title": "Amanida turca.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Amanida_turca.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/f/fd/Amanida_turca.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "E4024",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    },
+    {
+      "productId": "roka",
+      "file": "roka.webp",
+      "title": "Peach Salad (7623705344).jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Peach_Salad_(7623705344).jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/8/8e/Peach_Salad_%287623705344%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Ralph Daily from Birmingham, United States",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    },
+    {
+      "productId": "tavuk-bowl",
+      "file": "tavuk-bowl.webp",
+      "title": "Sorta' guacamole chicken salad 2",
+      "sourceUrl": "https://www.flickr.com/photos/51035729853@N01/3050303673",
+      "imageUrl": "https://live.staticflickr.com/3221/3050303673_6f3ac5d8e3_b.jpg",
+      "author": "Kimtaro",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "somon-poke",
+      "file": "somon-poke.webp",
+      "title": "Poke Bowl Losos Zlaty Klas 2025.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Poke_Bowl_Losos_Zlaty_Klas_2025.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Poke_Bowl_Losos_Zlaty_Klas_2025.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Mojmir Churavy",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    },
+    {
+      "productId": "falafel-bowl",
+      "file": "falafel-bowl.webp",
+      "title": "[food] $5 Felafel Plate from Cafe Sunshine And Salamatea",
+      "sourceUrl": "https://www.flickr.com/photos/58301516@N00/48735228532",
+      "imageUrl": "https://live.staticflickr.com/65535/48735228532_3671062a93_b.jpg",
+      "author": "David Jackmanson",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "kinoa-bowl",
+      "file": "kinoa-bowl.webp",
+      "title": "Mono-quinoaed salad",
+      "sourceUrl": "https://www.flickr.com/photos/7440954@N05/901705743",
+      "imageUrl": "https://live.staticflickr.com/1272/901705743_ea93902785_b.jpg",
+      "author": "rusvaplauke",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "meksika-bowl",
+      "file": "meksika-bowl.webp",
+      "title": "late-night burrito bowls",
+      "sourceUrl": "https://www.flickr.com/photos/21001756@N06/4386813042",
+      "imageUrl": "https://live.staticflickr.com/2799/4386813042_0331f84deb_b.jpg",
+      "author": "Stacy Spensley",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "kofte-bowl",
+      "file": "kofte-bowl.webp",
+      "title": "Köfte with bulgur pilav.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:K%C3%B6fte_with_bulgur_pilav.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/4/41/K%C3%B6fte_with_bulgur_pilav.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "E4024",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    },
+    {
+      "productId": "tavuk-wrap",
+      "file": "tavuk-wrap.webp",
+      "title": "vegetarian buffalo chicken wrap",
+      "sourceUrl": "https://www.flickr.com/photos/90155432@N02/8462205332",
+      "imageUrl": "https://live.staticflickr.com/8375/8462205332_0e3740bf68_b.jpg",
+      "author": "Thriving Vegetarian",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "ton-wrap",
+      "file": "ton-wrap.webp",
+      "title": "Tuna wrap",
+      "sourceUrl": "https://www.flickr.com/photos/21500897@N07/5844049561",
+      "imageUrl": "https://live.staticflickr.com/2753/5844049561_448674f076_b.jpg",
+      "author": "franksteiner",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "vegan-wrap",
+      "file": "vegan-wrap.webp",
+      "title": "Vegetable and Basil-Garlic Hummus Wrap (4800115998).jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Vegetable_and_Basil-Garlic_Hummus_Wrap_(4800115998).jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/9/99/Vegetable_and_Basil-Garlic_Hummus_Wrap_%284800115998%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Jennifer from Vancouver, Canada",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    },
+    {
+      "productId": "hellim-wrap",
+      "file": "hellim-wrap.webp",
+      "title": "Halloumi Wrap - The Breakfast Club - Hoxton",
+      "sourceUrl": "https://www.flickr.com/photos/21309047@N00/5932881864",
+      "imageUrl": "https://live.staticflickr.com/6003/5932881864_b5ae496bf7_b.jpg",
+      "author": "Annie Mole",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "mercimek",
+      "file": "mercimek.webp",
+      "title": "red lentil soup",
+      "sourceUrl": "https://www.flickr.com/photos/61404197@N00/3836993624",
+      "imageUrl": "https://live.staticflickr.com/3547/3836993624_83c45ee6d4_b.jpg",
+      "author": "seelensturm",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "domates",
+      "file": "domates.webp",
+      "title": "Mmm... homemade tomato soup",
+      "sourceUrl": "https://www.flickr.com/photos/7927684@N03/9880778774",
+      "imageUrl": "https://live.staticflickr.com/5490/9880778774_ae1a1b4401_b.jpg",
+      "author": "jeffreyw",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "brokoli",
+      "file": "brokoli.webp",
+      "title": "green curry of broccoli soup-2",
+      "sourceUrl": "https://www.flickr.com/photos/58367355@N00/6705857781",
+      "imageUrl": "https://live.staticflickr.com/7155/6705857781_4aed83a327_b.jpg",
+      "author": "jules:stonesoup",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "tavuk-suyu",
+      "file": "tavuk-suyu.webp",
+      "title": "Chicken Noodle Soup",
+      "sourceUrl": "https://www.flickr.com/photos/8286199@N08/3079682439",
+      "imageUrl": "https://live.staticflickr.com/3162/3079682439_351f008b11_b.jpg",
+      "author": "bobjudge",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "yesil-detoks",
+      "file": "yesil-detoks.webp",
+      "title": "Green smoothie (8222465502).jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Green_smoothie_(8222465502).jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/c/ce/Green_smoothie_%288222465502%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Lablascovegmenu from London",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    },
+    {
+      "productId": "kirmizi-detoks",
+      "file": "kirmizi-detoks.webp",
+      "title": "Beet Juice (Beta Vulgaris) - Suco de Beterraba",
+      "sourceUrl": "https://www.flickr.com/photos/36773603@N04/3426653741",
+      "imageUrl": "https://live.staticflickr.com/3612/3426653741_1d4631ebae_b.jpg",
+      "author": "[JP] Corrêa Carvalho - يوحنا بولس",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "kombucha",
+      "file": "kombucha.webp",
+      "title": "kombucha bottles",
+      "sourceUrl": "https://www.flickr.com/photos/17762186@N00/3270983064",
+      "imageUrl": "https://live.staticflickr.com/3484/3270983064_485b944724_b.jpg",
+      "author": "inkdroid",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "ayran",
+      "file": "ayran.webp",
+      "title": "A hand holding a glass of creamy white beverage with a straw, set against a softly lit interior with a wooden blinds background.",
+      "sourceUrl": "https://wordpress.org/photos/photo/3486a4a6ea/",
+      "imageUrl": "https://pd.w.org/2026/07/3486a4a6ea8085267.25174257-1536x2048.jpeg",
+      "author": "Uttkrista Chhetri",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+    }
+  ],
+  "missing": []
+}

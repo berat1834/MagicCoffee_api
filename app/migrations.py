@@ -23,6 +23,12 @@ LEGACY_STORE_KEY = "magic-coffee"
 DATA_FILE = Path(__file__).resolve().parent.parent / "data" / "store.json"
 # PostgreSQL'de ayni anda baslayan podlarin migrasyonu tek tek calistirmasi icin.
 MIGRATION_LOCK_ID = 726_451_017
+# Katalog fotograflari imajda /opt/seed-uploads altinda da bulunur; kalici diskteki (PVC) eski
+# sources.json kopyalari guncellenmeyebilecegi icin eslestirme once imajdaki kopyadan okunur.
+CATALOG_IMAGE_ROOTS = (
+    Path("/opt/seed-uploads/products/catalog"),
+    Path(__file__).resolve().parent.parent / "uploads" / "products" / "catalog",
+)
 
 
 def utc_now_iso() -> str:
@@ -367,6 +373,54 @@ def copy_castles_devices(conn: Conn) -> int:
     return copied
 
 
+def catalog_image_sources() -> dict[str, str]:
+    """`uploads/products/catalog/<bolum>/sources.json` dosyalarindan urun -> gorsel yolu eslestirmesi."""
+    root = next((path for path in CATALOG_IMAGE_ROOTS if path.is_dir()), None)
+    if root is None:
+        return {}
+    mapping: dict[str, str] = {}
+    for sources_file in sorted(root.glob("*/sources.json")):
+        section = sources_file.parent.name
+        try:
+            payload = json.loads(sources_file.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            logger.warning("Gorsel kaynak dosyasi okunamadi: %s", sources_file)
+            continue
+        for item in payload.get("images") or []:
+            product_id, file_name = item.get("productId"), item.get("file")
+            if product_id and file_name and (sources_file.parent / file_name).is_file():
+                # Tohum listesindeki kimlikler onek tasimayabilir; veritabaninda "<bolum>-<kimlik>".
+                product_id = str(product_id)
+                if not product_id.startswith(f"{section}-"):
+                    product_id = f"{section}-{product_id}"
+                mapping[product_id] = f"/uploads/products/catalog/{section}/{file_name}"
+    return mapping
+
+
+def assign_catalog_images(conn: Conn) -> int:
+    """Gorseli bos olan (kahve disi) urunlere katalog fotografini yazar.
+
+    Panelden gorsel verilmis urunlere dokunmaz; her baslangicta calisir ama yalnizca eksik
+    gorselleri gunceller, bu yuzden tekrar calismasi ucuz ve guvenlidir.
+    """
+    mapping = catalog_image_sources()
+    if not mapping:
+        return 0
+    rows = conn.execute(
+        "SELECT id, data FROM mk_products WHERE section_id <> %s", (COFFEE_SECTION_ID,)
+    ).fetchall()
+    updated = 0
+    for row in rows:
+        image = mapping.get(row["id"])
+        data = _as_dict(row["data"])
+        if not image or data is None or str(data.get("image") or "").strip():
+            continue
+        data["image"] = image
+        conn.execute("UPDATE mk_products SET data = %s WHERE id = %s", (json.dumps(data, ensure_ascii=False), row["id"]))
+        updated += 1
+    return updated
+
+
 def run_migrations(database: Database) -> None:
     with database.connect(write=True) as conn:
         if conn.is_postgres:
@@ -374,6 +428,9 @@ def run_migrations(database: Database) -> None:
         create_schema(conn)
         version = current_version(conn)
         if version >= SCHEMA_VERSION:
+            images = assign_catalog_images(conn)
+            if images:
+                logger.info("Katalog fotografi atanan urun: %s", images)
             return
         if version < 1:
             seed_sections(conn)
@@ -384,5 +441,8 @@ def run_migrations(database: Database) -> None:
             # v2: genisletilmis katalog; yalnizca eksik alt kategori/urun/ceviriler eklenir.
             inserted = seed_missing_catalog(conn)
             logger.info("Katalog tohumu tamamlandi: %s", inserted)
+        images = assign_catalog_images(conn)
+        if images:
+            logger.info("Katalog fotografi atanan urun: %s", images)
         conn.execute("DELETE FROM mk_schema_version")
         conn.execute("INSERT INTO mk_schema_version (version) VALUES (%s)", (SCHEMA_VERSION,))

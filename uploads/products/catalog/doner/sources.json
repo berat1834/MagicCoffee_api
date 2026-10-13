@@ -1,0 +1,238 @@
+{
+  "section": "doner",
+  "images": [
+    {
+      "productId": "tavuk-durum",
+      "file": "tavuk-durum.webp",
+      "title": "A mixed beef and chicken shawarma cut in half and served with French fries, accompanied by two dipping sauces on a white square plate.",
+      "sourceUrl": "https://wordpress.org/photos/photo/8636a6d0de/",
+      "imageUrl": "https://pd.w.org/2026/07/8636a6d0de1bdd797.99183133-2048x1536.jpg",
+      "author": "Joan Namunina",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    {
+      "productId": "et-durum",
+      "file": "et-durum.webp",
+      "title": "Lamb Gyros Sydney.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lamb_Gyros_Sydney.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Lamb_Gyros_Sydney.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "insatiablemunch",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    },
+    {
+      "productId": "acili-tavuk-durum",
+      "file": "acili-tavuk-durum.webp",
+      "title": "Handmade Chicken Shawarma Wrap - Lavash.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Handmade_Chicken_Shawarma_Wrap_-_Lavash.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/5d/Handmade_Chicken_Shawarma_Wrap_-_Lavash.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Andy Li",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    },
+    {
+      "productId": "kasarli-et-durum",
+      "file": "kasarli-et-durum.webp",
+      "title": "Doner wrap with mini samosas. -meatcone (16723434226).jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Doner_wrap_with_mini_samosas._-meatcone_(16723434226).jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Doner_wrap_with_mini_samosas._-meatcone_%2816723434226%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Arnold Gatilao from Oakland, CA, USA",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    },
+    {
+      "productId": "falafel-durum",
+      "file": "falafel-durum.webp",
+      "title": "#Chicken #Falafel #Wrap (I've never had chicken WITH falafel) from Pauly's Place is #fresh and well made. Definitely a solid #lunch choice in #Burbank. #Italian #deli #sandwich #sandwichporn",
+      "sourceUrl": "https://www.flickr.com/photos/67839741@N06/14733203270",
+      "imageUrl": "https://live.staticflickr.com/5572/14733203270_13f0467fe6.jpg",
+      "author": "L.A. Foodie",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "tavuk-porsiyon",
+      "file": "tavuk-porsiyon.webp",
+      "title": "Chicken Shawarma Plate",
+      "sourceUrl": "https://www.flickr.com/photos/68737200@N00/3856978749",
+      "imageUrl": "https://live.staticflickr.com/2542/3856978749_bda1283ee7_b.jpg",
+      "author": "Shoshanah",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "et-porsiyon",
+      "file": "et-porsiyon.webp",
+      "title": "Döner kebab",
+      "sourceUrl": "https://www.flickr.com/photos/58246614@N00/1938150191",
+      "imageUrl": "https://live.staticflickr.com/2260/1938150191_4ae8684d1e_b.jpg",
+      "author": "mdid",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "iskender",
+      "file": "iskender.webp",
+      "title": "Famous Iskender Kebab",
+      "sourceUrl": "https://www.flickr.com/photos/40750945@N06/49503928337",
+      "imageUrl": "https://live.staticflickr.com/65535/49503928337_84dd2050d6.jpg",
+      "author": "stupid_systemus",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "pilav-ustu-tavuk",
+      "file": "pilav-ustu-tavuk.webp",
+      "title": "Chicken Shwarama plate.jpeg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Chicken_Shwarama_plate.jpeg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Chicken_Shwarama_plate.jpeg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "User:CrunchySkies",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    },
+    {
+      "productId": "beyti",
+      "file": "beyti.webp",
+      "title": "Beyti (döner).jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Beyti_(d%C3%B6ner).jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Beyti_%28d%C3%B6ner%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "E4024",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    },
+    {
+      "productId": "mega-et-porsiyon",
+      "file": "mega-et-porsiyon.webp",
+      "title": "Alasya Restaurant",
+      "sourceUrl": "https://www.flickr.com/photos/82962172@N07/7636506104",
+      "imageUrl": "https://live.staticflickr.com/8023/7636506104_59d9dcd497_b.jpg",
+      "author": "thatwelike",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "yarim-tavuk",
+      "file": "yarim-tavuk.webp",
+      "title": "mustafas-gemsukebap-doner-kebap-sandwich-with-chicken",
+      "sourceUrl": "https://www.flickr.com/photos/35815427@N02/29990083956",
+      "imageUrl": "https://live.staticflickr.com/5492/29990083956_d7d24176c9_b.jpg",
+      "author": "FrugalGlutton.com",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "yarim-et",
+      "file": "yarim-et.webp",
+      "title": "Bafra ekmek arası 2.JPG",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bafra_ekmek_aras%C4%B1_2.JPG",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/b/ba/Bafra_ekmek_aras%C4%B1_2.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Vikiçizer",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    },
+    {
+      "productId": "tombik-tavuk",
+      "file": "tombik-tavuk.webp",
+      "title": "Döner Kebab auf Teller.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:D%C3%B6ner_Kebab_auf_Teller.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/8/82/D%C3%B6ner_Kebab_auf_Teller.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Anton Porsche",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+    },
+    {
+      "productId": "tombik-et",
+      "file": "tombik-et.webp",
+      "title": "doner kebab farcito con insalata, patatine fritte,pomodori, cipolla, finocchio, ketkcup, maionese,salsa erbe di yogurt, salsa piccante",
+      "sourceUrl": "https://www.flickr.com/photos/70253321@N00/5683405824",
+      "imageUrl": "https://live.staticflickr.com/5230/5683405824_d4996efc95_b.jpg",
+      "author": "fugzu",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "ekmek-arasi-kofte",
+      "file": "ekmek-arasi-kofte.webp",
+      "title": "Kofte sandwich.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kofte_sandwich.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Kofte_sandwich.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Sandstein",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    },
+    {
+      "productId": "ayran",
+      "file": "ayran.webp",
+      "title": "Istanbul :: Ayran",
+      "sourceUrl": "https://www.flickr.com/photos/11932978@N00/4986050208",
+      "imageUrl": "https://live.staticflickr.com/4112/4986050208_a4906594e8_b.jpg",
+      "author": "tomislavmedak",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "salgam",
+      "file": "salgam.webp",
+      "title": "Yeni3.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Yeni3.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/5a/Yeni3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Anatolianpride",
+      "license": "Public domain",
+      "licenseUrl": ""
+    },
+    {
+      "productId": "kola",
+      "file": "kola.webp",
+      "title": "Glass cola.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Glass_cola.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/10/Glass_cola.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "pic_p_ter",
+      "license": "Public domain",
+      "licenseUrl": ""
+    },
+    {
+      "productId": "meyve-suyu",
+      "file": "meyve-suyu.webp",
+      "title": "Sex On The Beach.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sex_On_The_Beach.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a2/Sex_On_The_Beach.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Stuart Webster from Southampton, England",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    },
+    {
+      "productId": "patates",
+      "file": "patates.webp",
+      "title": "Beef tallow French fries",
+      "sourceUrl": "https://www.flickr.com/photos/19359283@N00/12419039435",
+      "imageUrl": "https://live.staticflickr.com/2882/12419039435_0b472535b0.jpg",
+      "author": "cheeseslave",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "mercimek-corbasi",
+      "file": "mercimek-corbasi.webp",
+      "title": "Red Lentil Soup - Creamy",
+      "sourceUrl": "https://www.flickr.com/photos/8286199@N08/3210281474",
+      "imageUrl": "https://live.staticflickr.com/3444/3210281474_f3950cb1c0_b.jpg",
+      "author": "bobjudge",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "productId": "cacik",
+      "file": "cacik.webp",
+      "title": "Tzatziki 1A",
+      "sourceUrl": "https://www.flickr.com/photos/60756254@N07/15750079585",
+      "imageUrl": "https://live.staticflickr.com/5607/15750079585_455d383289_b.jpg",
+      "author": "Wheeler Cowperthwaite",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    }
+  ],
+  "missing": [
+    "kozlenmis-biber"
+  ]
+}
