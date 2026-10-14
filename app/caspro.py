@@ -182,6 +182,44 @@ def build_sale(
     }
 
 
+REVERSAL_TYPES = ("Void", "Refund", "Refundunmatched")
+
+
+def build_reversal(
+    transaction_type: str,
+    serial: str,
+    amount_kurus: int,
+    ext_transaction_id: str,
+    original_bank_reference_code: str | None = None,
+    print_lines: list[str] | None = None,
+) -> dict[str, Any]:
+    """Satis iptali/iadesi: Sale ile ayni Transaction mesaji; yalniz transactionType ve referans degisir.
+
+    Void = ayni gun tam iptal, Refund = (kismi) iade; ikisi de satisin bankReferenceNumber'ini
+    `originalBankReferenceCode` olarak tasir. Referans yoksa Refundunmatched (eslenik siz iade) gonderilir (Kebo).
+    """
+    if transaction_type not in REVERSAL_TYPES:
+        raise ValueError(f"Gecersiz iade turu: {transaction_type}")
+    reference = (original_bank_reference_code or "").strip()
+    if transaction_type in ("Void", "Refund") and not reference:
+        raise ValueError(f"{transaction_type} icin originalBankReferenceCode zorunlu")
+    message = build_sale(serial, amount_kurus, ext_transaction_id, print_lines)
+    message["transactionType"] = transaction_type
+    message["originalBankReferenceCode"] = reference if transaction_type != "Refundunmatched" else ""
+    return message
+
+
+def build_void(serial: str, amount_kurus: int, ext_transaction_id: str, original_bank_reference_code: str,
+               print_lines: list[str] | None = None) -> dict[str, Any]:
+    return build_reversal("Void", serial, amount_kurus, ext_transaction_id, original_bank_reference_code, print_lines)
+
+
+def build_refund(serial: str, amount_kurus: int, ext_transaction_id: str, original_bank_reference_code: str | None,
+                 print_lines: list[str] | None = None) -> dict[str, Any]:
+    transaction_type = "Refund" if (original_bank_reference_code or "").strip() else "Refundunmatched"
+    return build_reversal(transaction_type, serial, amount_kurus, ext_transaction_id, original_bank_reference_code, print_lines)
+
+
 def build_query(serial: str, ext_transaction_id: str) -> dict[str, Any]:
     return {**_base_message("QueryTransaction", serial), "extTransactionId": ext_transaction_id}
 

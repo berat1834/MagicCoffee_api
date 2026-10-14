@@ -10,6 +10,7 @@ import os
 import re
 import time
 from collections import defaultdict, deque
+from contextlib import asynccontextmanager
 from copy import deepcopy
 from datetime import date, datetime, timezone
 from decimal import Decimal
@@ -28,7 +29,7 @@ from pydantic import BaseModel, Field, field_validator
 import psycopg
 from psycopg.rows import dict_row
 
-from . import caspro
+from . import caspro, vending
 from .caspro import CasProDeviceOffline, CasProError, CasProSettings, CasProUnavailable, caspro_settings, normalize_caspro_serial
 from .catalog import CATEGORIES, PRODUCTS
 from .translation import (
@@ -46,7 +47,19 @@ except ImportError:
 if load_dotenv:
     load_dotenv()
 
-app = FastAPI(title="Magic Coffee Kiosk API", version="1.0.0")
+
+
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    # Kahve otomati (MDB kopru) islerinin zaman asimi ve otomatik iade taramasi.
+    await vending.start_background()
+    try:
+        yield
+    finally:
+        await vending.stop_background()
+
+
+app = FastAPI(title="Magic Coffee Kiosk API", version="1.0.0", lifespan=lifespan)
 configured_origins = [
     origin.strip()
     for origin in os.getenv(
@@ -143,6 +156,47 @@ def state_from_data(data: dict[str, Any]) -> StateTuple:
     )
 
 
+DEFAULT_CASTLES_DEVICE_NAME = "Magic Coffee POS"
+
+
+def default_castles_serial() -> str | None:
+    """CASPRO_TERMINAL_SERIAL'in CasPro'nun bekledigi 12 haneli hali (yapilandirilmamissa None)."""
+    settings = caspro_settings()
+    if not settings or not settings.terminal_serial:
+        return None
+    serial = normalize_caspro_serial(settings.terminal_serial)
+    return serial if len(serial) == 12 else None
+
+
+def ensure_default_castles_device(conn=None) -> bool:
+    """Varsayilan Castles POS'u cihaz listesine (yoksa) aktif olarak ekler; idempotenttir, mevcut kayitlara dokunmaz."""
+    serial = default_castles_serial()
+    if not serial:
+        return False
+    if DATABASE_URL:
+        if conn is None:
+            with connect_db() as own:
+                return ensure_default_castles_device(own)
+        row = conn.execute(
+            """
+            INSERT INTO castles_devices (serial, name, active)
+            VALUES (%s, %s, TRUE)
+            ON CONFLICT (serial) DO NOTHING
+            RETURNING serial
+            """,
+            (serial, DEFAULT_CASTLES_DEVICE_NAME),
+        ).fetchone()
+        return bool(row)
+    with STATE_LOCK:
+        if any(item.get("serial") == serial for item in castles_devices):
+            return False
+        now = datetime.now(timezone.utc).isoformat()
+        castles_devices.append({
+            "serial": serial, "name": DEFAULT_CASTLES_DEVICE_NAME, "active": True, "created_at": now, "updated_at": now,
+        })
+        return True
+
+
 def load_database_state() -> StateTuple | None:
     with connect_db() as conn:
         if conn is None:
@@ -177,6 +231,8 @@ def load_database_state() -> StateTuple | None:
                 updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
             )
         """)
+        # Kioskun tek POS'u (CASPRO_TERMINAL_SERIAL) cihaz listesinde yoksa aktif olarak eklenir.
+        ensure_default_castles_device(conn)
         row = conn.execute("SELECT data FROM app_state WHERE key = %s", (STORE_KEY,)).fetchone()
         if not row:
             categories, products, orders, stock_movements, pos_payments, order_requests, translations = default_state()
@@ -224,6 +280,20 @@ def load_local_castles_devices() -> list[dict[str, Any]]:
 
 
 castles_devices: list[dict[str, Any]] = load_local_castles_devices()
+if not DATABASE_URL:
+    ensure_default_castles_device()
+
+
+def load_vending_state() -> None:
+    """Kahve otomati kayitlari: PostgreSQL'de coffee_* tablolari (idempotent olusturulur), yerel modda JSON durumu."""
+    if DATABASE_URL:
+        with connect_db() as conn:
+            vending.load_from_database(conn)
+    elif DATA_FILE.exists():
+        vending.load_from_data(json.loads(DATA_FILE.read_text(encoding="utf-8-sig")))
+
+
+load_vending_state()
 
 
 def next_order_seed() -> int:
@@ -257,6 +327,7 @@ def save_state():
     }
     if not DATABASE_URL:
         state["castlesDevices"] = castles_devices
+        state.update(vending.export_state())
     with STATE_LOCK:
         if DATABASE_URL:
             with connect_db() as conn:
@@ -287,6 +358,8 @@ class OrderLine(BaseModel):
     quantity: int = Field(ge=1, le=99)
     unitPrice: float = 0
     selection: OrderSelection | None = None
+    # Otomatli kioskta secimin kanonik varyant anahtari (kiosk variantKeyOf); API secimden ayni anahtari turetip karsilastirir.
+    machineOptionKey: str | None = Field(default=None, max_length=400)
 
 
 class OrderCreate(BaseModel):
@@ -558,7 +631,13 @@ def validate_customization_selection(product: dict[str, Any], selection: OrderSe
             raise HTTPException(status_code=400, detail=f"{product['name']} icin cok fazla secim yapildi")
 
 
-def resolve_order_lines(lines: list[OrderLine]) -> tuple[float, list[dict[str, Any]], dict[str, int]]:
+def resolve_order_lines(
+    lines: list[OrderLine],
+    machine: dict[str, Any] | None = None,
+    strict_machine: bool = True,
+) -> tuple[float, list[dict[str, Any]], dict[str, int]]:
+    """`machine`: aktif otomat baglami (vending.kiosk_machine_context). Verilirse her satir otomat varyantina
+    cozulur (eslenmemisse strict_machine ile 409) ve eslemede fiyat tanimliysa satis fiyati odur (kiosk ayni fiyati gosterir)."""
     calculated_total = 0.0
     resolved: list[dict[str, Any]] = []
     requested_quantities: dict[str, int] = defaultdict(int)
@@ -569,15 +648,21 @@ def resolve_order_lines(lines: list[OrderLine]) -> tuple[float, list[dict[str, A
             raise HTTPException(status_code=409, detail=reason)
         validate_customization_selection(product, line.selection)
         unit_price = round(float(product["price"]) + selected_price_delta(product, line.selection), 2)
+        machine_key, machine_price = vending.machine_line_price(machine, product, line, strict=strict_machine)
+        if machine_price is not None:
+            unit_price = round(machine_price, 2)
         calculated_total += unit_price * line.quantity
         requested_quantities[product["id"]] += line.quantity
-        resolved.append({
+        resolved_line = {
             "productId": product["id"],
             "name": product["name"],
             "quantity": line.quantity,
             "unitPrice": unit_price,
             "selection": line.selection.model_dump() if line.selection else None,
-        })
+        }
+        if machine_key is not None:
+            resolved_line["machineOptionKey"] = machine_key
+        resolved.append(resolved_line)
     return round(calculated_total, 2), resolved, dict(requested_quantities)
 
 
@@ -664,7 +749,8 @@ def health():
 def get_catalog(language: Literal["tr", "en"] = Query(default="tr", alias="lang")):
     if language == "en":
         sync_translations()
-    return active_catalog(language)
+    # Aktif otomat varsa yalniz eslenmis urun/varyantlar; her urunde machineSelection ve machineVariants doner.
+    return vending.apply_machine_catalog(active_catalog(language), vending.kiosk_machine_context())
 
 
 def pavo_gateway_settings() -> tuple[str, int, str, str, tuple[str, str]]:
@@ -1079,7 +1165,7 @@ def spawn_caspro_sale(transaction_id: str) -> asyncio.Task:
 
 async def start_caspro_payment(settings: CasProSettings, payload: PosPaymentCreate, request: Request) -> dict:
     require_kiosk_identity(request, expected_kiosk_fingerprint())
-    calculated_total, resolved_lines, _ = resolve_order_lines(payload.lines)
+    calculated_total, resolved_lines, _ = resolve_order_lines(payload.lines, vending.kiosk_machine_context())
     if abs(calculated_total - round(payload.amount, 2)) > 0.01:
         raise HTTPException(status_code=409, detail="Odeme tutari guncel sepet toplamiyla uyusmuyor")
     enforce_payment_rate_limit(request)
@@ -1404,12 +1490,14 @@ async def get_pos_device():
 
 @app.post("/api/pos/payments", status_code=201)
 async def start_pos_payment(payload: PosPaymentCreate, request: Request):
+    # Otomatli kiosk: makinenin yapamayacagi urun/varyant icin odeme hic baslatilmaz (409).
+    vending.validate_machine_cart(payload.lines)
     caspro_config = caspro_settings()
     if caspro_config:
         return await start_caspro_payment(caspro_config, payload, request)
     _, branch_id, _, source_fingerprint, _ = pavo_gateway_settings()
     require_kiosk_identity(request, source_fingerprint)
-    calculated_total, resolved_lines, _ = resolve_order_lines(payload.lines)
+    calculated_total, resolved_lines, _ = resolve_order_lines(payload.lines, vending.kiosk_machine_context())
     if abs(calculated_total - round(payload.amount, 2)) > 0.01:
         raise HTTPException(status_code=409, detail="Odeme tutari guncel sepet toplamiyla uyusmuyor")
     enforce_payment_rate_limit(request)
@@ -1521,7 +1609,11 @@ def create_order(payload: OrderCreate):
         if existing_number and existing_number in orders:
             return orders[existing_number]
 
-        calculated_total, order_lines, requested_quantities = resolve_order_lines(payload.lines)
+        # Odenmis sipariste otomat eslemesi eksikse 409 verilmez: kalem FAILED is olarak olusur ve iade edilir.
+        machine_context = vending.kiosk_machine_context()
+        calculated_total, order_lines, requested_quantities = resolve_order_lines(
+            payload.lines, machine_context, strict_machine=False,
+        )
         if abs(calculated_total - round(payload.total, 2)) > 0.01:
             raise HTTPException(status_code=409, detail="Sipariş tutarı güncel sepet toplamıyla uyuşmuyor")
 
@@ -1566,6 +1658,9 @@ def create_order(payload: OrderCreate):
             number = reserved_number
         else:
             number = f"MC-{next(order_numbers):03d}"
+        created_at = datetime.now(timezone.utc).isoformat()
+        # Aktif otomat varsa eslenmis her urun adedi icin vend isi olusur.
+        vend, vend_jobs = vending.create_vend_jobs(number, order_lines, payload.paymentReference, created_at, machine_context)
         order = {
             "number": number,
             "status": "preparing",
@@ -1577,14 +1672,20 @@ def create_order(payload: OrderCreate):
             "receipt_status": "pending",
             "receipt_print_attempt_id": None,
             "total": calculated_total,
-            "created_at": datetime.now(timezone.utc).isoformat(),
+            "created_at": created_at,
             "item_count": sum(line["quantity"] for line in order_lines),
             "lines": order_lines,
         }
+        if vend:
+            order["vendStatus"] = vending.VEND_IN_PROGRESS
+            order["vend"] = vend
         orders[number] = order
         order_requests[payload.clientRequestId] = number
         payment["orderNumber"] = number
+        vending.persist_jobs(vend_jobs)
         save_state()
+        if vend:
+            vending.notify_machine(vend["machineId"])
         return order
 
 
@@ -1774,6 +1875,8 @@ def dashboard():
         },
         "recentOrders": order_list[:8],
         "topProducts": [{"name": row["name"], "quantity": row["quantity"], "revenue": row["revenue"]} for row in product_rows],
+        # Kahve otomatlari: iadesi basarisiz (dikkat gerektiren) is sayisi ve cevrimici otomatlar.
+        "vending": vending.dashboard_summary(),
     }
 
 
@@ -1808,3 +1911,7 @@ def reports(start: str = Query(...), end: str = Query(...)):
         "products": report_rows(selected),
         "daily": sorted(daily.values(), key=lambda item: item["day"]),
     }
+
+
+# Kahve otomati (MDB kopru) uclari: /api/machine/agent/*, /api/orders/{no}/vend, /api/admin/machines, /api/admin/vend-jobs.
+app.include_router(vending.router)

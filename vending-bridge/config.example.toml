@@ -1,0 +1,20 @@
+# /etc/vending-bridge/config.toml  (izinler: root:vending 0640 — makine anahtari gizlidir)
+# Ortam degiskenleri (API_URL, MACHINE_TOKEN, SERIAL_PORT, MODE, SIMULATOR ...) bu dosyadaki degerleri ezer.
+[bridge]
+api_url = "https://magickiosk-api.magicpay.ai"
+# Panel > Otomatlar > "Token olustur" ile alinan anahtar (yalnizca bir kez gosterilir).
+machine_token = ""
+# MDB Pi HAT Plus: /dev/ttyAMA0 (veya /dev/serial0) ; MDB-USB: /dev/ttyACM0
+serial_port = "/dev/ttyAMA0"
+baudrate = 115200
+# AUTO: acilista VMC tespit edilir ve paneldeki mod kullanilir. REMOTE / CREDIT: koprude zorla.
+mode = "AUTO"
+# true: gercek makine yerine simulator (kurulum denemesi icin).
+simulator = false
+simulator_mode = "REMOTE"
+# Uzun sorgu bekleme suresi (sn) ve heartbeat araligi (sn).
+poll_wait = 25
+heartbeat_interval = 30
+detect_timeout = 20
+ready_timeout = 10
+log_level = "INFO"

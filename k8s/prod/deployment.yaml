@@ -56,8 +56,19 @@ spec:
               value: "https://magiccoffee-panel.magicpay.ai"
             - name: CASPRO_API_URL
               value: "https://external-system-api.tur.castlestech.cloud:6443"
+            # Kioskun tek POS'u; API başlangıçta castles_devices listesinde yoksa "Magic Coffee POS" adıyla aktif ekler.
             - name: CASPRO_TERMINAL_SERIAL
-              value: "573234898609"
+              value: "115253215740"
+            # Kahve otomatı (MDB köprüsü) iş zaman aşımları (saniye): uzaktan seçim, kredi modu (müşteri düğmeye basar),
+            # köprü işi hiç almazsa, köprünün kendi zaman aşımını bildirmesi için ek süre. Süresi dolan iş otomatik iade edilir.
+            - name: VEND_REMOTE_TIMEOUT_SECONDS
+              value: "90"
+            - name: VEND_CREDIT_TIMEOUT_SECONDS
+              value: "120"
+            - name: VEND_PICKUP_TIMEOUT_SECONDS
+              value: "60"
+            - name: VEND_REPORT_GRACE_SECONDS
+              value: "15"
             - name: PAVO_GATEWAY_BASE_URL
               value: "https://kebo-api-dev.magicpay.ai/api"
             - name: PAVO_GATEWAY_ALLOWED_HOST

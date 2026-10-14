@@ -1,0 +1,26 @@
+[Unit]
+Description=MagicPay Kiosk kahve otomati MDB koprusu (Qibixx)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=vending
+Group=vending
+# Seri port erisimi (/dev/ttyAMA0, /dev/ttyACM0)
+SupplementaryGroups=dialout
+WorkingDirectory=/opt/vending-bridge
+Environment=VENDING_BRIDGE_CONFIG=/etc/vending-bridge/config.toml
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/opt/vending-bridge/.venv/bin/python -m vending_bridge
+Restart=always
+RestartSec=5
+# Sertlestirme
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadOnlyPaths=/etc/vending-bridge
+
+[Install]
+WantedBy=multi-user.target

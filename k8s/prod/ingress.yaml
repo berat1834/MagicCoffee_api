@@ -50,6 +50,14 @@ spec:
                 name: magiccoffee-api
                 port:
                   number: 80
+          # Kahve otomatı MDB köprüsü (Raspberry Pi): makine anahtarıyla (Bearer) hello / long-poll / olay / heartbeat.
+          - path: /api/machine/agent
+            pathType: Prefix
+            backend:
+              service:
+                name: magiccoffee-api
+                port:
+                  number: 80
           - path: /uploads
             pathType: Prefix
             backend:
